@@ -14,12 +14,25 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Envelope;
+
+    protected static ?int $navigationSort = 3;
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Messages';
+    }
+
+    public static function canAccess(): bool
+    {
+        return Auth::check() && Auth::user()->isAdmin();
+    }
 
     public static function form(Schema $schema): Schema
     {
