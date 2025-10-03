@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\QrCodes\Tables;
 
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -20,6 +23,27 @@ class QrCodesTable
                     ->label('ID')
                     ->numeric()
                     ->sortable(),
+                ImageColumn::make('qr_code')
+                    ->label('QR Code')
+                    ->getStateUsing(function ($record) {
+                        if (! $record->slug) {
+                            return null;
+                        }
+
+                        $options = new QROptions([
+                            'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+                            'eccLevel' => QRCode::ECC_L,
+                            'scale' => 3,
+                            'imageBase64' => true,
+                        ]);
+
+                        $qrcode = new QRCode($options);
+                        $url = url('/q/'.$record->slug);
+
+                        return $qrcode->render($url);
+                    })
+                    ->size(80)
+                    ->square(),
                 TextColumn::make('type')
                     ->searchable()
                     ->badge(),
@@ -31,13 +55,11 @@ class QrCodesTable
                     ->label('Dynamic')
                     ->boolean(),
                 TextColumn::make('slug')
-                    ->searchable()
                     ->copyable()
                     ->placeholder('No slug'),
                 TextColumn::make('scan_count')
                     ->label('Scans')
                     ->numeric()
-                    ->sortable()
                     ->badge(),
                 TextColumn::make('user.name')
                     ->label('Created By')

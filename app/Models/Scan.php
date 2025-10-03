@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\QrCode;
 use Illuminate\Database\Eloquent\Model;
 
 class Scan extends Model
 {
-    public $timestamps = false;
-    protected $fillable = ['qr_code_id','ip','country','device','os','scanned_at'];
+    protected $fillable = ['qr_code_id', 'ip', 'country', 'region', 'city', 'device', 'os'];
 
     public function qrCode()
     {

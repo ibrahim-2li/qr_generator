@@ -2,13 +2,12 @@
 
 namespace App\Filament\Resources\QrCodes\Schemas;
 
-use App\Models\User;
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class QrCodeForm
 {
@@ -28,6 +27,12 @@ class QrCodeForm
                 Section::make('QR Content')
                     ->relationship('content')
                     ->schema([
+                        ColorPicker::make('color_l')
+                            ->default('#232421'),
+
+                        ColorPicker::make('color_d')
+                            ->default('#f78e31'),
+
                         FileUpload::make('profile_photo_path')
                             ->image()
                             ->disk('public')

@@ -8,25 +8,27 @@ use App\Filament\Resources\QrCodes\Pages\ListQrCodes;
 use App\Filament\Resources\QrCodes\Pages\ViewQrCode;
 use App\Filament\Resources\QrCodes\Schemas\QrCodeForm;
 use App\Filament\Resources\QrCodes\Tables\QrCodesTable;
-use App\Models\QrCode;
+use App\Models\QrCode as QrCodeModel;
 use BackedEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables\Table;
-use Filament\Infolists\Components\TextEntry;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Infolists\Components\ImageEntry;
-use Filament\Schemas\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Support\Str;
-
-
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class QrCodeResource extends Resource
 {
-    protected static ?string $model = QrCode::class;
+    protected static ?string $model = QrCodeModel::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::QrCode;
 
     protected static ?string $recordTitleAttribute = 'QrCode';
 
@@ -38,6 +40,26 @@ class QrCodeResource extends Resource
     public static function table(Table $table): Table
     {
         return QrCodesTable::configure($table);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        $user = Auth::user();
+
+        // If user is admin, show all QR codes
+        if ($user && $user->isAdmin()) {
+            return $query;
+        }
+
+        // If user is regular user, show only their QR codes
+        if ($user && $user->isUser()) {
+            return $query->where('user_id', $user->id);
+        }
+
+        // If no user or unknown role, show nothing
+        return $query->whereRaw('1 = 0');
     }
 
     public static function infolist(Schema $schema): Schema
@@ -54,9 +76,39 @@ class QrCodeResource extends Resource
                                 TextEntry::make('type')
                                     ->label('Type'),
 
+                                ImageEntry::make('qr_code')
+                                    ->label('QR Code')
+                                    ->getStateUsing(function ($record) {
+                                        if (! $record->slug) {
+                                            return null;
+                                        }
+
+                                        $options = new QROptions([
+                                            'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+                                            'eccLevel' => QRCode::ECC_L,
+                                            'scale' => 5,
+                                            'imageBase64' => true,
+                                        ]);
+
+                                        $qrcode = new QRCode($options);
+                                        $url = url('/q/'.$record->slug);
+
+                                        return $qrcode->render($url);
+                                    })
+                                    ->height(200)
+                                    ->width(200)
+                                    ->square(),
+
                                 TextEntry::make('slug')
                                     ->label('Slug')
-                                    ->copyable(),
+                                    ->copyable()
+                                    ->placeholder('No slug generated'),
+
+                                TextEntry::make('qr_url')
+                                    ->label('QR Code URL')
+                                    ->getStateUsing(fn ($record) => $record->slug ? url('/q/'.$record->slug) : 'No URL available')
+                                    ->copyable()
+                                    ->url(fn ($record) => $record->slug ? url('/q/'.$record->slug) : null),
 
                                 TextEntry::make('is_dynamic')
                                     ->label('Is Dynamic')
@@ -83,8 +135,22 @@ class QrCodeResource extends Resource
                     ->schema([
                         Grid::make(2)
                             ->schema([
-                                ImageEntry::make('content.profile_photo_url')
+                                ColorPicker::make('content.color_l')
+                                    ->label('Color L'),
+
+                                ColorPicker::make('content.color_d')
+                                    ->label('Color D'),
+
+                                ImageEntry::make('profile_photo')
                                     ->label('Profile Photo')
+                                    ->getStateUsing(function ($record) {
+                                        if (! $record->content) {
+                                            return null;
+                                        }
+
+                                        // Use the accessor method
+                                        return $record->content->profile_photo_url;
+                                    })
                                     ->height(150)
                                     ->width(150)
                                     ->circular(),
@@ -153,5 +219,4 @@ class QrCodeResource extends Resource
             'edit' => EditQrCode::route('/{record}/edit'),
         ];
     }
-
 }

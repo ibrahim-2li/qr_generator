@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\QrCode;
 use Illuminate\Database\Eloquent\Model;
 
 class QrContent extends Model
 {
-    protected $fillable = ['qr_code_id','profile_photo_path','name','phone','email','company','linkedin','x','facebook','instagram','youtube'];
+    protected $fillable = ['qr_code_id', 'color_l', 'color_d', 'profile_photo_path', 'name', 'phone', 'email', 'company', 'linkedin', 'x', 'facebook', 'instagram', 'youtube'];
 
     public function qrcode()
     {
-        return $this->belongsTo(QrCode::class,'qr_code_id','id');
+        return $this->belongsTo(QrCode::class, 'qr_code_id', 'id');
     }
 
     /**
@@ -21,8 +20,8 @@ class QrContent extends Model
      */
     public function getProfilePhotoUrlAttribute()
     {
-        if ($this->profile_photo_path && file_exists(storage_path('app/public/' . $this->profile_photo_path))) {
-            return asset('storage/' . $this->profile_photo_path);
+        if ($this->profile_photo_path && file_exists(storage_path('app/public/'.$this->profile_photo_path))) {
+            return asset('storage/'.$this->profile_photo_path);
         }
 
         return $this->defaultProfilePhotoUrl();

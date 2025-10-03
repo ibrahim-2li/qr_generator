@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\QrContents\Pages;
+namespace App\Filament\Resources\Faqs\Pages;
 
-use App\Filament\Resources\QrContents\QrContentResource;
+use App\Filament\Resources\Faqs\FaqResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditQrContent extends EditRecord
+class EditFaq extends EditRecord
 {
-    protected static string $resource = QrContentResource::class;
+    protected static string $resource = FaqResource::class;
 
     protected function getHeaderActions(): array
     {

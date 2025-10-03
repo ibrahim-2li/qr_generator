@@ -13,6 +13,7 @@
         rel="stylesheet">
     <style>
         body {
+            background-color: #ffffff;
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
         }
 
@@ -22,15 +23,15 @@
     </style>
 </head>
 
-<div class="qr-backdrop" id="color_palette" style="--bg-color: #f6f6da; --height: 329px;"><svg
-        class="hidden md:block absolute" width="2080" height="420" viewBox="0 0 2080 420" fill="none"
+<div class="qr-backdrop" id="color_palette" style="--bg-color: #3d3d3c; --height: 329px;">
+    <svg class="hidden md:block absolute" width="2080" height="340" viewBox="0 0 2080 340" fill="none"
         xmlns="http://www.w3.org/2000/svg" style="z-index: -1; width: 100%; height: auto;">
-        <path d="M0 0H2080V420L0 360V0Z" fill="url(#paint0_linear_8_2)"></path>
+        <path d="M0 0H2080V340L0 290V0Z" fill="url(#paint0_linear_8_2)"></path>
         <defs>
             <linearGradient id="paint0_linear_8_2" x1="323.5" y1="0" x2="323.5" y2="364"
                 gradientUnits="userSpaceOnUse">
-                <stop stop-color="#232421" class="duration-500"></stop>
-                <stop offset="1" stop-color="#f78e31" class="duration-500"></stop>
+                <stop stop-color="{{ $qr->content->color_l ?? '#232421' }}" class="duration-500"></stop>
+                <stop offset="1" stop-color="{{ $qr->content->color_d ?? '#f78e31' }}" class="duration-500"></stop>
             </linearGradient>
         </defs>
     </svg><svg class="md:hidden absolute" width="570" height="364" viewBox="0 0 570 364" fill="none"
@@ -39,11 +40,12 @@
         <defs>
             <linearGradient id="paint0_linear_8_4" x1="323.5" y1="0" x2="323.5" y2="364"
                 gradientUnits="userSpaceOnUse">
-                <stop class="duration-500" stop-color="#232421"></stop>
-                <stop offset="1" stop-color="#f78e31" class="duration-500"></stop>
+                <stop class="duration-500" stop-color="{{ $qr->content->color_l ?? '#232421' }}"></stop>
+                <stop offset="1" stop-color="{{ $qr->content->color_d ?? '#f78e31' }}" class="duration-500"></stop>
             </linearGradient>
         </defs>
-    </svg></div>
+    </svg>
+</div>
 <div class="App">
 
     <div class="flex flex-col justify-center items-center">
@@ -247,7 +249,7 @@
                                 <div class="flex flex-row justify-between items-center p-[10px] rounded-[4px]">
                                     <div
                                         class="space-x-[8px] xs:space-x-[12px] sm:space-x-[20px] flex flex-row items-center">
-                                        <img src="https://qr-code.io/themes/altum/assets/images/socialicon/icon5.svg"
+                                        <img src="https://qr-code.io/themes/altum/assets/images/socialicon/icon14.svg"
                                             class="w-[44px] rtl:ml-2" alt="X (Twitter)">
                                         <div class="flex flex-col justify-center text-left">
                                             <p class="text-sm xs:text-base sm:text-xl text-[#131D29] font-medium break-words rtl:text-base rtl:leading-4 rtl:text-right not-lang"
@@ -274,7 +276,7 @@
                                     <div class="flex flex-row justify-between items-center p-[10px] rounded-[4px]">
                                         <div
                                             class="space-x-[8px] xs:space-x-[12px] sm:space-x-[20px] flex flex-row items-center">
-                                            <img src="https://qr-code.io/themes/altum/assets/images/socialicon/icon24.svg"
+                                            <img src="https://qr-code.io/themes/altum/assets/images/socialicon/icon20.svg"
                                                 class="w-[44px] rtl:ml-2" alt="Instagram">
                                             <div class="flex flex-col justify-center text-left">
                                                 <p class="text-sm xs:text-base sm:text-xl text-[#131D29] font-medium break-words rtl:text-base rtl:leading-4 rtl:text-right not-lang"
@@ -306,6 +308,35 @@
                                                 <div class="flex flex-col justify-center text-left">
                                                     <p class="text-sm xs:text-base sm:text-xl text-[#131D29] font-medium break-words rtl:text-base rtl:leading-4 rtl:text-right not-lang"
                                                         style="font-family: &quot;GT Walsheim Pro&quot;;">LinkedIn</p>
+                                                    <p class="text-[10px] xs:text-xs text-[#767C83] rtl:text-right word-break-fix not-lang"
+                                                        style="font-family: &quot;GT Walsheim Pro&quot;;"></p>
+                                                </div>
+                                            </div><span style="width: 24px; margin-left: 8px;"><svg
+                                                    class="rtl:rotate-180" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M4 11.7256C4 11.3459 4.28215 11.0321 4.64823 10.9824L4.75 10.9756H19.75C20.1642 10.9756 20.5 11.3114 20.5 11.7256C20.5 12.1053 20.2178 12.4191 19.8518 12.4687L19.75 12.4756L4.75 12.4756C4.33579 12.4756 4 12.1398 4 11.7256Z"
+                                                        fill="#767C83"></path>
+                                                    <path
+                                                        d="M13.171 6.23271C12.8775 5.94045 12.8765 5.46558 13.1687 5.17206C13.4344 4.90522 13.851 4.88012 14.1451 5.09734L14.2294 5.16977L20.2794 11.1938C20.547 11.4603 20.5714 11.8784 20.3524 12.1724L20.2794 12.2567L14.2294 18.2817C13.9359 18.574 13.4611 18.573 13.1688 18.2795C12.9031 18.0127 12.8797 17.5959 13.0982 17.3028L13.171 17.2188L18.687 11.7249L13.171 6.23271Z"
+                                                        fill="#767C83"></path>
+                                                </svg></span>
+                                        </div>
+                                    </a>
+                                @endif
+                                @if ($qr->content->youtube)
+                                    <a href="{{ $qr->content->youtube }}" target="_blank"
+                                        class="my-[5px] flex flex-col w-full cursor-pointer shadow-[1px_6px_30px_rgba(0,31,14,0.05)] hover:opacity-90 break-all"
+                                        rel="noreferrer" id="socialBlock_3">
+                                        <div class="flex flex-row justify-between items-center p-[10px] rounded-[4px]">
+                                            <div
+                                                class="space-x-[8px] xs:space-x-[12px] sm:space-x-[20px] flex flex-row items-center">
+                                                <img src="https://qr-code.io/themes/altum/assets/images/socialicon/icon19.svg"
+                                                    class="w-[44px] rtl:ml-2" alt="youtube">
+                                                <div class="flex flex-col justify-center text-left">
+                                                    <p class="text-sm xs:text-base sm:text-xl text-[#131D29] font-medium break-words rtl:text-base rtl:leading-4 rtl:text-right not-lang"
+                                                        style="font-family: &quot;GT Walsheim Pro&quot;;">Youtube</p>
                                                     <p class="text-[10px] xs:text-xs text-[#767C83] rtl:text-right word-break-fix not-lang"
                                                         style="font-family: &quot;GT Walsheim Pro&quot;;"></p>
                                                 </div>

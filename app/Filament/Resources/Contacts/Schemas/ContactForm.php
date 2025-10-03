@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\Users\Schemas;
+namespace App\Filament\Resources\Contacts\Schemas;
 
-use App\Models\User;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\Operation;
 
-class UserForm
+class ContactForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -21,14 +19,13 @@ class UserForm
                     ->label('Email address')
                     ->email()
                     ->required(),
-                Select::make('role')
-                    ->options(User::ROLES)
+                TextInput::make('subject')
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
-                TextInput::make('password')
-                    ->password()
+                Textarea::make('message')
                     ->required()
-                    ->hiddenOn(Operation::Edit),
+                    ->columnSpanFull(),
+                Toggle::make('is_read')
+                    ->required(),
             ]);
     }
 }
