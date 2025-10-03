@@ -12,7 +12,7 @@ class ScansByDeviceChart extends ChartWidget
 {
     protected ?string $heading = 'Scans by Device Type';
 
-    protected static ?int $sort = 5;
+    protected static ?int $sort = 3;
 
     protected ?string $maxHeight = '90px';
 

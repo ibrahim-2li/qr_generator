@@ -12,7 +12,7 @@ class ScanTrendsChart extends ChartWidget
 {
     protected ?string $heading = 'Scan Trends (Last 30 Days)';
 
-    protected static ?int $sort = 1;
+    protected static ?int $sort = 6;
 
     protected function getData(): array
     {
@@ -48,6 +48,6 @@ class ScanTrendsChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'line';
+        return 'bar';
     }
 }

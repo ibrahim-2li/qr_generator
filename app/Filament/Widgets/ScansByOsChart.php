@@ -12,7 +12,7 @@ class ScansByOsChart extends ChartWidget
 {
     protected ?string $heading = 'Scans by Operating System';
 
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 4;
 
     protected ?string $maxHeight = '90px';
 

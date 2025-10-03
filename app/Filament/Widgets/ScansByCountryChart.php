@@ -12,7 +12,7 @@ class ScansByCountryChart extends ChartWidget
 {
     protected ?string $heading = 'Scans by Country';
 
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 1;
 
     protected ?string $maxHeight = '90px';
 

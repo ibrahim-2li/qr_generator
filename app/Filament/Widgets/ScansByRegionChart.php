@@ -12,7 +12,7 @@ class ScansByRegionChart extends ChartWidget
 {
     protected ?string $heading = 'Scans by Region/City';
 
-    protected static ?int $sort = 4;
+    protected static ?int $sort = 2;
 
     protected ?string $maxHeight = '90px';
 

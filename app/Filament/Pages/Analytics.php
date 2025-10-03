@@ -20,10 +20,10 @@ class Analytics extends Page
     {
         return [
             \App\Filament\Widgets\QrCodeStatsWidget::class,
-            \App\Filament\Widgets\ScansByOsChart::class,
             \App\Filament\Widgets\ScansByCountryChart::class,
             \App\Filament\Widgets\ScansByRegionChart::class,
             \App\Filament\Widgets\ScansByDeviceChart::class,
+            \App\Filament\Widgets\ScansByOsChart::class,
             \App\Filament\Widgets\ScanTrendsChart::class,
         ];
     }
