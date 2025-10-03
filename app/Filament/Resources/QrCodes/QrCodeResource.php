@@ -30,7 +30,7 @@ class QrCodeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::QrCode;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $recordTitleAttribute = 'QrCode';
 

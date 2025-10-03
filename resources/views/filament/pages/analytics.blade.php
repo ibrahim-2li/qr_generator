@@ -7,6 +7,4 @@
     @livewire(\App\Filament\Widgets\ScansByDeviceChart::class)
     @livewire(\App\Filament\Widgets\ScansByOsChart::class)
 
-
-
 </x-filament-panels::page>

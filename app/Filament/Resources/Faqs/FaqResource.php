@@ -26,7 +26,7 @@ class FaqResource extends Resource
         return 'FAQs';
     }
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 6;
 
     public static function canAccess(): bool
     {
