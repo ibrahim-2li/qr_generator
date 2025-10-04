@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\QrCodeController;
+use App\Models\Faq;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QrCodeController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
-    return view('welcome');
+    $faqs = Faq::all();
+    return view('welcome',['faqs' => $faqs]);
 });
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

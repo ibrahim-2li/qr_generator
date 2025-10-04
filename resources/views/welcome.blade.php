@@ -31,34 +31,49 @@
             <div class="flex items-center space-x-2">
                 <div
                     class="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" />
-                    </svg>
+                    <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="w-5 h-5">
                 </div>
-                <span class="text-xl font-bold text-gray-900 dark:text-white">QR Generator</span>
+                <span
+                    class="hidden sm:inline md:inline lg:inline xl:inline text-xl font-bold text-gray-900 dark:text-white">QR
+                    Generator</span>
             </div>
 
-            @if (Route::has('login'))
-                <div class="flex items-center space-x-4">
-                    @auth
-                        <a href="{{ url('/dashboard') }}"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                            Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">
-                            Log in
-                        </a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                                Get Started
-                            </a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+            <div class="flex items-center space-x-4">
+                <!-- Dark/Light Mode Toggle -->
+                <button id="theme-toggle" type="button"
+                    class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 transition-colors">
+                    <!-- Sun icon (visible in dark mode) -->
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                            fill-rule="evenodd" clip-rule="evenodd"></path>
+                    </svg>
+                    <!-- Moon icon (visible in light mode) -->
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                </button>
+
+                @auth
+                    <a href="{{ url('/dashboard') }}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        Dashboard
+                    </a>
+                @else
+                    <a href="/dashboard/login"
+                        class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">
+                        Log in
+                    </a>
+                    <a href="/dashboard/register"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        Register
+                    </a>
+                @endauth
+            </div>
+        </div>
+
         </div>
     </nav>
 
@@ -96,9 +111,30 @@
         <div class="absolute top-20 right-10 hidden lg:block">
             <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-2xl">
                 <div class="w-32 h-32 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                    <svg class="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M3 3h6v6H3V3zm2 2v2h2V5H5zm8-2h6v6h-6V3zm2 2v2h2V5h-2zM3 11h6v6H3v-6zm2 2v2h2v-2H5zm8-2h6v6h-6v-6zm2 2v2h2v-2h-2z" />
+                    <svg viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        fill="#000000" stroke="#000000">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M896 960H128c-35.3 0-64-28.7-64-64V128c0-35.3 28.7-64 64-64h768c35.3 0 64 28.7 64 64v768c0 35.3-28.7 64-64 64z"
+                                fill="#ffffff"></path>
+                            <path
+                                d="M426.3 426.3H128V189.7c0-34 27.7-61.7 61.7-61.7h236.6v298.3z m-236.6-61.7h174.9V189.7H189.7v174.9zM395.4 896H266.9c-17.1 0-30.9-13.8-30.9-30.9 0-17.1 13.8-30.9 30.9-30.9h128.6c17.1 0 30.9 13.8 30.9 30.9-0.1 17.1-13.9 30.9-31 30.9zM158.9 779.4c-17.1 0-30.9-13.8-30.9-30.9v-120c0-17.1 13.8-30.9 30.9-30.9s30.9 13.8 30.9 30.9v120c-0.1 17.1-13.9 30.9-30.9 30.9z"
+                                fill="#43423d"></path>
+                            <path
+                                d="M896 426.3H597.7V128h236.6c34 0 61.7 27.7 61.7 61.7v236.6z m-236.6-61.7h174.9V189.7H659.4v174.9z"
+                                fill="#f9521a"></path>
+                            <path
+                                d="M834.3 896H597.7V597.7H896v236.6c0 34-27.7 61.7-61.7 61.7z m-174.9-61.7h174.9V659.4H659.4v174.9z"
+                                fill="#43423d"></path>
+                            <path
+                                d="M365.4 762.3h-72.9c-17.1 0-30.9-13.8-30.9-30.9v-72.9c0-17.1 13.8-30.9 30.9-30.9h103.7v103.7c0.1 17.2-13.7 31-30.8 31z"
+                                fill="#f9521a"></path>
+                            <path
+                                d="M512 896c-17.1 0-30.9-13.8-30.9-30.9V614.4c0-17.1 13.8-30.9 30.9-30.9 17.1 0 30.9 13.8 30.9 30.9v250.7c0 17.1-13.8 30.9-30.9 30.9z m0-465c-17.1 0-30.9-13.8-30.9-30.9V158.9c0-17.1 13.8-30.9 30.9-30.9 17.1 0 30.9 13.8 30.9 30.9v241.3c0 17-13.8 30.8-30.9 30.8z m353.1 111.9H158.9c-17.1 0-30.9-13.8-30.9-30.9 0-17.1 13.8-30.9 30.9-30.9h706.3c17.1 0 30.9 13.8 30.9 30.9-0.1 17.1-13.9 30.9-31 30.9z"
+                                fill="#3856ff"></path>
+                        </g>
                     </svg>
                 </div>
             </div>
@@ -152,8 +188,8 @@
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 rounded-2xl">
                     <div
                         class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
                         </svg>
@@ -167,8 +203,8 @@
                 <div class="bg-gray-50 dark:bg-gray-700 p-8 rounded-2xl">
                     <div
                         class="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
@@ -242,14 +278,16 @@
                     @csrf
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            <label for="name"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 Name
                             </label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" required
                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white">
                         </div>
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            <label for="email"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 Email
                             </label>
                             <input type="email" id="email" name="email" value="{{ old('email') }}" required
@@ -284,20 +322,94 @@
     <!-- CTA Section -->
     <div class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600">
         <div class="max-w-4xl mx-auto text-center px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
-                Ready to Create Your First QR Code?
-            </h2>
-            <p class="text-xl text-blue-100 mb-8">
-                Join thousands of users who trust our platform for their QR code needs
-            </p>
-            @if (Route::has('register'))
-                <a href="{{ route('register') }}"
-                    class="bg-white hover:bg-gray-100 text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg transition-colors shadow-lg hover:shadow-xl">
-                    Get Started Free
-                </a>
-            @endif
+            <div class="max-w-3xl mx-auto p-6">
+                <h1 class="text-3xl md:text-4xl font-bold text-white dark:gray-900 mb-4">Frequently Asked
+                    Questions</h1>
+
+                <div class="space-y-4">
+
+                    <!-- FAQ Item -->
+
+                    @foreach ($faqs as $faq)
+                        <div
+                            class="bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg shadow-md p-4 mb-3">
+                            <button class="faq-toggle w-full text-left font-semibold text-lg focus:outline-none">
+                                {{ $faq->question }}
+                            </button>
+                            <div class="faq-answer mt-2 hidden text-gray-900 dark:text-white">
+                                {{ $faq->answer }}
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+            </div>
         </div>
     </div>
+
+
+
+    <script>
+        // FAQ Toggle functionality
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                answer.classList.toggle('hidden');
+            });
+        });
+
+        // Dark/Light Mode Toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+            const themeToggleBtn = document.getElementById('theme-toggle');
+
+            // Check if elements exist before proceeding
+            if (!themeToggleDarkIcon || !themeToggleLightIcon || !themeToggleBtn) {
+                console.log('Theme toggle elements not found');
+                return;
+            }
+
+            // Initialize theme on page load
+            function initTheme() {
+                const savedTheme = localStorage.getItem('color-theme');
+
+                if (savedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    themeToggleLightIcon.classList.remove('hidden');
+                    themeToggleDarkIcon.classList.add('hidden');
+                } else {
+                    // Default to light mode
+                    document.documentElement.classList.remove('dark');
+                    themeToggleDarkIcon.classList.remove('hidden');
+                    themeToggleLightIcon.classList.add('hidden');
+                }
+            }
+
+            // Initialize theme when page loads
+            initTheme();
+
+            // Handle theme toggle click
+            themeToggleBtn.addEventListener('click', function() {
+                const isDark = document.documentElement.classList.contains('dark');
+
+                if (isDark) {
+                    // Switch to light mode
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                    themeToggleDarkIcon.classList.remove('hidden');
+                    themeToggleLightIcon.classList.add('hidden');
+                } else {
+                    // Switch to dark mode
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                    themeToggleLightIcon.classList.remove('hidden');
+                    themeToggleDarkIcon.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
@@ -307,9 +419,7 @@
                     <div class="flex items-center space-x-2 mb-4">
                         <div
                             class="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" />
-                            </svg>
+                            <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="w-5 h-5">
                         </div>
                         <span class="text-xl font-bold">QR Generator</span>
                     </div>

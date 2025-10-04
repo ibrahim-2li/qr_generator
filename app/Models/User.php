@@ -8,6 +8,7 @@ use Filament\Tables\Columns\Layout\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -33,6 +34,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'avatar_url',
     ];
 
     /**
@@ -76,5 +78,12 @@ class User extends Authenticatable
     public function qrCodes()
     {
         return $this->hasMany(\App\Models\QrCode::class);
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        $avatarColumn = config('filament-edit-profile.avatar_column', 'avatar_url');
+
+        return $this->$avatarColumn ? Storage::url($this->$avatarColumn) : null;
     }
 }
