@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Plan;
+use App\Models\Subscription;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Pages\Page;
@@ -23,10 +24,18 @@ class SubscribePage extends Page
     public $plans;
     public $selectedPlan = null;
     public $showPaymentForm = false;
+    public $currentSubscription = null;
 
     public function mount(): void
     {
         $this->plans = Plan::all();
+
+        // Get current active subscription
+        $this->currentSubscription = Subscription::with('plan')
+            ->where('user_id', Auth::id())
+            ->where('status', 'active')
+            ->latest()
+            ->first();
     }
 
     public function selectPlan($planId): void
@@ -48,5 +57,10 @@ class SubscribePage extends Page
         session(['selected_plan_id' => $this->selectedPlan->id]);
 
         return redirect()->route('payment.pay');
+    }
+
+    public function isCurrentPlan($planId): bool
+    {
+        return $this->currentSubscription && $this->currentSubscription->plan_id == $planId;
     }
 }

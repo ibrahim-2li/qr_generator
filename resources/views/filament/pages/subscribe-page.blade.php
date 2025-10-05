@@ -6,11 +6,45 @@
                 <h2 class="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
                     Choose a subscription plan 💳
                 </h2>
+
+                @if ($this->currentSubscription)
+                    <div
+                        class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                        <div class="flex items-center gap-3">
+
+                            {{-- <x-filament::card>
+                                <div>
+                                    <h3 class="text-sm font-medium text-green-800 dark:text-green-200">
+                                        ✅ Current Active Subscription
+                                    </h3>
+                                    <p class="text-sm text-green-700 dark:text-green-300">
+                                        You are currently subscribed to
+                                        <strong>{{ $this->currentSubscription->plan->name }}</strong>
+                                        @if ($this->currentSubscription->ends_at)
+                                            (expires {{ $this->currentSubscription->ends_at->format('M d, Y') }})
+                                        @endif
+                                    </p>
+                                </div>
+                            </x-filament::card> --}}
+                        </div>
+                    </div>
+                @endif
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($this->plans as $plan)
-                    <x-filament::card class="relative overflow-hidden hover:shadow-lg transition-shadow">
+                    <x-filament::card
+                        class="relative overflow-hidden hover:shadow-lg transition-shadow {{ $this->isCurrentPlan($plan->id) ? 'ring-2 ring-green-500 bg-green-50 dark:bg-green-900/10' : '' }}">
+                        @if ($this->isCurrentPlan($plan->id))
+                            <div class="absolute top-4 right-4">
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                    ✅
+                                    Active
+                                </span>
+                            </div>
+                        @endif
+
                         <div class="p-6">
                             <div class="text-center mb-6">
                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
@@ -28,17 +62,22 @@
 
                             <div class="space-y-3 mb-6">
                                 <div class="flex items-center gap-2">
-                                    {{-- <svg src="{{ asset('svg/x.svg') }}" width="24" height="24"></svg> --}}
-
                                     <span
                                         class="text-sm text-gray-600 dark:text-gray-300">{{ $plan->description }}</span>
                                 </div>
                             </div>
 
-                            <x-filament::button wire:click="selectPlan({{ $plan->id }})" color="primary"
-                                size="lg" class="w-full" icon="heroicon-o-credit-card">
-                                Choose Plan
-                            </x-filament::button>
+                            @if ($this->isCurrentPlan($plan->id))
+                                <x-filament::button color="success" size="lg" class="w-full"
+                                    icon="heroicon-o-check-circle" disabled>
+                                    Current Plan
+                                </x-filament::button>
+                            @else
+                                <x-filament::button wire:click="selectPlan({{ $plan->id }})" color="primary"
+                                    size="lg" class="w-full" icon="heroicon-o-credit-card">
+                                    Choose Plan
+                                </x-filament::button>
+                            @endif
                         </div>
                     </x-filament::card>
                 @endforeach
@@ -113,7 +152,6 @@
                             <div class="text-center">
                                 <div
                                     class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-
                                 </div>
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                                     ✅ Secure Payment Gateway
