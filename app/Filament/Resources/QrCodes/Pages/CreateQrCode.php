@@ -4,11 +4,31 @@ namespace App\Filament\Resources\QrCodes\Pages;
 
 use App\Filament\Resources\QrCodes\QrCodeResource;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
 class CreateQrCode extends CreateRecord
 {
     protected static string $resource = QrCodeResource::class;
+
+    public function mount(): void
+    {
+        $user = Auth::user();
+        
+        // Check if user can create QR codes
+        if (!$user->canCreateQrCodes()) {
+            Notification::make()
+                ->title('Subscription Required')
+                ->body('You need an active subscription to create QR codes. Please subscribe to continue.')
+                ->warning()
+                ->send();
+                
+            $this->redirect(route('filament.dashboard.pages.subscribe-page'));
+            return;
+        }
+
+        parent::mount();
+    }
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

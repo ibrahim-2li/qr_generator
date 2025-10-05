@@ -14,7 +14,10 @@ class QrCodeController extends Controller
 
     public function sh(Request $request, QrCode $qr)
     {
-        // $this->authorize('view', $qr);
+        // Check if QR code is active (user has subscription or is on trial)
+        if (!$qr->user->qrCodesShouldBeActive()) {
+            return view('qr.expired', compact('qr'));
+        }
 
         // Track the scan
         $this->trackScan($request, $qr);
@@ -112,6 +115,11 @@ class QrCodeController extends Controller
 
     public function downloadVcard(QrCode $qr)
     {
+        // Check if QR code is active
+        if (!$qr->user->qrCodesShouldBeActive()) {
+            abort(403, 'This QR code is no longer active. Please subscribe to continue using this feature.');
+        }
+
         $content = $qr->content;
 
         // Generate vCard content
@@ -131,27 +139,6 @@ class QrCodeController extends Controller
         if ($content->company) {
             $vcard .= 'ORG:'.$content->company."\n";
         }
-
-        // Add social media links
-        // if ($content->linkedin) {
-        //     $vcard .= "URL;TYPE=LinkedIn:" . $content->linkedin . "\n";
-        // }
-
-        // if ($content->x) {
-        //     $vcard .= "URL;TYPE=Twitter:" . $content->x . "\n";
-        // }
-
-        // if ($content->facebook) {
-        //     $vcard .= "URL;TYPE=Facebook:" . $content->facebook . "\n";
-        // }
-
-        // if ($content->instagram) {
-        //     $vcard .= "URL;TYPE=Instagram:" . $content->instagram . "\n";
-        // }
-
-        // if ($content->youtube) {
-        //     $vcard .= "URL;TYPE=YouTube:" . $content->youtube . "\n";
-        // }
 
         $vcard .= 'END:VCARD';
 

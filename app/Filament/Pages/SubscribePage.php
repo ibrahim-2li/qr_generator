@@ -25,6 +25,7 @@ class SubscribePage extends Page
     public $selectedPlan = null;
     public $showPaymentForm = false;
     public $currentSubscription = null;
+    public $trialStatus = null;
 
     public function mount(): void
     {
@@ -36,6 +37,9 @@ class SubscribePage extends Page
             ->where('status', 'active')
             ->latest()
             ->first();
+
+        // Get trial status
+        $this->trialStatus = Auth::user()->getTrialStatus();
     }
 
     public function selectPlan($planId): void
