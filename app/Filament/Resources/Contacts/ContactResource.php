@@ -22,7 +22,7 @@ class ContactResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Envelope;
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 10;
 
     public static function getNavigationLabel(): string
     {

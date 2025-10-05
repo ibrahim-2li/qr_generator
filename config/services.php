@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'moyasar' => [
+        'secret' => env('MOYASAR_API_KEY'),
+        'public' => env('MOYASAR_API_PUBLISHABLE_KEY'),
+    ],
+
 ];

@@ -2,26 +2,33 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Analytics;
-use Filament\Auth\Pages\EditProfile;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Http\Middleware\AuthenticateSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\MenuItem;
-use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Pages\Dashboard;
+use App\Filament\Pages\Analytics;
+use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\StartSession;
+use Filament\Auth\Pages\EditProfile;
 use Illuminate\Support\Facades\Auth;
+use App\Filament\Pages\SubscribePage;
+use Filament\Navigation\NavigationGroup;
+use App\Filament\Pages\MySubscriptionPage;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Navigation\NavigationBuilder;
+use App\Filament\Resources\Plans\PlanResource;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Filament\Http\Middleware\AuthenticateSession;
+use App\Filament\Resources\Payments\PaymentResource;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use App\Filament\Resources\Subscriptions\SubscriptionResource;
+use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -31,7 +38,7 @@ class DashboardPanelProvider extends PanelProvider
             ->default()
             ->id('dashboard')
             ->path('dashboard')
-            // ->profile(EditProfile::class)
+            ->profile(EditProfile::class)
             ->login()
             ->registration()
             ->colors([
@@ -42,6 +49,8 @@ class DashboardPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
                 Analytics::class,
+                SubscribePage::class,
+                MySubscriptionPage::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->middleware([
@@ -63,7 +72,7 @@ class DashboardPanelProvider extends PanelProvider
                     ->setTitle('My Profile')
                     ->setNavigationLabel('My Profile')
                     ->setIcon('heroicon-o-user')
-                    ->setSort(1)
+                    ->setSort(4)
                     ->canAccess(fn () => Auth::check())
                     ->shouldRegisterNavigation(true)
                     ->shouldShowEmailForm()
@@ -83,6 +92,16 @@ class DashboardPanelProvider extends PanelProvider
                     ->url(fn (): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle'),
             ]);
+            // ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+            //     return $builder->groups([
+            //         NavigationGroup::make('Administrator')
+            //             ->items([
+            //                 ...SubscriptionResource::getNavigationItems(),
+            //                 ...PaymentResource::getNavigationItems(),
+            //                 ...PlanResource::getNavigationItems(),
+            //             ]),
+            //     ]);
+            // });
 
     }
 }
