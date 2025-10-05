@@ -185,7 +185,8 @@
                             </x-filament::button>
                         @endif
 
-                        <x-filament::button href="{{ route('filament.dashboard.pages.subscribe-page') }}"
+                        <x-filament::button
+                            onclick="window.location.href = '{{ route('filament.dashboard.pages.subscribe-page') }}'"
                             color="primary" variant="outline" size="lg" class="w-full justify-start"
                             icon="heroicon-o-arrow-right-on-rectangle">
                             Change Plan

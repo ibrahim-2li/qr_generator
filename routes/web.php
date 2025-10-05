@@ -19,7 +19,8 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::get('q/{qr}', [QrCodeController::class, 'sh'])->name('qr.sh');
 Route::get('qr/{qr}/vcard', [QrCodeController::class, 'downloadVcard'])->name('qr.vcard');
 
-Route::post('/moyasar/pay', [PaymentController::class, 'pay'])->name('payment.pay');
+Route::get('/moyasar/pay', [PaymentController::class, 'pay'])->name('payment.pay');
+Route::post('/moyasar/pay', [PaymentController::class, 'pay'])->name('payment.pay.post');
 Route::post('/payment/pay', [PaymentController::class, 'pay'])->name('payment.pay.direct');
 Route::get('/moyasar/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 

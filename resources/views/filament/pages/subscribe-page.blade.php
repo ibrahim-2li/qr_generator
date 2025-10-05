@@ -59,12 +59,7 @@
                     {{-- Plan Summary --}}
                     <x-filament::card>
                         <x-slot name="heading" class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                </path>
-                            </svg>
+                            🔒
                             Order Summary
                         </x-slot>
 
@@ -107,100 +102,42 @@
                         </div>
                     </x-filament::card>
 
-                    {{-- Payment Form --}}
+                    {{-- Payment Button --}}
                     <x-filament::card>
                         <x-slot name="heading" class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
-                                </path>
-                            </svg>
-                            Payment Information
+                            ✅
+                            Secure Payment
                         </x-slot>
 
-                        <form wire:submit="processPayment" class="space-y-6">
-                            {{-- Card Number --}}
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Card Number
-                                </label>
-                                <input type="text" wire:model="cardNumber" placeholder="1234 5678 9012 3456"
-                                    maxlength="19"
-                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white"
-                                    x-data
-                                    x-on:input="
-                                        $event.target.value = $event.target.value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
-                                        $wire.cardNumber = $event.target.value.replace(/\s/g, '');
-                                    " />
-                                @error('cardNumber')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
+                        <div class="space-y-6">
+                            <div class="text-center">
+                                <div
+                                    class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                                    ✅ Secure Payment Gateway
+                                </h3>
+                                <p class="text-gray-600 dark:text-gray-300 text-sm">
+                                    You will be redirected to Moyasar's secure payment form to complete your purchase.
+                                </p>
                             </div>
 
-                            {{-- Card Holder Name --}}
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Card Holder Name
-                                </label>
-                                <input type="text" wire:model="cardName" placeholder="John Doe"
-                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" />
-                                @error('cardName')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            {{-- Expiry and CVC Row --}}
-                            <div class="grid grid-cols-2 gap-4">
-                                {{-- Expiry Month --}}
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                        Month
-                                    </label>
-                                    <select wire:model="expiryMonth"
-                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
-                                        <option value="">MM</option>
-                                        @for ($i = 1; $i <= 12; $i++)
-                                            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">
-                                                {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
-                                            </option>
-                                        @endfor
-                                    </select>
-                                    @error('expiryMonth')
-                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                    @enderror
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    🔒
+                                    <span class="text-sm text-blue-700 dark:text-blue-300">SSL Encrypted</span>
                                 </div>
 
-                                {{-- Expiry Year --}}
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                        Year
-                                    </label>
-                                    <select wire:model="expiryYear"
-                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white">
-                                        <option value="">YY</option>
-                                        @for ($i = date('y'); $i <= date('y') + 10; $i++)
-                                            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">
-                                                {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
-                                            </option>
-                                        @endfor
-                                    </select>
-                                    @error('expiryYear')
-                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                    @enderror
+                                <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    🔒
+                                    <span class="text-sm text-blue-700 dark:text-blue-300">PCI DSS Compliant</span>
                                 </div>
-                            </div>
 
-                            {{-- CVC --}}
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    CVC
-                                </label>
-                                <input type="text" wire:model="cvc" placeholder="123" maxlength="4"
-                                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" />
-                                @error('cvc')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
+                                <div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    🔒
+                                    <span class="text-sm text-blue-700 dark:text-blue-300">No card data stored</span>
+                                </div>
                             </div>
 
                             {{-- Payment Error --}}
@@ -212,14 +149,14 @@
                             @enderror
 
                             {{-- Submit Button --}}
-                            <x-filament::button type="submit" color="primary" size="lg" class="w-full"
-                                icon="heroicon-o-credit-card" wire:loading.attr="disabled"
+                            <x-filament::button wire:click="processPayment" color="primary" size="lg"
+                                class="w-full" icon="heroicon-o-credit-card" wire:loading.attr="disabled"
                                 wire:loading.class="opacity-50">
                                 <span wire:loading.remove>Pay {{ number_format($selectedPlan->price / 100, 2) }}
                                     SAR</span>
-                                <span wire:loading>Processing Payment...</span>
+                                <span wire:loading>Processing...</span>
                             </x-filament::button>
-                        </form>
+                        </div>
                     </x-filament::card>
                 </div>
             </div>

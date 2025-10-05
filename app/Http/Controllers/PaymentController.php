@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Moyasar\Providers\PaymentService;
 use Exception;
@@ -20,11 +21,11 @@ class PaymentController extends Controller
     public function pay(Request $request)
     {
         $planId = $request->input('plan_id') ?? session('selected_plan_id');
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (!$planId || !$user) {
             return redirect()->route('filament.dashboard.pages.subscribe-page')
-                ->with('error', 'خطأ في بيانات الطلب.');
+                ->with('error', 'Error in request data.');
         }
 
         $plan = \App\Models\Plan::findOrFail($planId);
@@ -36,20 +37,12 @@ class PaymentController extends Controller
             'status' => 'pending',
         ]);
 
-        // Create Moyasar payment with minimal source for redirect
-        $paymentData = [
+        // Create Moyasar invoice for payment form
+        $invoiceData = [
             'amount' => $plan->price, // Already in halalas
             'currency' => 'SAR',
-            'description' => "اشتراك في {$plan->name}",
+            'description' => "Subscription to {$plan->name}",
             'callback_url' => route('payment.callback'),
-            'source' => [
-                'type' => 'creditcard',
-                'name' => $user->name,
-                'number' => '4111111111111111',
-                'month' => '12',
-                'year' => '2025',
-                'cvc' => '123'
-            ],
             'metadata' => [
                 'subscription_id' => $subscription->id,
                 'user_id' => $user->id,
@@ -60,80 +53,75 @@ class PaymentController extends Controller
         try {
             $response = Http::withBasicAuth(config('services.moyasar.secret'), '')
                 ->timeout(15)
-                ->post('https://api.moyasar.com/v1/payments', $paymentData);
+                ->post('https://api.moyasar.com/v1/invoices', $invoiceData);
 
             if ($response->successful()) {
-                $payment = $response->json();
+                $invoice = $response->json();
 
-                // Store payment ID in session for callback
-                session(['moyasar_payment_id' => $payment['id']]);
+                // Store invoice ID in session for callback
+                session(['moyasar_invoice_id' => $invoice['id']]);
 
-                // Check if payment has transaction_url for redirect
-                if (isset($payment['source']['transaction_url'])) {
-                    return redirect($payment['source']['transaction_url']);
-                } else {
-                    // Fallback to moyasar.com/pay URL
-                    return redirect("https://moyasar.com/pay/{$payment['id']}");
-                }
+                // Redirect to Moyasar payment form
+                return redirect($invoice['url']);
             } else {
                 return redirect()->route('filament.dashboard.pages.subscribe-page')
-                    ->with('error', 'فشل في إنشاء عملية الدفع.');
+                    ->with('error', 'Failed to create payment process.');
             }
         } catch (Exception $e) {
             return redirect()->route('filament.dashboard.pages.subscribe-page')
-                ->with('error', 'خطأ في الاتصال بخدمة الدفع.');
+                ->with('error', 'Error in connecting to payment service.');
         }
     }
 
     public function callback(Request $request)
     {
-        $paymentId = $request->query('id');
+        $invoiceId = $request->query('id') ?? session('moyasar_invoice_id');
 
-        if (! $paymentId) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', 'تعذر تحديد عملية الدفع.');
+        if (! $invoiceId) {
+            return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', 'Failed to determine payment process.');
         }
 
-        // جلب تفاصيل الدفع من Moyasar API
+        // جلب تفاصيل الفاتورة من Moyasar API
         $response = Http::withBasicAuth(config('services.moyasar.secret'), '')
-            ->get("https://api.moyasar.com/v1/payments/{$paymentId}");
+            ->get("https://api.moyasar.com/v1/invoices/{$invoiceId}");
 
-        $data = $response->json();
+        $invoice = $response->json();
 
-        if (! isset($data['status'])) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', 'تعذر استعلام حالة الدفع.');
+        if (! isset($invoice['status'])) {
+            return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', 'Failed to query payment status.');
         }
 
         // استرجاع الاشتراك من metadata
-        $subscriptionId = $data['metadata']['subscription_id'] ?? null;
+        $subscriptionId = $invoice['metadata']['subscription_id'] ?? null;
 
         if (! $subscriptionId) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', 'لم يتم العثور على الاشتراك.');
+            return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', 'Subscription not found.');
         }
 
         $subscription = Subscription::find($subscriptionId);
 
         if (! $subscription) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', 'الاشتراك غير موجود.');
+            return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', 'Subscription not found.');
         }
 
         // حفظ تفاصيل الدفع
         $subscription->payments()->create([
-            'payment_id' => $data['id'],
-            'amount' => $data['amount'],
-            'status' => $data['status'],
-            'payload' => $data,
+            'payment_id' => $invoice['id'],
+            'amount' => $invoice['amount'],
+            'status' => $invoice['status'],
+            'payload' => $invoice,
         ]);
 
-        if ($data['status'] === 'paid') {
+        if ($invoice['status'] === 'paid') {
             $subscription->update([
                 'status' => 'active',
                 'starts_at' => now(),
                 'ends_at' => now()->addMonth(),
             ]);
 
-            return redirect()->route('filament.dashboard.pages.my-subscription-page')->with('success', '✅ تم الدفع وتفعيل الاشتراك بنجاح.');
+            return redirect()->route('filament.dashboard.pages.my-subscription-page')->with('success', '✅ Payment successful and subscription activated.');
         }
 
-        return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', '❌ فشل الدفع أو تم إلغاؤه.');
+        return redirect()->route('filament.dashboard.pages.subscribe-page')->with('error', '❌ Payment failed or cancelled.');
     }
 }
