@@ -58,6 +58,9 @@ class QrCodeForm
                         TextInput::make('x')
                             ->url(),
 
+                        TextInput::make('snap')
+                            ->string(),
+
                         TextInput::make('facebook')
                             ->url(),
 

@@ -22,7 +22,8 @@
                                     ✅ Free Trial Active
                                 </h3>
                                 <p class="text-sm text-blue-700 dark:text-blue-300">
-                                    You have <strong>{{ $this->trialStatus['days_remaining'] }} days</strong> remaining
+                                    You have <strong>{{ (int) $this->trialStatus['days_remaining'] }} days</strong>
+                                    remaining
                                     in your free trial.
                                     @if ($this->trialStatus['days_remaining'] <= 2)
                                         <span class="text-orange-600 dark:text-orange-400 font-semibold">Subscribe now
@@ -114,6 +115,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <br />
                 @foreach ($this->plans as $plan)
                     <x-filament::card
                         class="relative overflow-hidden hover:shadow-lg transition-shadow {{ $this->isCurrentPlan($plan->id) ? 'ring-2 ring-green-500 bg-green-50 dark:bg-green-900/10' : '' }}">
@@ -165,6 +167,7 @@
                             @endif
                         </div>
                     </x-filament::card>
+                    <br />
                 @endforeach
             </div>
         @else

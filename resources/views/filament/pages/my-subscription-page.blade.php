@@ -226,7 +226,7 @@
                         <div class="flex items-center justify-between py-3">
                             <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Days Remaining</span>
                             <span class="font-semibold text-gray-900 dark:text-white">
-                                {{ now()->diffInDays($this->subscription->ends_at) ?? 'N/A' }} days
+                                {{ (int) now()->diffInDays($this->subscription->ends_at) ?? 'N/A' }} days
                             </span>
                         </div>
                     </div>

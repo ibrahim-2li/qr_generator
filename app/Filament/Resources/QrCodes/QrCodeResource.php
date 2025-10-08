@@ -185,6 +185,11 @@ class QrCodeResource extends Resource
                                     ->url(fn ($record) => $record->content?->x)
                                     ->icon(Heroicon::Link),
 
+                                     TextEntry::make('content.snap')
+                                    ->label('Snapchat')
+                                    ->url(fn ($record) => $record->content?->snap)
+                                    ->icon(Heroicon::Link),
+
                                 TextEntry::make('content.facebook')
                                     ->label('Facebook')
                                     ->url(fn ($record) => $record->content?->facebook)
