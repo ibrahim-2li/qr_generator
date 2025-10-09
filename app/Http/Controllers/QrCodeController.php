@@ -6,6 +6,7 @@ use App\Models\QrCode;
 use App\Models\Scan;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Jenssegers\Agent\Agent;
 
 class QrCodeController extends Controller
@@ -60,14 +61,16 @@ class QrCodeController extends Controller
         $device = $this->getDeviceType($agent);
         $os = $agent->platform();
 
-        // Get country (you might want to use a GeoIP service for this)
-        $country = $this->getCountryFromIp($ip);
+        // Get location information (you might want to use a GeoIP service for this)
+        $location = $this->getLocationFromIp($ip);
 
         // Create scan record
         Scan::create([
             'qr_code_id' => $qr->id,
             'ip' => $ip,
-            'country' => $country,
+            'country' => $location['country'],
+            'region' => $location['region'],
+            'city' => $location['city'],
             'device' => $device,
             'os' => $os,
         ]);
@@ -98,19 +101,63 @@ class QrCodeController extends Controller
     }
 
     /**
-     * Get country from IP address
+     * Get location information from IP address
      * Note: This is a basic implementation. For production, consider using a GeoIP service
      */
-    private function getCountryFromIp(string $ip): ?string
+    private function getLocationFromIp(string $ip): array
     {
         // For localhost/development
         if ($ip === '127.0.0.1' || $ip === '::1' || str_starts_with($ip, '192.168.') || str_starts_with($ip, '10.')) {
-            return 'Local';
+            return [
+                'country' => 'Local',
+                'region' => 'Local',
+                'city' => 'Local'
+            ];
         }
 
-        // Basic implementation - you might want to integrate with a GeoIP service
-        // like MaxMind, IPinfo, or similar for production use
-        return null;
+        // Try to get location from IP using free services
+        try {
+            // Using ipapi.co (free tier: 1000 requests/day)
+            $response = Http::timeout(5)->get("http://ipapi.co/{$ip}/json/");
+
+            if ($response->successful()) {
+                $data = $response->json();
+
+                return [
+                    'country' => $data['country_name'] ?? null,
+                    'region' => $data['region'] ?? null,
+                    'city' => $data['city'] ?? null
+                ];
+            }
+        } catch (\Exception $e) {
+            // Fallback to another service or return null values
+        }
+
+        // Try alternative service (ip-api.com)
+        try {
+            $response = Http::timeout(5)->get("http://ip-api.com/json/{$ip}");
+
+            if ($response->successful()) {
+                $data = $response->json();
+
+                if ($data['status'] === 'success') {
+                    return [
+                        'country' => $data['country'] ?? null,
+                        'region' => $data['regionName'] ?? null,
+                        'city' => $data['city'] ?? null
+                    ];
+                }
+            }
+        } catch (\Exception $e) {
+            // Continue to fallback
+        }
+
+        // Fallback: return null values
+        return [
+            'country' => null,
+            'region' => null,
+            'city' => null
+        ];
     }
 
     public function downloadVcard(QrCode $qr)

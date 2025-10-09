@@ -22,12 +22,10 @@ Route::get('qr/{qr}/vcard', [QrCodeController::class, 'downloadVcard'])->name('q
 Route::get('/moyasar/pay', [PaymentController::class, 'pay'])->name('payment.pay');
 Route::post('/moyasar/pay', [PaymentController::class, 'pay'])->name('payment.pay.post');
 Route::post('/payment/pay', [PaymentController::class, 'pay'])->name('payment.pay.direct');
-Route::get('/moyasar/callback', [PaymentController::class, 'callback'])->name('payment.callback');
-
 // Payment form route
 Route::get('/payment/form', [PaymentFormController::class, 'show'])->name('payment.form');
 
 Route::get('/payment/{planId}', PaymentPage::class)->name('payment.page');
 
-// Callback من Moyasar بعد الدفع
+// Callback from Moyasar after payment - using /payment/callback as the main callback URL
 Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
