@@ -28,7 +28,7 @@ class PlanResource extends Resource
 
     public static function canAccess(): bool
     {
-        return Auth::check() && Auth::user()->isAdmin();
+        return Auth::check() && Auth::user()->isSuperAdmin();
     }
 
     public static function form(Schema $schema): Schema

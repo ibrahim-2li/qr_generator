@@ -14,7 +14,7 @@ class QrCodeStatsWidget extends BaseWidget
     {
         $user = Auth::user();
 
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() || $user->isSuperAdmin()) {
             $totalQrCodes = QrCode::count();
             $totalScans = Scan::count();
             $uniqueScans = Scan::distinct('ip')->count();

@@ -7,9 +7,11 @@ use App\Models\User;
 use App\Models\QrContent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class QrCode extends Model
 {
+    use HasFactory;
     protected $fillable = ['user_id','type','data','is_dynamic','slug','scan_count'];
 
     public function getRouteKeyName()
@@ -41,6 +43,7 @@ class QrCode extends Model
             $userQuery->where(function (Builder $subQuery) {
                 // Admin users
                 $subQuery->where('role', User::ROLE_ADMIN)
+                    ->orWhere('role', User::ROLE_SUPER_ADMIN)
                     // Users with active subscriptions
                     ->orWhereHas('subscriptions', function (Builder $subscriptionQuery) {
                         $subscriptionQuery->where('status', 'active')

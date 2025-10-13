@@ -22,7 +22,7 @@ class ScansByOsChart extends ChartWidget
         $query = Scan::select('os', DB::raw('COUNT(*) as count'))
             ->whereNotNull('os');
 
-        if (! $user->isAdmin()) {
+        if ($user->isUser()) {
             $userQrCodeIds = QrCode::where('user_id', $user->id)->pluck('id');
             $query->whereIn('qr_code_id', $userQrCodeIds);
         }

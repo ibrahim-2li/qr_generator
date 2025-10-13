@@ -12,7 +12,7 @@ class QrCodePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin() || $user->isUser();
+        return $user->isAdmin()|| $user->isSuperAdmin() || $user->isUser();
     }
 
     /**
@@ -20,7 +20,7 @@ class QrCodePolicy
      */
     public function view(User $user, QrCode $qrCode): bool
     {
-        return $user->isAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
+        return $user->isAdmin() || ($user->isUser() && $qrCode->user_id === $user->id) || $user->isSuperAdmin();
     }
 
     /**
@@ -28,7 +28,7 @@ class QrCodePolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin() || $user->isUser();
+        return $user->isAdmin() || $user->isUser() || $user->isSuperAdmin();
     }
 
     /**
@@ -36,7 +36,7 @@ class QrCodePolicy
      */
     public function update(User $user, QrCode $qrCode): bool
     {
-        return $user->isAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
+        return $user->isAdmin() || $user->isSuperAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
     }
 
     /**
@@ -44,7 +44,7 @@ class QrCodePolicy
      */
     public function delete(User $user, QrCode $qrCode): bool
     {
-        return $user->isAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
+        return $user->isAdmin() || $user->isSuperAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
     }
 
     /**
@@ -52,7 +52,7 @@ class QrCodePolicy
      */
     public function restore(User $user, QrCode $qrCode): bool
     {
-        return $user->isAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
+        return $user->isAdmin() || $user->isSuperAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
     }
 
     /**
@@ -60,6 +60,6 @@ class QrCodePolicy
      */
     public function forceDelete(User $user, QrCode $qrCode): bool
     {
-        return $user->isAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
+        return $user->isAdmin() || $user->isSuperAdmin() || ($user->isUser() && $qrCode->user_id === $user->id);
     }
 }

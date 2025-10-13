@@ -55,6 +55,9 @@ class QrCodeResource extends Resource
             return $query;
         }
 
+        if($user && $user->isSuperAdmin()){
+            return $query;
+        }
         // If user is regular user, show only their QR codes
         if ($user && $user->isUser()) {
             return $query->where('user_id', $user->id);

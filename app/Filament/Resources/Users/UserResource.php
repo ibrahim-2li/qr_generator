@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
@@ -24,6 +25,10 @@ class UserResource extends Resource
 
     protected static ?int $navigationSort = 5;
 
+    public static function canAccess(): bool
+    {
+        return Auth::check() && Auth::user()->isSuperAdmin() || Auth::user()->isAdmin();
+    }
 
     protected static ?string $recordTitleAttribute = 'User';
 

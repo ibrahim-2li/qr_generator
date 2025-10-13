@@ -22,7 +22,7 @@ class ScansByRegionChart extends ChartWidget
         $query = Scan::select('region', DB::raw('COUNT(*) as count'))
             ->whereNotNull('region');
 
-        if (! $user->isAdmin()) {
+        if ($user->isUser()) {
             $userQrCodeIds = QrCode::where('user_id', $user->id)->pluck('id');
             $query->whereIn('qr_code_id', $userQrCodeIds);
         }

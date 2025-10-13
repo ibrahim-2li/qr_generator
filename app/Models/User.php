@@ -18,10 +18,12 @@ class User extends Authenticatable implements FilamentUser
 
     const ROLE_USER = 'USER';
     const ROLE_ADMIN = 'ADMIN';
+    const ROLE_SUPER_ADMIN = 'SUPER_ADMIN';
 
     const ROLES = [
         self::ROLE_USER => 'User',
         self::ROLE_ADMIN => 'Admin',
+        self::ROLE_SUPER_ADMIN => 'Super_Admin',
     ];
 
     /**
@@ -76,7 +78,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccess(Enter $panel): bool
     {
-        return $this->isAdmin() || $this->isUser();
+        return $this->isAdmin() || $this->isUser() || $this->isSuperAdmin();
     }
 
     public function isAdmin(): bool
@@ -87,6 +89,11 @@ class User extends Authenticatable implements FilamentUser
     public function isUser(): bool
     {
         return $this->role === self::ROLE_USER;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === self::ROLE_SUPER_ADMIN;
     }
 
     public function qrCodes()
@@ -131,7 +138,7 @@ class User extends Authenticatable implements FilamentUser
     public function canCreateQrCodes(): bool
     {
         // Admin can always create QR codes
-        if ($this->isAdmin()) {
+        if ($this->isAdmin() || $this->isSuperAdmin()) {
             return true;
         }
 
@@ -145,7 +152,7 @@ class User extends Authenticatable implements FilamentUser
     public function qrCodesShouldBeActive(): bool
     {
         // Admin's QR codes are always active
-        if ($this->isAdmin()) {
+        if ($this->isAdmin() || $this->isSuperAdmin()) {
             return true;
         }
 

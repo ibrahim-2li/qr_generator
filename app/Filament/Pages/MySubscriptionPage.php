@@ -90,8 +90,10 @@ class MySubscriptionPage extends Page implements HasTable
     public function renew(): void
     {
         if (! $this->subscription) {
-            $this->dispatchBrowserEvent('no-subscription');
-            return;
+            $this->dispatch('subscription-updated', [
+                'status' => $this->subscription->status,
+            ]);
+
         }
 
         $plan = $this->subscription->plan;
@@ -129,7 +131,7 @@ class MySubscriptionPage extends Page implements HasTable
             ]);
         }
 
-        $this->dispatchBrowserEvent('subscription-updated', [
+        $this->dispatch('subscription-updated', [
             'status' => $this->subscription->status,
         ]);
     }
@@ -138,7 +140,7 @@ class MySubscriptionPage extends Page implements HasTable
     {
         if ($this->subscription) {
             $this->subscription->update(['status' => 'canceled']);
-            $this->dispatchBrowserEvent('subscription-canceled');
+            $this->dispatch('subscription-canceled');
         }
     }
 }

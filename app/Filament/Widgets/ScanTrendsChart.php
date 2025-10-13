@@ -23,7 +23,7 @@ class ScanTrendsChart extends ChartWidget
         )
             ->where('created_at', '>=', now()->subDays(30));
 
-        if (! $user->isAdmin()) {
+        if ($user->isUser()) {
             $userQrCodeIds = QrCode::where('user_id', $user->id)->pluck('id');
             $query->whereIn('qr_code_id', $userQrCodeIds);
         }

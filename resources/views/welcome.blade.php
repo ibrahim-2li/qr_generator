@@ -59,7 +59,7 @@
 
     <!-- Hero Section -->
     <div class="relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6 py-16 lg:py-16">
             <div class="text-center">
                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
                     Create
@@ -70,8 +70,9 @@
                 </h1>
                 <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
                     Generate professional QR codes with advanced analytics, custom branding, and real-time tracking.
-                    Perfect for businesses, events, and personal use.
+                    Perfect for businesses,or personal use.
                 </p>
+
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}"
@@ -80,10 +81,11 @@
                         </a>
                     @endif
                     <a href="/dashboard"
-                        class="border-2 border-gray-300 text-gray-700 hover:border-blue-600 px-8 py-4 rounded-lg font-semibold text-lg transition-colors">
+                        class="border-2 border-gray-300 text-gray-700 hover:border-blue-600 px-8 py-4 rounded-lg font-semibold text-lg transition-colors ">
                         Get Started
                     </a>
                 </div>
+
             </div>
         </div>
 
@@ -122,9 +124,37 @@
     </div>
 
     <!-- Features Section -->
-    <div id="features" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
+    <div id="features" class="py-16 bg-white">
+
+        <div class="max-w-7xl mx-auto ">
+            <div class="text-center mb-16 ">
+                <div class="bg-white p-4 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Premium QR Codes Dashboard</h2>
+                    <img src="{{ asset('images/hero1.png') }}" class="w-50% h-50%" alt="QR Generator">
+                </div>
+            </div>
+            <!-- Partners Section -->
+            <br /><br /><br />
+            <div id="partners" class="py-20 bg-gray-50 mb-20 mt-20">
+                <div class="max-w-7xl mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-16">
+                        Partners
+                    </h2>
+
+                    <div class=" flex flex-wrap gap-12 justify-center items-center mt-16">
+                        @foreach ($partners as $partner)
+                            <a href="{{ $partner->url }}" target="_blank">
+                                <img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}"
+                                    width="100" height="100"
+                                    class=" mx-auto  grayscale hover:grayscale-0 transition">
+                            </a>
+                        @endforeach
+
+                    </div>
+                </div>
+            </div>
+            <br /><br /><br /><br />
+            <div class="text-center mb-16 mt-10">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                     Powerful Features
                 </h2>
@@ -163,7 +193,8 @@
                 <!-- Feature 3 -->
                 <div class="bg-gray-50 p-8 rounded-2xl">
                     <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
                         </svg>
@@ -252,14 +283,16 @@
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
                                 Name
                             </label>
-                            <input type="text" id="name" name="name" value="{{ old('name') }}" required
+                            <input type="text" id="name" name="name" value="{{ old('name') }}"
+                                required
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                                 Email
                             </label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                            <input type="email" id="email" name="email" value="{{ old('email') }}"
+                                required
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
                     </div>
