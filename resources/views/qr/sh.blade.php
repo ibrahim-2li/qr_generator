@@ -367,49 +367,97 @@
     </body>
 @else
     <!-- PDF Viewer Section -->
-    <section class="relative py-4 bg-gradient-to-br from-gray-50 to-gray-100">
-        <div class="max-w-xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Card Container -->
-            <div
-                class="relative bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden border border-white/30">
-                <!-- Header -->
-                <div class="bg-[{{ $qr->pdf->color_l }}] p-6 sm:p-8 text-center text-white">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-2">{{ $qr->pdf->name }}</h2>
-                    <p class="text-sm sm:text-base opacity-90">{{ $qr->pdf->description }}</p>
-                </div>
+    <div class="w-full h-64" style="--bg-color: {{ $qr->pdf->color_d }};">
+        <svg viewBox="0 0 370 605" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full"
+            style="z-index: -1; width: 100%; height: 150%;" preserveAspectRatio="none">
+            <path d="M0 0H370V510C370 501 293.5 100 187.5 501C81.5 730 0 501 0 501V0Z" class="duration-500"
+                fill="var(--bg-color)"></path>
+        </svg>
+    </div>
+    <div class=" max-w-[400px] mx-auto px-4 sm:px-6 lg:px-2">
+        <!-- Card Container -->
 
-                <!-- PDF Embed -->
-                <div class="p-4=2 sm:p-3 bg-white rounded-b-3xl">
-                    <div class="w-auto h-[100vh] border border-gray-200 rounded-xl overflow-hidden shadow-inner">
-                        <iframe src="{{ Storage::disk('public')->url($qr->pdf->file) }}" class="w-full h-full"
-                            title="PDF Preview"></iframe>
-                    </div>
+        <div style="top: -200px;"
+            class="relative bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden border border-white/30">
+            <!-- Header -->
+            {{-- <div class="bg-[{{ $qr->pdf->color_l }}] p-6 sm:p-8 text-center text-white">
+                <h2 class="text-xl sm:text-2xl font-bold mb-2">{{ $qr->pdf->name }}</h2>
+                <p class="text-sm sm:text-base opacity-90">{{ $qr->pdf->description }}</p>
+            </div> --}}
 
-                    <!-- Actions -->
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
-                        <a href="{{ asset('storage/files/' . $qr->pdf->file) }}" download
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg bg-[{{ $qr->pdf->color_d }}] text-white transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Download PDF
-                        </a>
+            <!-- PDF Embed -->
+            <div id="pdf-container" class="bg-[{{ $qr->pdf->color_l }}] p-0 sm:p-0 text-center text-white ">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
-                        <a href="{{ Storage::disk('public')->url($qr->pdf->file) }}" target="_blank"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-100 text-gray-800 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
-                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M10 9V3h4v6m2 0h4l-8 8-8-8h4m4 8v4" />
-                            </svg>
-                            Open in New Tab
-                        </a>
-                    </div>
+                <canvas id="pdf-thumb" class="w-full h-auto"></canvas>
+
+                <script>
+                    const url = '{{ Storage::disk('public')->url($qr->pdf->file) }}';
+
+                    pdfjsLib.getDocument(url).promise.then(function(pdf) {
+                        pdf.getPage(1).then(function(page) {
+                            const canvas = document.getElementById('pdf-thumb');
+                            const context = canvas.getContext('2d');
+                            const container = document.getElementById('pdf-container');
+
+                            const containerWidth = container.offsetWidth;
+                            const viewport = page.getViewport({
+                                scale: 1
+                            });
+                            const scale = containerWidth / viewport.width;
+                            const scaledViewport = page.getViewport({
+                                scale
+                            });
+
+                            canvas.width = scaledViewport.width;
+                            canvas.height = scaledViewport.height;
+
+                            page.render({
+                                canvasContext: context,
+                                viewport: scaledViewport
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            <div class="p-4=2 sm:p-3 bg-white rounded-b-3xl">
+
+
+                {{-- <iframe src="{{ Storage::disk('public')->url($qr->pdf->file) }}" class="w-full h-full"
+                        title="PDF Preview"></iframe> --}}
+                <!-- Actions -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
+                    <a href="{{ asset('storage/files/' . $qr->pdf->file) }}" download
+                        class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg bg-[{{ $qr->pdf->color_d }}] text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
+                            stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download
+                    </a>
+
+                    <a href="{{ Storage::disk('public')->url($qr->pdf->file) }}" target="_blank"
+                        class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg border bg-[{{ $qr->pdf->color_l }}]  border-gray-300 hover:bg-gray-100 text-gray-800 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
+                            stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10 9V3h4v6m2 0h4l-8 8-8-8h4m4 8v4" />
+                        </svg>
+                        View
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
+    <section class="relative py-4">
+
+        {{-- <svg width="150" height="250" viewBox="0 0 150 250" fill="none" xmlns="http://www.w3.org/2000/svg"
+            style="width: 20%; height: auto;">
+            <path d="M0 0H375V506C375 506 293.5 461 187.5 506C81.5 551 0 506 0 506V0Z" class="duration-500"
+                fill="var(--bg-color)"></path>
+        </svg> --}}
+
     </section>
 
 @endif
