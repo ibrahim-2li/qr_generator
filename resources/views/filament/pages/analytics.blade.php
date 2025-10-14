@@ -1,5 +1,6 @@
 <x-filament-panels::page>
     @livewire(\App\Filament\Widgets\ScanTrendsChart::class)
+    @livewire(\App\Filament\Widgets\ScanTrendsLineChart::class)
     @livewire(\App\Filament\Widgets\QrCodeStatsWidget::class)
 
     @livewire(\App\Filament\Widgets\ScansByCountryChart::class)

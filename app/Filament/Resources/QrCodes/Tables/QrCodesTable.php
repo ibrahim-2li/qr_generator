@@ -50,7 +50,7 @@ class QrCodesTable
                 TextColumn::make('content.name')
                     ->label('Name')
                     ->searchable()
-                    ->placeholder('No content'),
+                    ->placeholder('PDF'),
                 IconColumn::make('is_dynamic')
                     ->label('Dynamic')
                     ->boolean(),

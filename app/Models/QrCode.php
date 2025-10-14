@@ -14,6 +14,14 @@ class QrCode extends Model
     use HasFactory;
     protected $fillable = ['user_id','type','data','is_dynamic','slug','scan_count'];
 
+    const TYPE_VCARD = 'vcard';
+    const TYPE_PDF = 'pdf';
+
+    const TYPE = [
+        self::TYPE_VCARD => 'vcard',
+        self::TYPE_PDF   => 'pdf',
+    ];
+
     public function getRouteKeyName()
     {
         return 'slug';
@@ -32,6 +40,11 @@ class QrCode extends Model
     public function content()
     {
         return $this->hasOne(QrContent::class);
+    }
+
+    public function pdf()
+    {
+        return $this->hasOne(QrPdf::class);
     }
 
     /**

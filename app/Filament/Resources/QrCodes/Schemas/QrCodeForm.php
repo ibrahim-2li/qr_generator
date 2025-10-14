@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\QrCodes\Schemas;
 
+use App\Models\QrCode;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -14,62 +16,77 @@ class QrCodeForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->components([
-                Section::make('QR Code Information')
-                    ->schema([
-                        TextInput::make('type')
-                            ->required(),
+        ->components([
 
-                        Toggle::make('is_dynamic')
-                            ->required(),
-                    ]),
+            Section::make('QR Code Information')
+                ->schema([
+                    Select::make('type')
+                        ->options(QrCode::TYPE)
+                        ->required()
+                        ->reactive()
+                        ->disabled(fn (string $context) => $context === 'edit'), // 👈 IMPORTANT: enables live change detection
 
-                Section::make('QR Content')
-                    ->relationship('content')
-                    ->schema([
-                        ColorPicker::make('color_l')
-                            ->default('#232421'),
+                    Toggle::make('is_dynamic')
+                        ->required(),
+                ]),
 
-                        ColorPicker::make('color_d')
-                            ->default('#f78e31'),
+            // ===== PDF SECTION =====
+            Section::make('QR Pdf')
+                ->relationship('pdf')
+                ->visible(fn (callable $get) => $get('type') === 'pdf') // 👈 only show if type = pdf
+                ->schema([
+                    ColorPicker::make('color_l')
+                        ->default('#232421'),
 
-                        FileUpload::make('profile_photo_path')
-                            ->image()
-                            ->disk('public')
-                            ->directory('profile-photos')
-                            ->visibility('public')
-                            ->acceptedFileTypes(['image/*'])
-                            ->maxSize(2048),
+                    ColorPicker::make('color_d')
+                        ->default('#f78e31'),
 
-                        TextInput::make('name')
-                            ->required(),
+                    TextInput::make('name')
+                        ->required(),
 
-                        TextInput::make('phone')
-                            ->tel(),
+                    TextInput::make('description')
+                        ->required(),
 
-                        TextInput::make('email')
-                            ->email(),
+                    FileUpload::make('file')
+                        ->acceptedFileTypes(['application/pdf'])
+                        ->disk('public')
+                        ->directory('files')
+                        ->visibility('public')
+                        ->maxSize(8048)
+                        ->required(),
+                ]),
 
-                        TextInput::make('company'),
+            // ===== vCARD SECTION =====
+            Section::make('QR Content (vCard)')
+                ->relationship('content')
+                ->visible(fn (callable $get) => $get('type') === 'vcard') // 👈 only show if type = vcard
+                ->schema([
+                    ColorPicker::make('color_l')
+                        ->default('#232421'),
 
-                        TextInput::make('linkedin')
-                            ->url(),
+                    ColorPicker::make('color_d')
+                        ->default('#f78e31'),
 
-                        TextInput::make('x')
-                            ->url(),
+                    FileUpload::make('profile_photo_path')
+                        ->image()
+                        ->disk('public')
+                        ->directory('profile-photos')
+                        ->visibility('public')
+                        ->maxSize(2048),
 
-                        TextInput::make('snap')
-                            ->string(),
-
-                        TextInput::make('facebook')
-                            ->url(),
-
-                        TextInput::make('instagram')
-                            ->url(),
-
-                        TextInput::make('youtube')
-                            ->url(),
-                    ]),
-            ]);
+                    TextInput::make('name')->required(),
+                    TextInput::make('phone')->tel()
+                    ->required(),
+                    TextInput::make('email')->email()
+                    ->required(),
+                    TextInput::make('company'),
+                    TextInput::make('linkedin')->url(),
+                    TextInput::make('x')->url(),
+                    TextInput::make('snap')->string(),
+                    TextInput::make('facebook')->url(),
+                    TextInput::make('instagram')->url(),
+                    TextInput::make('youtube')->url(),
+                ]),
+        ]);
     }
 }

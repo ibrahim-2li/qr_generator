@@ -23,6 +23,8 @@ class PartnerResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Partners';
 
+    protected static ?int $navigationSort = 9;
+
     public static function canAccess(): bool
     {
         return Auth::check() && Auth::user()->isAdmin() || Auth::user()->isSuperAdmin();

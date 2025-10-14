@@ -25,6 +25,7 @@ class Analytics extends Page
             \App\Filament\Widgets\ScansByDeviceChart::class,
             \App\Filament\Widgets\ScansByOsChart::class,
             \App\Filament\Widgets\ScanTrendsChart::class,
+            \App\Filament\Widgets\ScanTrendsLineChart::class,
         ];
     }
 }

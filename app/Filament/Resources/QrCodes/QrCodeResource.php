@@ -67,6 +67,7 @@ class QrCodeResource extends Resource
         return $query->whereRaw('1 = 0');
     }
 
+
     public static function infolist(Schema $schema): Schema
     {
         return $schema

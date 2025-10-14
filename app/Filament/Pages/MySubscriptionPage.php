@@ -11,6 +11,9 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +40,7 @@ class MySubscriptionPage extends Page implements HasTable
             ->latest()
             ->first();
     }
+
 
     public function table(Table $table): Table
     {
@@ -76,6 +80,46 @@ class MySubscriptionPage extends Page implements HasTable
             ])
             ->defaultSort('created_at', 'desc')
             ->paginated(false);
+    }
+
+    protected function getInfolist(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('Subscription Details')
+                    ->icon('heroicon-o-rectangle-stack')
+                    ->schema([
+                        TextEntry::make('plan.name')
+                            ->label('Plan Name')
+                            ->icon('heroicon-o-cube')
+                            ->color('primary'),
+
+                        TextEntry::make('plan.price')
+                            ->label('Monthly Price')
+                            ->formatStateUsing(fn ($state) => number_format($state / 100, 2) . ' SAR')
+                            ->icon('heroicon-o-banknotes')
+                            ->color('success'),
+
+                        TextEntry::make('starts_at')
+                            ->label('Start Date')
+                            ->date('M d, Y')
+                            ->icon('heroicon-o-calendar')
+                            ->color('info'),
+
+                        TextEntry::make('ends_at')
+                            ->label('End Date')
+                            ->date('M d, Y')
+                            ->icon('heroicon-o-clock')
+                            ->color('warning'),
+
+                        TextEntry::make('status')
+                            ->label('Auto Renewal')
+                            ->formatStateUsing(fn ($state) => $state === 'active' ? 'Enabled' : 'Disabled')
+                            ->icon('heroicon-o-arrow-path')
+                            ->color(fn ($state) => $state === 'active' ? 'success' : 'gray'),
+                    ])
+                    ->columns(3),
+            ]);
     }
 
     protected function getPaymentsQuery(): Builder
@@ -142,5 +186,10 @@ class MySubscriptionPage extends Page implements HasTable
             $this->subscription->update(['status' => 'canceled']);
             $this->dispatch('subscription-canceled');
         }
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [];
     }
 }

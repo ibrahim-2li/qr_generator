@@ -3,155 +3,127 @@
         @if ($this->subscription)
             {{-- Subscription Details Table --}}
             <x-filament::section heading="Subscription Details" icon="heroicon-o-rectangle-stack" class="overflow-hidden">
-                <div
-                    class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <x-filament::card>
-                        <table class=" lg:w-full md:table">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
-                                <tr>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <x-filament::card class="p-0 overflow-hidden">
+                    <table class="w-full text-sm text-center">
+
+                        <thead
+                            class="flex justify-between px-8 py-8 bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-gray-700">
+                            <tr>
+                                <th class="px-6 py-3 font-bold  text-blue-600 dark:text-blue-600 uppercase">
+                                    <x-filament::card class="font-bold  text-blue-600 dark:text-blue-600 uppercase">
                                         Details
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    </x-filament::card>
+                                </th>
+                                <th class="px-6 py-3 font-bold text-gray-600 dark:text-gray-300 uppercase">
+                                    <x-filament::card class="font-bold  text-blue-600 dark:text-blue-600 uppercase">
                                         Information
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    </x-filament::card>
+
+                                </th>
+                                <th class="px-6 py-3 font-bold text-gray-600 dark:text-gray-300 uppercase">
+                                    <x-filament::card class="font-bold  text-blue-600 dark:text-blue-600 uppercase">
                                         Status
-                                    </th>
-                                </tr>
-                            </thead>
+                                    </x-filament::card>
+                                </th>
+                            </tr>
+                        </thead>
 
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <style>
+                                td::before {
+                                    content: ' ';
+                                    margin-right: 1.5rem;
+                                }
+                            </style>
+                            {{-- Plan Name --}}
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors ">
+                                <td class="font-semibold text-gray-900 dark:text-white">
+                                    <span>
+                                        Plan Name
+                                    </span>
 
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-900 dark:text-white">Plan
-                                                Name</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-sm font-semibold text-gray-900 dark:text-white">
-                                            {{ $this->subscription->plan->name }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <x-filament::badge
-                                            color="{{ match ($this->subscription->status) {
-                                                'active' => 'success',
-                                                'pending' => 'warning',
-                                                'canceled' => 'danger',
-                                                default => 'gray',
-                                            } }}">
-                                            {{ ucfirst($this->subscription->status) }}
-                                        </x-filament::badge>
-                                    </td>
-                                </tr>
+                                </td>
+                                <td class=" font-semibold text-gray-900 dark:text-white">
+                                    {{ $this->subscription->plan->name }}
+                                </td>
+                                <td class="px-6 py-4 ">
+                                    <x-filament::badge
+                                        color="{{ match ($this->subscription->status) {
+                                            'active' => 'success',
+                                            'pending' => 'warning',
+                                            'canceled' => 'danger',
+                                            default => 'gray',
+                                        } }}">
+                                        {{ ucfirst($this->subscription->status) }}
+                                    </x-filament::badge>
+                                </td>
+                            </tr>
 
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                            {{-- Monthly Price --}}
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                                <td class="px-6 py-4">
 
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-900 dark:text-white">Monthly
-                                                Price</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-1">
-                                            <span class="text-sm font-semibold text-gray-900 dark:text-white">
-                                                {{ number_format($this->subscription->plan->price / 100, 2) }}
-                                            </span>
-                                            {{-- <img src="{{ asset('images/Saudi_Riyal_Symbol-1.png') }}" width="16"
-                                                height="16" alt="SAR" class="opacity-80"> --}}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">Monthly Billing</span>
-                                    </td>
-                                </tr>
+                                    <span>
+                                        Monthly Price
+                                    </span>
 
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                                </td>
+                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                    {{ number_format($this->subscription->plan->price / 100, 2) }} SAR
+                                </td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400"> Monthly Billing</td>
+                            </tr>
 
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-900 dark:text-white">Start
-                                                Date</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-sm font-semibold text-gray-900 dark:text-white">
-                                            {{ $this->subscription->starts_at?->format('M d, Y') ?? 'N/A' }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $this->subscription->starts_at?->diffForHumans() ?? 'N/A' }}
-                                        </span>
-                                    </td>
-                                </tr>
+                            {{-- Start Date --}}
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <span>
+                                        Start Date
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                    {{ $this->subscription->starts_at?->format('M d, Y') ?? 'N/A' }}
+                                </td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">
+                                    {{ $this->subscription->starts_at?->diffForHumans() ?? 'N/A' }}
+                                </td>
+                            </tr>
 
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                            {{-- End Date --}}
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <span>
+                                        End Date
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                    {{ $this->subscription->ends_at?->format('M d, Y') ?? 'N/A' }}
+                                </td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">
+                                    {{ $this->subscription->ends_at?->diffForHumans() ?? 'N/A' }}
+                                </td>
+                            </tr>
 
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-900 dark:text-white">End
-                                                Date</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-sm font-semibold text-gray-900 dark:text-white">
-                                            {{ $this->subscription->ends_at?->format('M d, Y') ?? 'N/A' }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $this->subscription->ends_at?->diffForHumans() ?? 'N/A' }}
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center gap-3">
-                                            <div
-                                                class="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
-
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-900 dark:text-white">Auto
-                                                Renewal</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <x-filament::badge
-                                            color="{{ $this->subscription->status === 'active' ? 'success' : 'gray' }}">
-                                            {{ $this->subscription->status === 'active' ? 'Enabled' : 'Disabled' }}
-                                        </x-filament::badge>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $this->subscription->status === 'active' ? 'Will auto-renew' : 'Manual renewal required' }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </x-filament::card>
-                </div>
+                            {{-- Auto Renewal --}}
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <span>
+                                        Auto Renewal
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <x-filament::badge
+                                        color="{{ $this->subscription->status === 'active' ? 'success' : 'gray' }}">
+                                        {{ $this->subscription->status === 'active' ? 'Enabled' : 'Disabled' }}
+                                    </x-filament::badge>
+                                </td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">
+                                    {{ $this->subscription->status === 'active' ? 'Will auto-renew' : 'Manual renewal required' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </x-filament::card>
             </x-filament::section>
 
             {{-- Action Cards --}}
