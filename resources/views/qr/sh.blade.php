@@ -34,7 +34,7 @@
 
     <body class="bg-gray-50">
         <!-- Background Gradient -->
-        <div class="gradient-bg relative h-64 sm:h-80 overflow-hidden">
+        <div class="gradient-bg relative h-44 sm:h-80 overflow-hidden">
             <!-- Decorative SVG for desktop -->
             <svg class="hidden sm:block absolute inset-0 w-full h-full" viewBox="0 0 2080 340" fill="none"
                 preserveAspectRatio="none">
@@ -218,9 +218,84 @@
                                     <div class="flex items-center min-w-0 flex-1">
                                         <div
                                             class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.418-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.928.875 1.418 2.026 1.418 3.323s-.49 2.448-1.418 3.244c-.875.807-2.026 1.297-3.323 1.297zm7.83-9.281c-.49 0-.928-.175-1.297-.49-.368-.315-.49-.753-.49-1.243 0-.49.122-.928.49-1.243.369-.315.807-.49 1.297-.49s.928.175 1.297.49c.368.315.49.753.49 1.243 0 .49-.122.928-.49 1.243-.369.315-.807.49-1.297.49z" />
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 128 128"
+                                                id="instagram">
+                                                <defs>
+                                                    <clipPath id="b">
+                                                        <circle cx="64" cy="64" r="64" fill="none">
+                                                        </circle>
+                                                    </clipPath>
+                                                    <clipPath id="c">
+                                                        <path fill="none"
+                                                            d="M104-163H24a24.07 24.07 0 0 0-24 24v80a24.07 24.07 0 0 0 24 24h80a24.07 24.07 0 0 0 24-24v-80a24.07 24.07 0 0 0-24-24Zm16 104a16 16 0 0 1-16 16H24A16 16 0 0 1 8-59v-80a16 16 0 0 1 16-16h80a16 16 0 0 1 16 16Z">
+                                                        </path>
+                                                    </clipPath>
+                                                    <clipPath id="e">
+                                                        <circle cx="82" cy="209" r="5" fill="none">
+                                                        </circle>
+                                                    </clipPath>
+                                                    <clipPath id="g">
+                                                        <path fill="none"
+                                                            d="M64-115a16 16 0 0 0-16 16 16 16 0 0 0 16 16 16 16 0 0 0 16-16 16 16 0 0 0-16-16Zm0 24a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8Z">
+                                                        </path>
+                                                    </clipPath>
+                                                    <clipPath id="h">
+                                                        <path fill="none"
+                                                            d="M84-63H44a16 16 0 0 1-16-16v-40a16 16 0 0 1 16-16h40a16 16 0 0 1 16 16v40a16 16 0 0 1-16 16Zm-40-64a8 8 0 0 0-8 8v40a8 8 0 0 0 8 8h40a8 8 0 0 0 8-8v-40a8 8 0 0 0-8-8Z">
+                                                        </path>
+                                                    </clipPath>
+                                                    <clipPath id="i">
+                                                        <circle cx="82" cy="-117" r="5" fill="none">
+                                                        </circle>
+                                                    </clipPath>
+                                                    <radialGradient id="a" cx="27.5" cy="121.5"
+                                                        r="137.5" gradientUnits="userSpaceOnUse">
+                                                        <stop offset="0" stop-color="#ffd676"></stop>
+                                                        <stop offset=".25" stop-color="#f2a454"></stop>
+                                                        <stop offset=".38" stop-color="#f05c3c"></stop>
+                                                        <stop offset=".7" stop-color="#c22f86"></stop>
+                                                        <stop offset=".96" stop-color="#6666ad"></stop>
+                                                        <stop offset=".99" stop-color="#5c6cb2"></stop>
+                                                    </radialGradient>
+                                                    <radialGradient xlink:href="#a" id="d" cx="27.5"
+                                                        cy="-41.5" r="148.5"></radialGradient>
+                                                    <radialGradient xlink:href="#a" id="f" cx="13.87"
+                                                        cy="303.38" r="185.63"></radialGradient>
+                                                    <radialGradient xlink:href="#a" id="j" cx="13.87"
+                                                        cy="-22.62" r="185.63"></radialGradient>
+                                                </defs>
+                                                <g clip-path="url(#b)">
+                                                    <circle cx="27.5" cy="121.5" r="137.5" fill="url(#a)">
+                                                    </circle>
+                                                </g>
+                                                <g clip-path="url(#c)">
+                                                    <circle cx="27.5" cy="-41.5" r="148.5" fill="url(#d)">
+                                                    </circle>
+                                                </g>
+                                                <g clip-path="url(#e)">
+                                                    <circle cx="13.87" cy="303.38" r="185.63" fill="url(#f)">
+                                                    </circle>
+                                                </g>
+                                                <g clip-path="url(#g)">
+                                                    <circle cx="27.5" cy="-41.5" r="148.5" fill="url(#d)">
+                                                    </circle>
+                                                </g>
+                                                <g clip-path="url(#h)">
+                                                    <circle cx="27.5" cy="-41.5" r="148.5" fill="url(#d)">
+                                                    </circle>
+                                                </g>
+                                                <g clip-path="url(#i)">
+                                                    <circle cx="13.87" cy="-22.62" r="185.63" fill="url(#j)">
+                                                    </circle>
+                                                </g>
+                                                <circle cx="82" cy="46" r="5" fill="#fff"></circle>
+                                                <path fill="#fff"
+                                                    d="M64 48a16 16 0 1 0 16 16 16 16 0 0 0-16-16Zm0 24a8 8 0 1 1 8-8 8 8 0 0 1-8 8Z">
+                                                </path>
+                                                <rect width="64" height="64" x="32" y="32" fill="none"
+                                                    stroke="#fff" stroke-miterlimit="10" stroke-width="8"
+                                                    rx="12" ry="12"></rect>
                                             </svg>
                                         </div>
                                         <span class="font-medium text-gray-900 truncate">Instagram</span>

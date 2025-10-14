@@ -148,12 +148,6 @@ class QrCodeResource extends Resource
                                     ->label('Color D'),
 
                                 ImageEntry::make('profile_photo')
-                                ->imageEditor()
-                                ->imageEditorAspectRatios([
-                                    '16:9',
-                                    '4:3',
-                                    '1:1',
-                                ])
                                     ->label('Profile Photo')
                                     ->getStateUsing(function ($record) {
                                         if (! $record->content) {
