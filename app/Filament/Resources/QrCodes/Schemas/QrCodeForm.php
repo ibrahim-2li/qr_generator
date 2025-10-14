@@ -68,6 +68,12 @@ class QrCodeForm
                         ->default('#f78e31'),
 
                     FileUpload::make('profile_photo_path')
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                                    '16:9',
+                                    '4:3',
+                                    '1:1',
+                                ])
                         ->image()
                         ->disk('public')
                         ->directory('profile-photos')
@@ -75,6 +81,7 @@ class QrCodeForm
                         ->maxSize(2048),
 
                     TextInput::make('name')->required(),
+                    TextInput::make('title'),
                     TextInput::make('phone')->tel()
                     ->required(),
                     TextInput::make('email')->email()

@@ -58,11 +58,15 @@
                 <!-- Avatar -->
                 <div class="mb-4 sm:mb-6">
                     <img src="{{ $qr->content->profile_photo_url }}" alt="{{ $qr->content->name }}"
-                        class="w-28 h-28 sm:w-24 sm:h-24 rounded-full mx-auto border-4 border-white shadow-lg object-cover">
+                        class="w-28 h-28 sm:w-28 sm:h-28 rounded-full mx-auto border-4 border-white shadow-lg object-cover">
                 </div>
 
                 <!-- Name -->
-                <h1 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 px-2">{{ $qr->content->name }}</h1>
+                <div class="mb-4 sm:mb-6  px-2">
+                    <h1 class="text-xl sm:text-2xl font-bold text-gray-900 ">{{ $qr->content->name }}</h1>
+                    <h3 class="text-base sm:text-base  text-gray-500  ">{{ $qr->content->title }}
+                    </h3>
+                </div>
 
                 <!-- Contact Info -->
                 <div class="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
