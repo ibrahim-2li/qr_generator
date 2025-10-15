@@ -36,10 +36,10 @@ class QrCodeForm
                 ->visible(fn (callable $get) => $get('type') === 'pdf') // 👈 only show if type = pdf
                 ->schema([
                     ColorPicker::make('color_l')
-                        ->default('#232421'),
+                        ->default('#f78e31'),
 
                     ColorPicker::make('color_d')
-                        ->default('#f78e31'),
+                        ->default('#527ac9'),
 
                     TextInput::make('name')
                         ->required(),

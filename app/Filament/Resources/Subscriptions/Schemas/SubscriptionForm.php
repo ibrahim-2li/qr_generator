@@ -2,9 +2,13 @@
 
 namespace App\Filament\Resources\Subscriptions\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\TextInput;
+use App\Models\Plan;
+use App\Models\User;
+use App\Models\Subscription;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DateTimePicker;
 
 class SubscriptionForm
 {
@@ -12,13 +16,20 @@ class SubscriptionForm
     {
         return $schema
             ->components([
-                TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('plan_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('status')
+                Select::make('user_id')
+                ->label('User')
+                ->options(function () {
+                    return User::all()->pluck('name', 'id');
+                })
+                ->required(),
+                Select::make('plan_id')
+                ->label('Plan')
+                ->options(function () {
+                    return Plan::all()->pluck('name', 'id');
+                })
+                ->required(),
+                Select::make('status')
+                    ->options(Subscription::STATUS)
                     ->required()
                     ->default('pending'),
                 DateTimePicker::make('starts_at'),

@@ -17,13 +17,13 @@ class PlanSeeder extends Seeder
                 'name' => 'Gold Plan',
                 'description' => 'Gold Plan',
                 'price' => '100000',
-                'interval' => 'month',
+                'interval' => 'year',
             ]);
             Plan::create([
                 'name' => 'Silver Plan',
                 'description' => 'Silver Plan',
                 'price' => '50000',
-                'interval' => 'month',
+                'interval' => 'year',
             ]);
     }
 }

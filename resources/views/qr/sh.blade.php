@@ -439,10 +439,21 @@
 
                     <a href="{{ Storage::disk('public')->url($qr->pdf->file) }}" target="_blank"
                         class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium rounded-lg border bg-[{{ $qr->pdf->color_l }}]  border-gray-300 hover:bg-gray-100 text-gray-800 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" stroke="currentColor"
-                            stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M10 9V3h4v6m2 0h4l-8 8-8-8h4m4 8v4" />
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M9.9994 8.03442C8.89107 8.03442 7.99023 8.93609 7.99023 10.0444C7.99023 11.1519 8.89107 12.0528 9.9994 12.0528C11.1077 12.0528 12.0094 11.1519 12.0094 10.0444C12.0094 8.93609 11.1077 8.03442 9.9994 8.03442M9.9994 13.3028C8.2019 13.3028 6.74023 11.8411 6.74023 10.0444C6.74023 8.24692 8.2019 6.78442 9.9994 6.78442C11.7969 6.78442 13.2594 8.24692 13.2594 10.0444C13.2594 11.8411 11.7969 13.3028 9.9994 13.3028"
+                                fill="black" class="duration-500"></path>
+                            <mask id="mask0_953_2295" maskUnits="userSpaceOnUse" x="1" y="3" width="18"
+                                height="14">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M1.66699 3.3335H18.3335V16.7543H1.66699V3.3335Z" fill="white"></path>
+                            </mask>
+                            <g mask="url(#mask0_953_2295)">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M2.97512 10.0436C4.52512 13.4678 7.13595 15.5036 10.0001 15.5045C12.8643 15.5036 15.4751 13.4678 17.0251 10.0436C15.4751 6.6203 12.8643 4.58447 10.0001 4.58363C7.13678 4.58447 4.52512 6.6203 2.97512 10.0436V10.0436ZM10.0018 16.7545H9.99845H9.99762C6.55095 16.752 3.45595 14.3361 1.71762 10.2903C1.65012 10.1328 1.65012 9.95447 1.71762 9.79697C3.45595 5.75197 6.55178 3.33613 9.99762 3.33363C9.99928 3.3328 9.99928 3.3328 10.0001 3.33363C10.0018 3.3328 10.0018 3.3328 10.0026 3.33363C13.4493 3.33613 16.5443 5.75197 18.2826 9.79697C18.3509 9.95447 18.3509 10.1328 18.2826 10.2903C16.5451 14.3361 13.4493 16.752 10.0026 16.7545H10.0018Z"
+                                    fill="black" class="duration-500"></path>
+                            </g>
                         </svg>
                         View
                     </a>

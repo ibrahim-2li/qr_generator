@@ -9,11 +9,11 @@
                         <thead
                             class="flex justify-between px-8 py-8 bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-gray-700">
                             <tr>
-                                <th class="px-6 py-3 font-bold  text-blue-600 dark:text-blue-600 uppercase">
+                                {{-- <th class="px-6 py-3 font-bold  text-blue-600 dark:text-blue-600 uppercase">
                                     <x-filament::card class="font-bold  text-blue-600 dark:text-blue-600 uppercase">
                                         Details
                                     </x-filament::card>
-                                </th>
+                                </th> --}}
                                 <th class="px-6 py-3 font-bold text-gray-600 dark:text-gray-300 uppercase">
                                     <x-filament::card class="font-bold  text-blue-600 dark:text-blue-600 uppercase">
                                         Information
@@ -37,12 +37,12 @@
                             </style>
                             {{-- Plan Name --}}
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors ">
-                                <td class="font-semibold text-gray-900 dark:text-white">
+                                {{-- <td class="font-semibold text-gray-900 dark:text-white">
                                     <span>
                                         Plan Name
                                     </span>
 
-                                </td>
+                                </td> --}}
                                 <td class=" font-semibold text-gray-900 dark:text-white">
                                     {{ $this->subscription->plan->name }}
                                 </td>
@@ -61,13 +61,13 @@
 
                             {{-- Monthly Price --}}
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                                <td class="px-6 py-4">
+                                {{-- <td class="px-6 py-4">
 
                                     <span>
                                         Monthly Price
                                     </span>
 
-                                </td>
+                                </td> --}}
                                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                     {{ number_format($this->subscription->plan->price / 100, 2) }} SAR
                                 </td>
@@ -76,11 +76,11 @@
 
                             {{-- Start Date --}}
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                                <td class="px-6 py-4">
+                                {{-- <td class="px-6 py-4">
                                     <span>
                                         Start Date
                                     </span>
-                                </td>
+                                </td> --}}
                                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                     {{ $this->subscription->starts_at?->format('M d, Y') ?? 'N/A' }}
                                 </td>
@@ -91,11 +91,11 @@
 
                             {{-- End Date --}}
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                                <td class="px-6 py-4">
+                                {{-- <td class="px-6 py-4">
                                     <span>
                                         End Date
                                     </span>
-                                </td>
+                                </td> --}}
                                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                     {{ $this->subscription->ends_at?->format('M d, Y') ?? 'N/A' }}
                                 </td>
@@ -106,11 +106,11 @@
 
                             {{-- Auto Renewal --}}
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                                <td class="px-6 py-4">
+                                {{-- <td class="px-6 py-4">
                                     <span>
                                         Auto Renewal
                                     </span>
-                                </td>
+                                </td> --}}
                                 <td class="px-6 py-4">
                                     <x-filament::badge
                                         color="{{ $this->subscription->status === 'active' ? 'success' : 'gray' }}">

@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Ibrahim Alhag',
             'email' => 'ibrahim.2li@hotmail.com',
             'password' => Hash::make('P@$$w0rd'),
-            'role' => User::ROLE_ADMIN,
+            'role' => User::ROLE_SUPER_ADMIN,
             'email_verified_at' => now(),
         ]);
     }
