@@ -2,33 +2,33 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Panel;
-use Filament\PanelProvider;
-use Filament\Pages\Dashboard;
 use App\Filament\Pages\Analytics;
-use Filament\Navigation\MenuItem;
-use Filament\Support\Colors\Color;
-use Filament\Auth\Pages\EditProfile;
-use Illuminate\Support\Facades\Auth;
-use App\Filament\Pages\SubscribePage;
-use Filament\Navigation\NavigationGroup;
 use App\Filament\Pages\MySubscriptionPage;
-use Filament\Http\Middleware\Authenticate;
-use Filament\Navigation\NavigationBuilder;
-use App\Filament\Resources\Plans\PlanResource;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Filament\Http\Middleware\AuthenticateSession;
+use App\Filament\Pages\SubscribePage;
 use App\Filament\Resources\Payments\PaymentResource;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Resources\Plans\PlanResource;
+use App\Filament\Resources\Subscriptions\SubscriptionResource;
+use Filament\Auth\Pages\EditProfile;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationBuilder;
+use Filament\Navigation\NavigationGroup;
+use Filament\Pages\Dashboard;
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
-use App\Filament\Resources\Subscriptions\SubscriptionResource;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -41,6 +41,7 @@ class DashboardPanelProvider extends PanelProvider
             ->profile(EditProfile::class)
             ->login()
             ->registration()
+            ->passwordReset()
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -92,16 +93,16 @@ class DashboardPanelProvider extends PanelProvider
                     ->url(fn (): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle'),
             ]);
-            // ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
-            //     return $builder->groups([
-            //         NavigationGroup::make('Administrator')
-            //             ->items([
-            //                 ...SubscriptionResource::getNavigationItems(),
-            //                 ...PaymentResource::getNavigationItems(),
-            //                 ...PlanResource::getNavigationItems(),
-            //             ]),
-            //     ]);
-            // });
+        // ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+        //     return $builder->groups([
+        //         NavigationGroup::make('Administrator')
+        //             ->items([
+        //                 ...SubscriptionResource::getNavigationItems(),
+        //                 ...PaymentResource::getNavigationItems(),
+        //                 ...PlanResource::getNavigationItems(),
+        //             ]),
+        //     ]);
+        // });
 
     }
 }
