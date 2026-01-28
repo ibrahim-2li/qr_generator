@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class ScansByCountryChart extends ChartWidget
 {
+    public array $filters = [];
+
     protected ?string $heading = 'Scans by Country';
 
     protected static ?int $sort = 1;
@@ -19,10 +21,14 @@ class ScansByCountryChart extends ChartWidget
     protected function getData(): array
     {
         $user = Auth::user();
+        $qrCodeId = $this->filters['qr_code_id'] ?? null;
+
         $query = Scan::select('country', DB::raw('COUNT(*) as count'))
             ->whereNotNull('country');
 
-        if ($user->isUser()) {
+        if ($qrCodeId) {
+            $query->where('qr_code_id', $qrCodeId);
+        } elseif ($user->isUser()) {
             $userQrCodeIds = QrCode::where('user_id', $user->id)->pluck('id');
             $query->whereIn('qr_code_id', $userQrCodeIds);
         }

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class ScansByDeviceChart extends ChartWidget
 {
+    public array $filters = [];
+
     protected ?string $heading = 'Scans by Device Type';
 
     protected static ?int $sort = 3;
@@ -19,10 +21,14 @@ class ScansByDeviceChart extends ChartWidget
     protected function getData(): array
     {
         $user = Auth::user();
+        $qrCodeId = $this->filters['qr_code_id'] ?? null;
+
         $query = Scan::select('device', DB::raw('COUNT(*) as count'))
             ->whereNotNull('device');
 
-        if ($user->isUser()) {
+        if ($qrCodeId) {
+            $query->where('qr_code_id', $qrCodeId);
+        } elseif ($user->isUser()) {
             $userQrCodeIds = QrCode::where('user_id', $user->id)->pluck('id');
             $query->whereIn('qr_code_id', $userQrCodeIds);
         }

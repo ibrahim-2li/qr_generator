@@ -1,11 +1,5 @@
 <x-filament-panels::page>
-    @livewire(\App\Filament\Widgets\ScanTrendsChart::class)
-    @livewire(\App\Filament\Widgets\ScanTrendsLineChart::class)
-    @livewire(\App\Filament\Widgets\QrCodeStatsWidget::class)
-
-    @livewire(\App\Filament\Widgets\ScansByCountryChart::class)
-    @livewire(\App\Filament\Widgets\ScansByRegionChart::class)
-    @livewire(\App\Filament\Widgets\ScansByDeviceChart::class)
-    @livewire(\App\Filament\Widgets\ScansByOsChart::class)
-
+    @foreach ($this->getWidgets() as $key => $widget)
+        @livewire($widget, ['filters' => $this->filters], key($key . '-' . json_encode($this->filters)))
+    @endforeach
 </x-filament-panels::page>

@@ -73,7 +73,7 @@
                     <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                         QR Codes
                     </span>
-                    <br>That Work
+                    <br>That Show Your Work
                 </h1>
                 <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
                     Generate professional QR codes with advanced analytics, custom branding, and real-time tracking.

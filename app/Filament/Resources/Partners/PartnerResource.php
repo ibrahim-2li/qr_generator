@@ -21,7 +21,7 @@ class PartnerResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Share;
 
-    protected static ?string $recordTitleAttribute = 'Partners';
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?int $navigationSort = 9;
 

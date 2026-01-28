@@ -2,12 +2,19 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\QrCode;
 use BackedEnum;
+use Filament\Forms\Components\Select;
+use Filament\Pages\Dashboard\Actions\FilterAction;
+use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
 
 class Analytics extends Page
 {
+    use HasFiltersAction;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ChartBar;
 
     protected static ?string $navigationLabel = 'Analytics';
@@ -15,6 +22,32 @@ class Analytics extends Page
     protected static ?int $navigationSort = 2;
 
     protected string $view = 'filament.pages.analytics';
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            FilterAction::make()
+                ->schema([
+                    Select::make('qr_code_id')
+                        ->label('QR Code')
+                        ->placeholder('All QR Codes')
+                        ->options(function () {
+                            $user = Auth::user();
+                            $query = QrCode::query();
+
+                            if ($user->isUser()) {
+                                $query->where('user_id', $user->id);
+                            }
+
+                            return $query->get()->mapWithKeys(function ($qrCode) {
+                                return [$qrCode->id => ucfirst($qrCode->type).' - '.$qrCode->slug];
+                            });
+                        })
+                        ->searchable()
+                        ->preload(),
+                ]),
+        ];
+    }
 
     public function getWidgets(): array
     {
