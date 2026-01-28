@@ -7,13 +7,15 @@ use App\Http\Controllers\PaymentFormController;
 use App\Http\Controllers\QrCodeController;
 use App\Models\Faq;
 use App\Models\Partner;
+use App\Models\Plan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $faqs = Faq::all();
     $partners = Partner::all();
+    $plans = Plan::all();
 
-    return view('welcome', ['faqs' => $faqs, 'partners' => $partners]);
+    return view('welcome', ['faqs' => $faqs, 'partners' => $partners, 'plans' => $plans]);
 });
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -30,11 +32,9 @@ Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('p
 
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 
-
 // Redirect after payment (browser redirect)
 Route::get('/payment/redirect', [PaymentController::class, 'redirect'])
     ->name('payment.redirect');
-
 
 // Route::get('/payment/form', [PaymentFormController::class, 'show'])->name('payment.form');
 

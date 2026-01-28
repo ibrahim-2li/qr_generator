@@ -36,6 +36,13 @@
                     Generator</span>
             </div>
 
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Features</a>
+                <a href="#pricing" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Pricing</a>
+                <a href="#contact" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Contact</a>
+            </div>
+
             <div class="flex items-center space-x-4">
                 @auth
                     <a href="{{ url('/dashboard') }}"
@@ -180,7 +187,8 @@
                 <!-- Feature 2 -->
                 <div class="bg-gray-50 p-8 rounded-2xl">
                     <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
@@ -243,6 +251,94 @@
                     <h3 class="text-xl font-semibold text-gray-900 mb-3">Real-time Tracking</h3>
                     <p class="text-gray-600">Monitor scan activity and performance in real-time</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <div id="pricing" class="py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Simple, Transparent Pricing
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Choose the plan that's right for you and start creating professional QR codes today
+                </p>
+            </div>
+
+            <div
+                class="grid md:grid-cols-2 lg:grid-cols-{{ count($plans) > 2 ? '3' : count($plans) }} gap-8 max-w-5xl mx-auto">
+                @foreach ($plans as $index => $plan)
+                    <div
+                        class="relative bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 {{ $index === 0 ? 'ring-2 ring-blue-600' : '' }}">
+                        @if ($index === 0)
+                            <div
+                                class="absolute top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-2 text-sm font-semibold">
+                                Most Popular
+                            </div>
+                        @endif
+
+                        <div class="p-8 {{ $index === 0 ? 'pt-14' : '' }}">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $plan->name }}</h3>
+                            <p class="text-gray-600 mb-6">{{ $plan->description }}</p>
+
+                            <div class="mb-6">
+                                <span
+                                    class="text-4xl font-bold text-gray-900">{{ number_format($plan->price / 100, 2) }}</span>
+                                <span class="text-gray-600 ml-1">SAR</span>
+                                <span class="text-gray-500 text-sm">/ {{ $plan->interval }}</span>
+                            </div>
+
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center text-gray-600">
+                                    <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Unlimited QR Codes
+                                </li>
+                                <li class="flex items-center text-gray-600">
+                                    <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Advanced Analytics
+                                </li>
+                                <li class="flex items-center text-gray-600">
+                                    <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Custom Branding
+                                </li>
+                                <li class="flex items-center text-gray-600">
+                                    <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Priority Support
+                                </li>
+                            </ul>
+
+                            @auth
+                                <a href="{{ route('payment.pay', ['plan_id' => $plan->id]) }}"
+                                    class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 0 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
+                                    Subscribe Now
+                                </a>
+                            @else
+                                <a href="/dashboard/register"
+                                    class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 0 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
+                                    Get Started
+                                </a>
+                            @endauth
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
