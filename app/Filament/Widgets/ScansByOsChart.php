@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class ScansByOsChart extends ChartWidget
 {
-    public array $filters = [];
+    public ?array $filters = [];
 
     protected ?string $heading = 'Scans by Operating System';
 
@@ -21,7 +21,7 @@ class ScansByOsChart extends ChartWidget
     protected function getData(): array
     {
         $user = Auth::user();
-        $qrCodeId = $this->filters['qr_code_id'] ?? null;
+        $qrCodeId = ($this->filters ?? [])['qr_code_id'] ?? null;
 
         $query = Scan::select('os', DB::raw('COUNT(*) as count'))
             ->whereNotNull('os');

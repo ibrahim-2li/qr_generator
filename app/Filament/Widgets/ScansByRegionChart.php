@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class ScansByRegionChart extends ChartWidget
 {
-    public array $filters = [];
+    public ?array $filters = [];
 
     protected ?string $heading = 'Scans by Region/City';
 
@@ -21,7 +21,7 @@ class ScansByRegionChart extends ChartWidget
     protected function getData(): array
     {
         $user = Auth::user();
-        $qrCodeId = $this->filters['qr_code_id'] ?? null;
+        $qrCodeId = ($this->filters ?? [])['qr_code_id'] ?? null;
 
         $query = Scan::select('region', DB::raw('COUNT(*) as count'))
             ->whereNotNull('region');

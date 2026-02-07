@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class QrCodeStatsWidget extends BaseWidget
 {
-    public array $filters = [];
+    public ?array $filters = [];
 
     protected function getStats(): array
     {
         $user = Auth::user();
-        $qrCodeId = $this->filters['qr_code_id'] ?? null;
+        $qrCodeId = ($this->filters ?? [])['qr_code_id'] ?? null;
 
         if ($qrCodeId) {
             // Filter by specific QR code

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class ScanTrendsChart extends ChartWidget
 {
-    public array $filters = [];
+    public ?array $filters = [];
 
     protected ?string $heading = 'Scan Trends (Last 30 Days)';
 
@@ -19,7 +19,7 @@ class ScanTrendsChart extends ChartWidget
     protected function getData(): array
     {
         $user = Auth::user();
-        $qrCodeId = $this->filters['qr_code_id'] ?? null;
+        $qrCodeId = ($this->filters ?? [])['qr_code_id'] ?? null;
 
         $query = Scan::select(
             DB::raw('DATE(created_at) as date'),

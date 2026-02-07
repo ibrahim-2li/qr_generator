@@ -55,7 +55,7 @@ class QrCodeResource extends Resource
             return $query;
         }
 
-        if($user && $user->isSuperAdmin()){
+        if ($user && $user->isSuperAdmin()) {
             return $query;
         }
         // If user is regular user, show only their QR codes
@@ -67,7 +67,6 @@ class QrCodeResource extends Resource
         return $query->whereRaw('1 = 0');
     }
 
-
     public static function infolist(Schema $schema): Schema
     {
         return $schema
@@ -76,9 +75,6 @@ class QrCodeResource extends Resource
                     ->schema([
                         Grid::make(2)
                             ->schema([
-                                TextEntry::make('id')
-                                    ->label('ID'),
-
                                 TextEntry::make('type')
                                     ->label('Type'),
 
@@ -166,7 +162,7 @@ class QrCodeResource extends Resource
                                     ->size('lg')
                                     ->weight('bold'),
 
-                                    TextEntry::make('content.title')
+                                TextEntry::make('content.title')
                                     ->label('Title')
                                     ->size('lg')
                                     ->weight('bold'),
@@ -194,7 +190,7 @@ class QrCodeResource extends Resource
                                     ->url(fn ($record) => $record->content?->x)
                                     ->icon(Heroicon::Link),
 
-                                     TextEntry::make('content.snap')
+                                TextEntry::make('content.snap')
                                     ->label('Snapchat')
                                     ->url(fn ($record) => $record->content?->snap)
                                     ->icon(Heroicon::Link),

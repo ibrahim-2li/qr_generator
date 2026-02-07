@@ -19,10 +19,6 @@ class QrCodesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->numeric()
-                    ->sortable(),
                 ImageColumn::make('qr_code')
                     ->label('QR Code')
                     ->getStateUsing(function ($record) {
@@ -74,7 +70,7 @@ class QrCodesTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]) ->defaultSort('created_at', 'desc')
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

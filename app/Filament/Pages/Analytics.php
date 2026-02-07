@@ -40,7 +40,9 @@ class Analytics extends Page
                             }
 
                             return $query->get()->mapWithKeys(function ($qrCode) {
-                                return [$qrCode->id => ucfirst($qrCode->type).' - '.$qrCode->slug];
+                                $name = $qrCode->content?->name ?? $qrCode->pdf?->name ?? 'Unknown';
+
+                                return [$qrCode->id => ucfirst($qrCode->type).' - '.$name];
                             });
                         })
                         ->searchable()

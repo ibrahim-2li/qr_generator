@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class ScanTrendsLineChart extends ChartWidget
 {
-    public array $filters = [];
+    public ?array $filters = [];
 
     protected ?string $heading = 'Scan Trends Line Chart';
 
@@ -19,7 +19,7 @@ class ScanTrendsLineChart extends ChartWidget
     protected function getData(): array
     {
         $user = Auth::user();
-        $qrCodeId = $this->filters['qr_code_id'] ?? null;
+        $qrCodeId = ($this->filters ?? [])['qr_code_id'] ?? null;
 
         $query = Scan::select(
             DB::raw('DATE(created_at) as date'),

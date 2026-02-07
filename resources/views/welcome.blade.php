@@ -148,8 +148,8 @@
                 </p>
             </div>
 
-            <!-- Showcase Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Dashboard Card - Full Width Row -->
+            <div class="mb-8">
                 <!-- Card 1: Dashboard -->
                 <div class="group relative">
                     <div
@@ -160,12 +160,17 @@
                         <!-- Image Container -->
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('images/hero1.png') }}"
-                                class="w-full h-64 object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                                class="w-full h-96 object-cover object-top group-hover:scale-105 transition-transform duration-500"
                                 alt="QR Generator Dashboard">
                             <!-- Overlay Badge -->
                             <div class="absolute top-4 left-4">
-                                <span class="px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full shadow-lg">
-                                    📊 Dashboard
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full shadow-lg">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>
+                                    Dashboard
                                 </span>
                             </div>
                         </div>
@@ -186,7 +191,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- Resume & vCard Cards - Side by Side Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <!-- Card 2: Resume -->
                 <div class="group relative">
                     <div
@@ -197,13 +205,17 @@
                         <!-- Image Container -->
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('images/hero2.png') }}"
-                                class="w-full h-64 object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                                class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
                                 alt="Resume QR Code">
                             <!-- Overlay Badge -->
                             <div class="absolute top-4 left-4">
                                 <span
-                                    class="px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-full shadow-lg">
-                                    📄 Resume
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-full shadow-lg">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Resume
                                 </span>
                             </div>
                         </div>
@@ -235,13 +247,17 @@
                         <!-- Image Container -->
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('images/hero3.png') }}"
-                                class="w-full h-64 object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                                class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
                                 alt="vCard QR Code">
                             <!-- Overlay Badge -->
                             <div class="absolute top-4 left-4">
                                 <span
-                                    class="px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-lg">
-                                    👤 vCard
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-lg">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    vCard
                                 </span>
                             </div>
                         </div>
