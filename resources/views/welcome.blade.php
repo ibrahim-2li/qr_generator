@@ -45,15 +45,15 @@
 
             <div class="flex items-center space-x-4">
                 @auth
-                    <a href="{{ url('/dashboard') }}"
+                    <a href="{{ route('dashboard.home') }}"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
                         Dashboard
                     </a>
                 @else
-                    <a href="/dashboard/login" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">
+                    <a href="/login" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">
                         Log in
                     </a>
-                    <a href="/dashboard/register"
+                    <a href="/register"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
                         Register
                     </a>

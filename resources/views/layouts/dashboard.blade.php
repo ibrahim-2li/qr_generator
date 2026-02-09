@@ -171,7 +171,7 @@
                     class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-gray-800 border-e border-gray-200 dark:border-gray-700">
                     <div
                         class="flex h-16 shrink-0 items-center gap-3 border-b border-gray-200 px-6 dark:border-gray-700">
-                        <a href="{{ route('dashboard.home') }}" class="flex items-center gap-3">
+                        <a href="{{ route('landing') }}" class="flex items-center gap-3">
                             <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
                                 {{-- <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -186,7 +186,7 @@
 
                     <nav class="flex-1 space-y-1 px-3 py-4">
                         <!-- Dashboard -->
-                        <a href="{{ route('dashboard.home') }}"
+                        <a href="{{ route('landing') }}"
                             class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.home') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -381,7 +381,7 @@
             class="fixed inset-y-0 start-0 z-40 w-64 overflow-y-auto border-e border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800 hidden lg:block">
 
             <div class="flex h-16 shrink-0 items-center gap-3 border-b border-gray-200 px-6 dark:border-gray-700">
-                <a href="{{ route('dashboard.home') }}" class="flex items-center gap-3">
+                <a href="{{ route('landing') }}" class="flex items-center gap-3">
                     <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
                         {{-- <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

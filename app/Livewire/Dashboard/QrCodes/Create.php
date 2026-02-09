@@ -197,7 +197,7 @@ class Create extends Component
         }
 
         session()->flash('success', 'QR Code created successfully!');
-        $this->redirect(route('dashboard.qrcodes.view', $qrCode->id));
+        $this->redirect(route('dashboard.qrcodes.view', $qrCode->slug));
     }
 
     public function render()

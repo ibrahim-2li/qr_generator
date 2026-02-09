@@ -20,7 +20,7 @@ Route::get('/', function () {
     $plans = Plan::all();
 
     return view('welcome', ['faqs' => $faqs, 'partners' => $partners, 'plans' => $plans]);
-});
+})->name('landing');
 
 /*
 |--------------------------------------------------------------------------

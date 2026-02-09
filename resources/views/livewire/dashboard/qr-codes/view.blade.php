@@ -30,7 +30,7 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <a href="{{ route('dashboard.qrcodes.edit', $qrCode->id) }}" wire:navigate
+                <a href="{{ route('dashboard.qrcodes.edit', $qrCode->slug) }}" wire:navigate
                     class="inline-flex items-center px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-medium rounded-lg transition-colors duration-200">
                     <svg class="w-4 h-4 mr-2 rtl:ml-2 rtl:mr-0" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24">

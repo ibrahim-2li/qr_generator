@@ -27,7 +27,7 @@ return [
     'register_link' => 'Create one',
 
     // Register Page
-    'register_title' => 'Create Account',
+    'register_title' => 'Create Account and Get 7 days free',
     'register_subtitle' => 'Start your free trial today',
     'name' => 'Full Name',
     'name_placeholder' => 'Enter your full name',

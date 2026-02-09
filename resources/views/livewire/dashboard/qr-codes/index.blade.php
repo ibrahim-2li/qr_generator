@@ -192,7 +192,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                     <div class="flex items-center justify-end gap-2">
-                                        <a href="{{ route('dashboard.qrcodes.view', $qrCode->id) }}"
+                                        <a href="{{ route('dashboard.qrcodes.view', $qrCode->slug) }}"
                                             class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                                             title="{{ __('dashboard.view') }}">
                                             <svg class="h-5 w-5" fill="none" stroke="currentColor"
@@ -203,7 +203,7 @@
                                                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
                                         </a>
-                                        <a href="{{ route('dashboard.qrcodes.edit', $qrCode->id) }}"
+                                        <a href="{{ route('dashboard.qrcodes.edit', $qrCode->slug) }}"
                                             class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
                                             title="{{ __('dashboard.edit') }}">
                                             <svg class="h-5 w-5" fill="none" stroke="currentColor"

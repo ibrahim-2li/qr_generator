@@ -93,7 +93,7 @@
     class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 antialiased">
     <div class="flex min-h-screen flex-col items-center justify-center p-4">
         <!-- Logo -->
-        <a href="/" class="mb-8 flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-white">
+        <a href="/" class="mb-2 flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-white">
             <svg class="h-10 w-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
