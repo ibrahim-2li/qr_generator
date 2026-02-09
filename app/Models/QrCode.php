@@ -16,9 +16,12 @@ class QrCode extends Model
 
     const TYPE_PDF = 'pdf';
 
+    const TYPE_URL = 'url';
+
     const TYPE = [
         self::TYPE_VCARD => 'vcard',
         self::TYPE_PDF => 'pdf',
+        self::TYPE_URL => 'url',
     ];
 
     public function getRouteKeyName()
@@ -44,6 +47,11 @@ class QrCode extends Model
     public function pdf()
     {
         return $this->hasOne(QrPdf::class);
+    }
+
+    public function url()
+    {
+        return $this->hasOne(QrUrl::class);
     }
 
     /**

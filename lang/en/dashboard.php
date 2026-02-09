@@ -334,6 +334,7 @@ return [
     'created_by' => 'Created By',
     'vcard_information' => 'vCard Information',
     'pdf_information' => 'PDF Information',
+    'url_information' => 'URL Information',
     'phone' => 'Phone',
     'title' => 'Title',
     'company' => 'Company',

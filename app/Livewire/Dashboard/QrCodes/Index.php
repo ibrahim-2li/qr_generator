@@ -70,7 +70,7 @@ class Index extends Component
     {
         $user = Auth::user();
 
-        $query = QrCode::with('user', 'content', 'pdf');
+        $query = QrCode::with('user', 'content', 'pdf', 'url');
 
         // Filter by user if not admin
         if ($user->isUser()) {
@@ -86,6 +86,9 @@ class Index extends Component
                         $q->where('name', 'like', "%{$this->search}%");
                     })
                     ->orWhereHas('pdf', function ($q) {
+                        $q->where('name', 'like', "%{$this->search}%");
+                    })
+                    ->orWhereHas('url', function ($q) {
                         $q->where('name', 'like', "%{$this->search}%");
                     });
             });

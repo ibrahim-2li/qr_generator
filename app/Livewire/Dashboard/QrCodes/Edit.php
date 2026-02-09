@@ -66,6 +66,15 @@ class Edit extends Component
 
     public ?string $existing_pdf_file = null;
 
+    // URL fields
+    public string $url_name = '';
+
+    public string $url_url = '';
+
+    public string $url_color_l = '#000000';
+
+    public string $url_color_d = '#ffffff';
+
     protected function rules(): array
     {
         $rules = [
@@ -101,13 +110,22 @@ class Edit extends Component
             ]);
         }
 
+        if ($this->type === 'url') {
+            $rules = array_merge($rules, [
+                'url_name' => 'required|string|max:255',
+                'url_url' => 'required|url|max:2048',
+                'url_color_l' => 'required|string',
+                'url_color_d' => 'required|string',
+            ]);
+        }
+
         return $rules;
     }
 
     public function mount(QrCode $qrCode): void
     {
         $this->qrCodeId = $qrCode->id;
-        $this->qrCode = $qrCode->load(['content', 'pdf']);
+        $this->qrCode = $qrCode->load(['content', 'pdf', 'url']);
 
         // Check permission
         $user = Auth::user();
@@ -144,6 +162,14 @@ class Edit extends Component
             $this->pdf_color_l = $pdf->color_l ?? '#f78e31';
             $this->pdf_color_d = $pdf->color_d ?? '#527ac9';
             $this->existing_pdf_file = $pdf->file;
+        }
+
+        if ($this->type === 'url' && $this->qrCode->url) {
+            $url = $this->qrCode->url;
+            $this->url_name = $url->name ?? '';
+            $this->url_url = $url->url ?? '';
+            $this->url_color_l = $url->color_l ?? '#000000';
+            $this->url_color_d = $url->color_d ?? '#ffffff';
         }
     }
 
@@ -210,6 +236,19 @@ class Edit extends Component
                     'color_l' => $this->pdf_color_l,
                     'color_d' => $this->pdf_color_d,
                     'file' => $pdfPath,
+                ]
+            );
+        }
+
+        if ($this->type === 'url') {
+            // Update or create URL record
+            $this->qrCode->url()->updateOrCreate(
+                ['qr_code_id' => $this->qrCode->id],
+                [
+                    'name' => $this->url_name,
+                    'url' => $this->url_url,
+                    'color_l' => $this->url_color_l,
+                    'color_d' => $this->url_color_d,
                 ]
             );
         }

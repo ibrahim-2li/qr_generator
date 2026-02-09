@@ -158,7 +158,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                        {{ $qrCode->content?->name ?? ($qrCode->pdf?->name ?? __('dashboard.unnamed')) }}
+                                        {{ $qrCode->content?->name ?? ($qrCode->pdf?->name ?? ($qrCode->url?->name ?? __('dashboard.unnamed'))) }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">

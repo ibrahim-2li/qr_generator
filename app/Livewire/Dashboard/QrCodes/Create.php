@@ -57,10 +57,15 @@ class Create extends Component
 
     public $pdf_file = null;
 
+    // URL fields
+    public string $url_name = '';
+
+    public string $url_url = '';
+
     protected function rules(): array
     {
         $rules = [
-            'type' => 'required|in:vcard,pdf',
+            'type' => 'required|in:vcard,pdf,url',
             'is_dynamic' => 'required|boolean',
         ];
 
@@ -90,6 +95,13 @@ class Create extends Component
                 'pdf_color_l' => 'required|string',
                 'pdf_color_d' => 'required|string',
                 'pdf_file' => 'required|file|mimes:pdf|max:8048',
+            ]);
+        }
+
+        if ($this->type === 'url') {
+            $rules = array_merge($rules, [
+                'url_name' => 'required|string|max:255',
+                'url_url' => 'required|url|max:2048',
             ]);
         }
 
@@ -173,6 +185,14 @@ class Create extends Component
                 'color_l' => $this->pdf_color_l,
                 'color_d' => $this->pdf_color_d,
                 'file' => $pdfPath,
+            ]);
+        }
+
+        if ($this->type === 'url') {
+            // Create URL record
+            $qrCode->url()->create([
+                'name' => $this->url_name,
+                'url' => $this->url_url,
             ]);
         }
 

@@ -99,6 +99,38 @@
                             </svg>
                         @endif
                     </label>
+
+                    <label
+                        class="relative flex cursor-pointer rounded-lg border p-4 transition-colors
+                        {{ $type === 'url' ? 'border-green-600 bg-green-50 dark:bg-green-900/20' : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50' }}">
+                        <input type="radio" wire:model.live="type" value="url" class="sr-only">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="flex-shrink-0 p-3 {{ $type === 'url' ? 'bg-green-100 dark:bg-green-900/50' : 'bg-gray-100 dark:bg-gray-700' }} rounded-lg">
+                                <svg class="w-6 h-6 {{ $type === 'url' ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }}"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p
+                                    class="font-medium {{ $type === 'url' ? 'text-green-900 dark:text-green-100' : 'text-gray-900 dark:text-white' }}">
+                                    URL Link</p>
+                                <p
+                                    class="text-sm {{ $type === 'url' ? 'text-green-700 dark:text-green-300' : 'text-gray-500 dark:text-gray-400' }}">
+                                    {{ __('dashboard.url_information') }}</p>
+                            </div>
+                        </div>
+                        @if ($type === 'url')
+                            <svg class="absolute top-4 right-4 rtl:right-auto rtl:left-4 w-5 h-5 text-green-600 dark:text-green-400"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        @endif
+                    </label>
                 </div>
 
                 <div class="mt-4">
@@ -355,6 +387,42 @@
                                     class="block w-full h-10 rounded-lg border-gray-300 dark:border-gray-600 cursor-pointer">
                             </div>
                         </div>
+                    </div>
+                </div>
+            @endif
+
+            <!-- URL Fields -->
+            @if ($type === 'url')
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                        {{ __('dashboard.url_information') }}
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                {{ __('dashboard.name') }} *
+                            </label>
+                            <input type="text" wire:model="url_name"
+                                class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            @error('url_name')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                {{ __('dashboard.url') }} *
+                            </label>
+                            <input type="url" wire:model="url_url" placeholder="https://example.com"
+                                dir="ltr"
+                                class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            @error('url_url')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                     </div>
                 </div>
             @endif

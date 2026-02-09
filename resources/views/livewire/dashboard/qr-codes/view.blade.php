@@ -12,7 +12,7 @@
                     {{ __('dashboard.back_to_qr_codes') }}
                 </a>
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-                    {{ $qrCode->content?->name ?? ($qrCode->pdf?->name ?? __('dashboard.qr_code_details')) }}
+                    {{ $qrCode->content?->name ?? ($qrCode->pdf?->name ?? ($qrCode->url?->name ?? __('dashboard.qr_code_details'))) }}
                 </h1>
                 <p class="mt-1 text-gray-600 dark:text-gray-400">
                     <span
@@ -20,6 +20,7 @@
                         {{ $qrCode->type === 'vcard' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : '' }}
                         {{ $qrCode->type === 'resume' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : '' }}
                         {{ $qrCode->type === 'pdf' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400' : '' }}
+                        {{ $qrCode->type === 'url' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : '' }}
                     ">
                         {{ ucfirst($qrCode->type) }}
                     </span>
@@ -288,6 +289,57 @@
                                     </span>
                                     <div class="w-6 h-6 rounded border border-gray-300 dark:border-gray-600"
                                         style="background-color: {{ $qrCode->pdf->color_d ?? '#000000' }}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @elseif($qrCode->type === 'url' && $qrCode->url)
+                    <div
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+                            {{ __('dashboard.url_information') }}</h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('dashboard.name') }}</label>
+                                <p class="text-lg text-gray-900 dark:text-white">{{ $qrCode->url->name }}</p>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">{{ __('dashboard.url') }}</label>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ $qrCode->url->url }}" target="_blank" rel="noopener noreferrer"
+                                        class="text-blue-600 dark:text-blue-400 hover:underline break-all">
+                                        {{ $qrCode->url->url }}
+                                    </a>
+                                    <button onclick="navigator.clipboard.writeText('{{ $qrCode->url->url }}')"
+                                        class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                                        title="{{ __('dashboard.copy_url') }}">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Colors -->
+                            <div class="flex items-center gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">
+                                        {{ __('dashboard.light_color') }}:
+                                    </span>
+                                    <div class="w-6 h-6 rounded border border-gray-300 dark:border-gray-600"
+                                        style="background-color: {{ $qrCode->url->color_l ?? '#ffffff' }}"></div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">
+                                        {{ __('dashboard.dark_color') }}:
+                                    </span>
+                                    <div class="w-6 h-6 rounded border border-gray-300 dark:border-gray-600"
+                                        style="background-color: {{ $qrCode->url->color_d ?? '#000000' }}"></div>
                                 </div>
                             </div>
                         </div>

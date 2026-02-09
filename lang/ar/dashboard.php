@@ -334,6 +334,7 @@ return [
     'created_by' => 'تم الإنشاء بواسطة',
     'vcard_information' => 'معلومات بطاقة الاتصال (vCard)',
     'pdf_information' => 'معلومات PDF',
+    'url_information' => 'معلومات الرابط',
     'phone' => 'الهاتف',
     'title' => 'المسمى الوظيفي',
     'company' => 'الشركة',

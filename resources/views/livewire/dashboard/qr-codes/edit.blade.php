@@ -35,18 +35,24 @@
 
                 <div class="flex items-center gap-4">
                     <div
-                        class="flex-shrink-0 p-3 {{ $type === 'vcard' ? 'bg-blue-100 dark:bg-blue-900/50' : 'bg-purple-100 dark:bg-purple-900/50' }} rounded-lg">
+                        class="flex-shrink-0 p-3 {{ $type === 'vcard' ? 'bg-blue-100 dark:bg-blue-900/50' : ($type === 'pdf' ? 'bg-purple-100 dark:bg-purple-900/50' : 'bg-green-100 dark:bg-green-900/50') }} rounded-lg">
                         @if ($type === 'vcard')
                             <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
-                        @else
+                        @elseif ($type === 'pdf')
                             <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        @elseif ($type === 'url')
+                            <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                             </svg>
                         @endif
                     </div>
@@ -323,6 +329,58 @@
                                     {{ __('dashboard.dark_color') }}
                                 </label>
                                 <input type="color" wire:model="pdf_color_d"
+                                    class="block w-full h-10 rounded-lg border-gray-300 dark:border-gray-600 cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <!-- URL Fields -->
+            @if ($type === 'url')
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                        {{ __('dashboard.url_information') }}
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                {{ __('dashboard.name') }} *
+                            </label>
+                            <input type="text" wire:model="url_name"
+                                class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            @error('url_name')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                {{ __('dashboard.url') }} *
+                            </label>
+                            <input type="url" wire:model="url_url" placeholder="https://example.com"
+                                dir="ltr"
+                                class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            @error('url_url')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('dashboard.light_color') }}
+                                </label>
+                                <input type="color" wire:model="url_color_l"
+                                    class="block w-full h-10 rounded-lg border-gray-300 dark:border-gray-600 cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ __('dashboard.dark_color') }}
+                                </label>
+                                <input type="color" wire:model="url_color_d"
                                     class="block w-full h-10 rounded-lg border-gray-300 dark:border-gray-600 cursor-pointer">
                             </div>
                         </div>

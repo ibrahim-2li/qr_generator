@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $qr->content->name ?? $qr->pdf->name }} </title>
+    <title>{{ $qr->content?->name ?? ($qr->pdf?->name ?? ($qr->url?->name ?? 'QR Code')) }} </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,15 +17,15 @@
         }
 
         .gradient-bg {
-            background: linear-gradient(135deg, {{ $qr->content->color_l ?? '#232421' }} 0%, {{ $qr->content->color_d ?? '#f78e31' }} 100%);
+            background: linear-gradient(135deg, {{ $qr->content?->color_l ?? ($qr->pdf?->color_l ?? ($qr->url?->color_l ?? '#232421')) }} 0%, {{ $qr->content?->color_d ?? ($qr->pdf?->color_d ?? ($qr->url?->color_d ?? '#f78e31')) }} 100%);
         }
 
         .contact-btn {
-            background-color: {{ $qr->content->color_l ?? '#232421' }};
+            background-color: {{ $qr->content?->color_l ?? ($qr->pdf?->color_l ?? ($qr->url?->color_l ?? '#232421')) }};
         }
 
         .contact-btn:hover {
-            background-color: {{ $qr->content->color_d ?? '#f78e31' }};
+            background-color: {{ $qr->content?->color_d ?? ($qr->pdf?->color_d ?? ($qr->url?->color_d ?? '#f78e31')) }};
         }
     </style>
 </head>
@@ -365,7 +365,7 @@
             </div>
         </div>
     </body>
-@else
+@elseif ($qr->pdf)
     <!-- PDF Viewer Section -->
     <div class="w-full h-64" style="--bg-color: {{ $qr->pdf->color_d }};">
         <svg viewBox="0 0 370 605" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full"
@@ -470,7 +470,25 @@
         </svg> --}}
 
     </section>
+@else
 
+    <body class="bg-gray-50 flex items-center justify-center min-h-screen">
+        <div class="text-center p-4">
+            @if ($qr->url)
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Redirecting...</h1>
+                <p class="text-gray-600 mb-4">You are being redirected to <a href="{{ $qr->url->url }}"
+                        class="text-blue-600 hover:underline break-all">{{ $qr->url->url }}</a></p>
+                <script>
+                    setTimeout(function() {
+                        window.location.href = "{{ $qr->url->url }}";
+                    }, 500);
+                </script>
+            @else
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Invalid QR Code</h1>
+                <p class="text-gray-600">The QR code content could not be loaded.</p>
+            @endif
+        </div>
+    </body>
 @endif
 
 </html>

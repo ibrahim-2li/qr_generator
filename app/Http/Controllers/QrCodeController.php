@@ -23,6 +23,10 @@ class QrCodeController extends Controller
         // Track the scan
         $this->trackScan($request, $qr);
 
+        if ($qr->type === 'url' && $qr->url) {
+            return redirect()->away($qr->url->url);
+        }
+
         return view('qr.sh', compact('qr'));
     }
 
