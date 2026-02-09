@@ -25,7 +25,6 @@ class PlanResource extends Resource
 
     protected static ?int $navigationSort = 9;
 
-
     public static function canAccess(): bool
     {
         return Auth::check() && Auth::user()->isSuperAdmin();

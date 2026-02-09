@@ -5,11 +5,9 @@ namespace App\Filament\Pages;
 use App\Models\Plan;
 use App\Models\Subscription;
 use BackedEnum;
-use Filament\Actions\Action;
 use Filament\Pages\Page;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class SubscribePage extends Page
 {
@@ -22,9 +20,13 @@ class SubscribePage extends Page
     protected static ?int $navigationSort = 5;
 
     public $plans;
+
     public $selectedPlan = null;
+
     public $showPaymentForm = false;
+
     public $currentSubscription = null;
+
     public $trialStatus = null;
 
     public function mount(): void

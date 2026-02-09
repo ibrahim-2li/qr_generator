@@ -475,17 +475,17 @@
                                 </li>
                             </ul>
 
-                            @auth
+                            {{-- @auth
                                 <a href="{{ route('payment.pay', ['plan_id' => $plan->id]) }}"
                                     class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 0 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
                                     Subscribe Now
                                 </a>
-                            @else
-                                <a href="/dashboard/register"
-                                    class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 0 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
-                                    Get Started
-                                </a>
-                            @endauth
+                            @else --}}
+                            <a href="/dashboard/subscribe-page"
+                                class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 0 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
+                                Get Started
+                            </a>
+                            {{-- @endauth --}}
                         </div>
                     </div>
                 @endforeach

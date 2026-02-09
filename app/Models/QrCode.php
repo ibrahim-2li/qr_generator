@@ -2,24 +2,23 @@
 
 namespace App\Models;
 
-use App\Models\Scan;
-use App\Models\User;
-use App\Models\QrContent;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class QrCode extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id','type','data','is_dynamic','slug','scan_count'];
+
+    protected $fillable = ['user_id', 'type', 'data', 'is_dynamic', 'slug', 'scan_count'];
 
     const TYPE_VCARD = 'vcard';
+
     const TYPE_PDF = 'pdf';
 
     const TYPE = [
         self::TYPE_VCARD => 'vcard',
-        self::TYPE_PDF   => 'pdf',
+        self::TYPE_PDF => 'pdf',
     ];
 
     public function getRouteKeyName()
@@ -32,7 +31,7 @@ class QrCode extends Model
         return $this->belongsTo(User::class);
     }
 
-     public function scans()
+    public function scans()
     {
         return $this->hasMany(Scan::class);
     }

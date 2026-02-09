@@ -25,7 +25,6 @@ class PaymentResource extends Resource
 
     protected static ?int $navigationSort = 8;
 
-
     public static function canAccess(): bool
     {
         return Auth::check() && Auth::user()->isSuperAdmin();

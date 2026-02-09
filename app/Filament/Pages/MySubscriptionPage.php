@@ -5,16 +5,15 @@ namespace App\Filament\Pages;
 use App\Models\Payment;
 use App\Models\Subscription;
 use BackedEnum;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Section;
-use Filament\Infolists\Components\TextEntry;
-use Illuminate\Contracts\View\View;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -40,7 +39,6 @@ class MySubscriptionPage extends Page implements HasTable
             ->latest()
             ->first();
     }
-
 
     public function table(Table $table): Table
     {
@@ -96,7 +94,7 @@ class MySubscriptionPage extends Page implements HasTable
 
                         TextEntry::make('plan.price')
                             ->label('Monthly Price')
-                            ->formatStateUsing(fn ($state) => number_format($state / 100, 2) . ' SAR')
+                            ->formatStateUsing(fn ($state) => number_format($state / 100, 2).' SAR')
                             ->icon('heroicon-o-banknotes')
                             ->color('success'),
 
@@ -124,7 +122,7 @@ class MySubscriptionPage extends Page implements HasTable
 
     protected function getPaymentsQuery(): Builder
     {
-        if (!$this->subscription) {
+        if (! $this->subscription) {
             return Payment::query()->whereRaw('1 = 0'); // Empty query
         }
 

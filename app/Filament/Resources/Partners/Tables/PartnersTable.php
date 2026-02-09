@@ -17,7 +17,7 @@ class PartnersTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                    ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->disk('public')
                     ->visibility('public'),
                 TextColumn::make('url')

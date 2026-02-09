@@ -3,21 +3,20 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Filament\Panel;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Tables\Columns\Layout\Panel as Enter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     const ROLE_USER = 'USER';
+
     const ROLE_ADMIN = 'ADMIN';
+
     const ROLE_SUPER_ADMIN = 'SUPER_ADMIN';
 
     const ROLES = [
@@ -61,24 +60,9 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'trial_ends_at' => 'datetime',
+            'trial_used' => 'boolean',
             'password' => 'hashed',
         ];
-    }
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        // Allow access to admin panel for admin users
-        if ($panel->getId() === 'admin') {
-            return $this->isAdmin();
-        }
-
-        // Allow access to user panel for all authenticated users
-        return true;
-    }
-
-    public function canAccess(Enter $panel): bool
-    {
-        return $this->isAdmin() || $this->isUser() || $this->isSuperAdmin();
     }
 
     public function isAdmin(): bool
@@ -106,11 +90,17 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Subscription::class);
     }
 
+    public function getAvatarUrl(): ?string
+    {
+        return $this->avatar_url ? Storage::url($this->avatar_url) : null;
+    }
+
+    /**
+     * Get avatar URL - backward compatibility alias.
+     */
     public function getFilamentAvatarUrl(): ?string
     {
-        $avatarColumn = config('filament-edit-profile.avatar_column', 'avatar_url');
-
-        return $this->$avatarColumn ? Storage::url($this->$avatarColumn) : null;
+        return $this->getAvatarUrl();
     }
 
     /**
@@ -165,7 +155,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function getTrialStatus(): array
     {
-        if (!$this->trial_ends_at) {
+        if (! $this->trial_ends_at) {
             return [
                 'is_trial' => false,
                 'days_remaining' => 0,
@@ -177,7 +167,7 @@ class User extends Authenticatable implements FilamentUser
         $daysRemaining = $isExpired ? 0 : now()->diffInDays($this->trial_ends_at, false);
 
         return [
-            'is_trial' => !$isExpired,
+            'is_trial' => ! $isExpired,
             'days_remaining' => max(0, $daysRemaining),
             'expired' => $isExpired,
             'ends_at' => $this->trial_ends_at,
@@ -189,7 +179,7 @@ class User extends Authenticatable implements FilamentUser
      */
     public function startTrial(): void
     {
-        if (!$this->trial_used) {
+        if (! $this->trial_used) {
             $this->update([
                 'trial_ends_at' => now()->addDays(7),
                 'trial_used' => true,

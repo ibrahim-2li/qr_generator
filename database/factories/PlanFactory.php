@@ -17,7 +17,30 @@ class PlanFactory extends Factory
     public function definition(): array
     {
         return [
-           //
+            'name' => fake()->randomElement(['Basic', 'Pro', 'Enterprise']),
+            'description' => fake()->sentence(),
+            'price' => fake()->randomNumber(4) * 100, // Price in halalas
+            'interval' => fake()->randomElement(['monthly', 'yearly']),
         ];
+    }
+
+    /**
+     * Create a monthly plan.
+     */
+    public function monthly(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'interval' => 'monthly',
+        ]);
+    }
+
+    /**
+     * Create a yearly plan.
+     */
+    public function yearly(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'interval' => 'yearly',
+        ]);
     }
 }

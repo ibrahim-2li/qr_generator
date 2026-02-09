@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\QrCodes\Pages;
 
 use App\Filament\Resources\QrCodes\QrCodeResource;
-use Filament\Resources\Pages\CreateRecord;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
 
 class CreateQrCode extends CreateRecord
@@ -14,16 +14,17 @@ class CreateQrCode extends CreateRecord
     public function mount(): void
     {
         $user = Auth::user();
-        
+
         // Check if user can create QR codes
-        if (!$user->canCreateQrCodes()) {
+        if (! $user->canCreateQrCodes()) {
             Notification::make()
                 ->title('Subscription Required')
                 ->body('You need an active subscription to create QR codes. Please subscribe to continue.')
                 ->warning()
                 ->send();
-                
+
             $this->redirect(route('filament.dashboard.pages.subscribe-page'));
+
             return;
         }
 
@@ -50,12 +51,12 @@ class CreateQrCode extends CreateRecord
 
                 // Move the file from temporary location to final location
                 if (\Illuminate\Support\Facades\Storage::disk('public')->exists($filePath)) {
-                    $newPath = 'profile-photos/' . basename($filePath);
+                    $newPath = 'profile-photos/'.basename($filePath);
                     \Illuminate\Support\Facades\Storage::disk('public')->move($filePath, $newPath);
 
                     // Update the content record with the correct path
                     $this->record->content()->update([
-                        'profile_photo_path' => $newPath
+                        'profile_photo_path' => $newPath,
                     ]);
                 }
             }

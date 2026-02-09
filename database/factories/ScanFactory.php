@@ -18,15 +18,15 @@ class ScanFactory extends Factory
     public function definition(): array
     {
         return [
-           'qr_code_id' => QrCode::factory(),
-           'ip' =>fake()->ipv4(),
-           'country' => fake()->country(),
-           'region' => fake()->city(),
-           'city' => fake()->city(),
-           'device' => fake()->randomElement(['mobile', 'desktop']),
-           'os' => fake()->randomElement(['Windows', 'Mac OS', 'Linux', 'iOS', 'Android']),
-           'created_at' => fake()->dateTime(),
-           'updated_at' => fake()->dateTime(),
+            'qr_code_id' => QrCode::factory(),
+            'ip' => fake()->ipv4(),
+            'country' => fake()->country(),
+            'region' => fake()->city(),
+            'city' => fake()->city(),
+            'device' => fake()->randomElement(['mobile', 'desktop']),
+            'os' => fake()->randomElement(['Windows', 'Mac OS', 'Linux', 'iOS', 'Android']),
+            'created_at' => fake()->dateTime(),
+            'updated_at' => fake()->dateTime(),
         ];
     }
 }

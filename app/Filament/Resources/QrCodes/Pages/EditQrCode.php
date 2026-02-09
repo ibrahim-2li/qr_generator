@@ -28,12 +28,12 @@ class EditQrCode extends EditRecord
 
                 // Move the file from temporary location to final location
                 if (\Illuminate\Support\Facades\Storage::disk('public')->exists($filePath)) {
-                    $newPath = 'profile-photos/' . basename($filePath);
+                    $newPath = 'profile-photos/'.basename($filePath);
                     \Illuminate\Support\Facades\Storage::disk('public')->move($filePath, $newPath);
 
                     // Update the content record with the correct path
                     $this->record->content()->update([
-                        'profile_photo_path' => $newPath
+                        'profile_photo_path' => $newPath,
                     ]);
                 }
             }

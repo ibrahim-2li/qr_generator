@@ -16,7 +16,7 @@ class QrCodeController extends Controller
     public function sh(Request $request, QrCode $qr)
     {
         // Check if QR code is active (user has subscription or is on trial)
-        if (!$qr->user->qrCodesShouldBeActive()) {
+        if (! $qr->user->qrCodesShouldBeActive()) {
             return view('qr.expired', compact('qr'));
         }
 
@@ -111,7 +111,7 @@ class QrCodeController extends Controller
             return [
                 'country' => 'Local',
                 'region' => 'Local',
-                'city' => 'Local'
+                'city' => 'Local',
             ];
         }
 
@@ -126,7 +126,7 @@ class QrCodeController extends Controller
                 return [
                     'country' => $data['country_name'] ?? null,
                     'region' => $data['region'] ?? null,
-                    'city' => $data['city'] ?? null
+                    'city' => $data['city'] ?? null,
                 ];
             }
         } catch (\Exception $e) {
@@ -144,7 +144,7 @@ class QrCodeController extends Controller
                     return [
                         'country' => $data['country'] ?? null,
                         'region' => $data['regionName'] ?? null,
-                        'city' => $data['city'] ?? null
+                        'city' => $data['city'] ?? null,
                     ];
                 }
             }
@@ -156,14 +156,14 @@ class QrCodeController extends Controller
         return [
             'country' => null,
             'region' => null,
-            'city' => null
+            'city' => null,
         ];
     }
 
     public function downloadVcard(QrCode $qr)
     {
         // Check if QR code is active
-        if (!$qr->user->qrCodesShouldBeActive()) {
+        if (! $qr->user->qrCodesShouldBeActive()) {
             abort(403, 'This QR code is no longer active. Please subscribe to continue using this feature.');
         }
 

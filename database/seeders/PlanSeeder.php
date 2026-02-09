@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Plan;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PlanSeeder extends Seeder
 {
@@ -14,16 +13,16 @@ class PlanSeeder extends Seeder
     public function run(): void
     {
         Plan::create([
-                'name' => 'Gold Plan',
-                'description' => 'Gold Plan',
-                'price' => '100000',
-                'interval' => 'year',
-            ]);
-            Plan::create([
-                'name' => 'Silver Plan',
-                'description' => 'Silver Plan',
-                'price' => '50000',
-                'interval' => 'year',
-            ]);
+            'name' => 'Gold Plan',
+            'description' => 'Gold Plan',
+            'price' => '100000',
+            'interval' => 'year',
+        ]);
+        Plan::create([
+            'name' => 'Silver Plan',
+            'description' => 'Silver Plan',
+            'price' => '50000',
+            'interval' => 'year',
+        ]);
     }
 }
