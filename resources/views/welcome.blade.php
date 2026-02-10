@@ -149,7 +149,7 @@
             </div>
 
             <!-- Dashboard Card - Full Width Row -->
-            <div class="mb-8">
+            {{-- <div class="mb-8">
                 <!-- Card 1: Dashboard -->
                 <div class="group relative">
                     <div
@@ -160,7 +160,7 @@
                         <!-- Image Container -->
                         <div class="relative overflow-hidden">
                             <img src="{{ asset('images/hero1.png') }}"
-                                class="w-full h-96 object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                                class="w-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                                 alt="QR Generator Dashboard">
                             <!-- Overlay Badge -->
                             <div class="absolute top-4 left-4">
@@ -191,94 +191,21 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Resume & vCard Cards - Side by Side Row -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Card 2: Resume -->
-                <div class="group relative">
-                    <div
-                        class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500">
-                    </div>
-                    <div
-                        class="relative bg-white rounded-2xl overflow-hidden shadow-xl transform group-hover:-translate-y-2 transition-all duration-300">
-                        <!-- Image Container -->
-                        <div class="relative overflow-hidden">
-                            <img src="{{ asset('images/hero2.png') }}"
-                                class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                                alt="Resume QR Code">
-                            <!-- Overlay Badge -->
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-full shadow-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    Resume
-                                </span>
-                            </div>
-                        </div>
-                        <!-- Content -->
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Smart Resume QR</h3>
-                            <p class="text-gray-600 text-sm mb-4">
-                                Create scannable resume codes that link to your digital CV with download options.
-                            </p>
-                            <div class="flex items-center text-purple-600 font-semibold text-sm">
-                                <span>Learn more</span>
-                                <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3: vCard -->
-                <div class="group relative">
-                    <div
-                        class="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500">
-                    </div>
-                    <div
-                        class="relative bg-white rounded-2xl overflow-hidden shadow-xl transform group-hover:-translate-y-2 transition-all duration-300">
-                        <!-- Image Container -->
-                        <div class="relative overflow-hidden">
-                            <img src="{{ asset('images/hero3.png') }}"
-                                class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                                alt="vCard QR Code">
-                            <!-- Overlay Badge -->
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    vCard
-                                </span>
-                            </div>
-                        </div>
-                        <!-- Content -->
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Digital Business Card</h3>
-                            <p class="text-gray-600 text-sm mb-4">
-                                Share your contact info instantly with beautiful, scannable digital cards.
-                            </p>
-                            <div class="flex items-center text-emerald-600 font-semibold text-sm">
-                                <span>Learn more</span>
-                                <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
+            </div> --}}
+            <div class="text-center mb-16 ">
+                <div class="bg-white p-4 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Premium QR Codes Dashboard</h2>
+                    <img src="{{ asset('images/hero1.png') }}" class="w-50% h-50% mx-auto" alt="QR Generator">
                 </div>
             </div>
+
+            <div class="text-center mb-16 ">
+                <div class="bg-white p-4 rounded-2xl shadow-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Dynamic QR Codes</h2>
+                    <img src="{{ asset('images/iphones.jpg') }}" class="w-50% h-50% mx-auto" alt="QR Generator">
+                </div>
+            </div>
+
 
             <!-- Bottom CTA -->
             <div class="text-center mt-16">
@@ -322,6 +249,100 @@
                 Everything you need to create, manage, and track QR codes effectively
             </p>
         </div>
+
+        <!-- Resume & vCard Showcase Cards -->
+        {{-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <!-- Card: Resume -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500">
+                </div>
+                <div
+                    class="relative bg-white rounded-2xl overflow-hidden shadow-xl transform group-hover:-translate-y-2 transition-all duration-300">
+                    <!-- Image Container -->
+                    <div class="relative overflow-hidden">
+                        <img src="{{ asset('images/hero2.png') }}"
+                            class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                            alt="Resume QR Code">
+                        <!-- Overlay Badge -->
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-full shadow-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Resume
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Smart Resume QR</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Create scannable resume codes that link to your digital CV with download options.
+                        </p>
+                        <div class="flex items-center text-purple-600 font-semibold text-sm">
+                            <span>Learn more</span>
+                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card: vCard -->
+            <div class="group relative">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500">
+                </div>
+                <div
+                    class="relative bg-white rounded-2xl overflow-hidden shadow-xl transform group-hover:-translate-y-2 transition-all duration-300">
+                    <!-- Image Container -->
+                    <div class="relative overflow-hidden">
+                        <img src="{{ asset('images/hero3.png') }}"
+                            class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                            alt="vCard QR Code">
+                        <!-- Overlay Badge -->
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                vCard
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Digital Business Card</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Share your contact info instantly with beautiful, scannable digital cards.
+                        </p>
+                        <div class="flex items-center text-emerald-600 font-semibold text-sm">
+                            <span>Learn more</span>
+                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+        {{-- <div class="text-center mb-16 ">
+            <div class="bg-white p-4 rounded-2xl shadow-2xl">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Premium QR Codes Dashboard</h2>
+                <img src="{{ asset('images/iphones.jpg') }}" class="w-50% h-50% mx-auto" alt="QR Generator">
+            </div>
+        </div> --}}
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Feature 1 -->
