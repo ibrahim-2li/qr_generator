@@ -24,5 +24,11 @@ class PlanSeeder extends Seeder
             'price' => '50000',
             'interval' => 'year',
         ]);
+        Plan::create([
+            'name' => 'Diamond Plan',
+            'description' => 'Diamond Plan',
+            'price' => '200000',
+            'interval' => 'year',
+        ]);
     }
 }

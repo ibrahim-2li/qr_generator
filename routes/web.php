@@ -90,18 +90,7 @@ Route::middleware(['auth'])->prefix('app')->group(function () {
     });
 });
 
-/*
-|--------------------------------------------------------------------------
-| Backward Compatibility Aliases (temporary until migration complete)
-|--------------------------------------------------------------------------
-*/
-Route::get('/dashboard/subscribe-page', function () {
-    return redirect()->route('dashboard.billing');
-})->name('filament.dashboard.pages.subscribe-page');
 
-Route::get('/dashboard/my-subscription-page', function () {
-    return redirect()->route('dashboard.subscription');
-})->name('filament.dashboard.pages.my-subscription-page');
 
 // Logout route
 Route::post('/logout', function () {

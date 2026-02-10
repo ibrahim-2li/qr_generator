@@ -87,7 +87,7 @@
                             Start Creating QR Codes
                         </a>
                     @endif
-                    <a href="/dashboard"
+                    <a href="/app"
                         class="border-2 border-gray-300 text-gray-700 hover:border-blue-600 px-8 py-4 rounded-lg font-semibold text-lg transition-colors ">
                         Get Started
                     </a>
@@ -209,7 +209,7 @@
 
             <!-- Bottom CTA -->
             <div class="text-center mt-16">
-                <a href="{{ auth()->check() ? url('/dashboard') : url('/dashboard/register') }}"
+                <a href="{{ auth()->check() ? url('/app/qrcodes') : url('/register') }}"
                     class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
                     <span>Start Creating Now</span>
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -502,7 +502,7 @@
                                     Subscribe Now
                                 </a>
                             @else --}}
-                            <a href="/dashboard/subscribe-page"
+                            <a href="/app/subscription"
                                 class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 0 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
                                 Get Started
                             </a>
@@ -527,11 +527,8 @@
             </div>
 
             <div class="bg-white rounded-2xl shadow-xl p-8">
-                @if (session('success'))
-                    <div class="mb-6 p-4 bg-green-100 text-green-700 rounded-lg">
-                        {{ session('success') }}
-                    </div>
-                @endif
+
+
 
                 @if ($errors->any())
                     <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
@@ -678,6 +675,62 @@
             </div>
         </div>
     </footer>
+
+    {{-- Toast Notification --}}
+    @if (session('success'))
+        <style>
+            @@keyframes toastSlideIn {
+                from { opacity: 0; transform: translateX(100%) scale(0.95); }
+                to   { opacity: 1; transform: translateX(0) scale(1); }
+            }
+            @@keyframes toastSlideOut {
+                from { opacity: 1; transform: translateX(0) scale(1); }
+                to   { opacity: 0; transform: translateX(100%) scale(0.95); }
+            }
+            @@keyframes toastCountdown {
+                from { width: 100%; }
+                to   { width: 0%; }
+            }
+        </style>
+
+        <div id="success-toast"
+            style="position:fixed; top:24px; right:24px; z-index:9999; display:flex; align-items:flex-start; gap:16px; background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 25px 50px -12px rgba(0,0,0,.25); padding:20px; min-width:340px; max-width:420px; animation: toastSlideIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards; overflow:hidden;">
+            {{-- Left accent --}}
+            <div style="position:absolute; left:0; top:0; bottom:0; width:5px; border-radius:16px 0 0 16px; background:linear-gradient(to bottom, #34d399, #16a34a);"></div>
+            {{-- Icon --}}
+            <div style="flex-shrink:0; width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, #34d399, #16a34a); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(22,163,74,.3);">
+                <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            {{-- Text --}}
+            <div style="flex:1; min-width:0;">
+                <p style="margin:0; font-size:14px; font-weight:600; color:#111827;">Success!</p>
+                <p style="margin:4px 0 0; font-size:14px; color:#6b7280;">{{ session('success') }}</p>
+            </div>
+            {{-- Close --}}
+            <button onclick="dismissToast()" style="flex-shrink:0; background:none; border:none; cursor:pointer; color:#9ca3af; padding:0;">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            {{-- Progress bar --}}
+            <div style="position:absolute; bottom:0; left:0; right:0; height:4px; background:#f3f4f6; border-radius:0 0 16px 16px; overflow:hidden;">
+                <div style="height:100%; background:linear-gradient(to right, #34d399, #16a34a); border-radius:0 0 16px 16px; animation: toastCountdown 5s linear forwards;"></div>
+            </div>
+        </div>
+
+        <script>
+            function dismissToast() {
+                var toast = document.getElementById('success-toast');
+                if (toast) {
+                    toast.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.16,1,0.3,1) forwards';
+                    toast.addEventListener('animationend', function() { toast.remove(); }, { once: true });
+                }
+            }
+            setTimeout(dismissToast, 5000);
+        </script>
+    @endif
 </body>
 
 </html>

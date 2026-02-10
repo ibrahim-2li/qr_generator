@@ -191,10 +191,10 @@
                     <dd class="text-sm font-medium text-gray-900 dark:text-white">
                         <span
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                            {{ Auth::user()->role === 'super_admin' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400' : '' }}
-                            {{ Auth::user()->role === 'admin' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : '' }}
-                            {{ Auth::user()->role === 'user' ? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' : '' }}">
-                            {{ __('dashboard.role_' . (Auth::user()->role ?? 'user')) }}
+                            {{ Auth::user()->isSuperAdmin() ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400' : '' }}
+                            {{ Auth::user()->isAdmin() ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : '' }}
+                            {{ !Auth::user()->isSuperAdmin() && !Auth::user()->isAdmin() ? 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' : '' }}">
+                            {{ __('dashboard.role_' . strtolower(Auth::user()->role ?? 'user')) }}
                         </span>
                     </dd>
                 </div>
