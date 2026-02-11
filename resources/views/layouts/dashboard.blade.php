@@ -137,214 +137,213 @@
 <body x-data="{ mobileMenuOpen: false }" @open-mobile-menu.window="mobileMenuOpen = true"
     class="h-full bg-gray-50 dark:bg-gray-900 antialiased {{ app()->getLocale() === 'ar' ? 'font-[Almarai]' : 'font-sans' }}">
     <!-- Mobile Menu -->
+    <!-- Mobile Menu Overlay & Drawer -->
     <div x-show="mobileMenuOpen" class="relative z-50 lg:hidden" role="dialog" aria-modal="true"
         style="display: none;">
+        <!-- Backdrop -->
         <div x-show="mobileMenuOpen" x-transition:enter="transition-opacity ease-linear duration-300"
             x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
             x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900/80" @click="mobileMenuOpen = false">
+            x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm"
+            @click="mobileMenuOpen = false">
         </div>
 
-        <div class="fixed inset-0 flex">
+        <div class="fixed inset-0 flex pointer-events-none">
+            <!-- Sidebar Panel -->
             <div x-show="mobileMenuOpen" x-transition:enter="transition ease-in-out duration-300 transform"
                 x-transition:enter-start="-translate-x-full rtl:translate-x-full" x-transition:enter-end="translate-x-0"
                 x-transition:leave="transition ease-in-out duration-300 transform"
                 x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full rtl:translate-x-full"
-                class="relative me-16 flex w-full max-w-xs flex-1">
-                <div x-show="mobileMenuOpen" x-transition:enter="ease-in-out duration-300"
-                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                    x-transition:leave="ease-in-out duration-300" x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    class="absolute left-full top-0 flex w-16 justify-center pt-5 rtl:left-auto rtl:right-full">
-                    <button type="button" class="-m-2.5 p-2.5" @click="mobileMenuOpen = false">
+                class="pointer-events-auto relative w-full max-w-[85%] sm:max-w-xs flex flex-col bg-white dark:bg-gray-900 shadow-2xl h-full border-r border-gray-100 dark:border-gray-800">
+
+                <!-- Sidebar Header -->
+                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
+                    <a href="{{ route('landing') }}" class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 shadow-md">
+                            <img class="h-6 w-6 " src="{{ asset('images/logo2.png') }}" alt="">
+                        </div>
+                        <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">QR Generator</span>
+                    </a>
+                    <button type="button"
+                        class="p-2 -mr-2 rounded-full text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                        @click="mobileMenuOpen = false">
                         <span class="sr-only">Close sidebar</span>
-                        <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
 
-                <!-- Sidebar component -->
-                <div
-                    class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-gray-800 border-e border-gray-200 dark:border-gray-700">
-                    <div
-                        class="flex h-16 shrink-0 items-center gap-3 border-b border-gray-200 px-6 dark:border-gray-700">
-                        <a href="{{ route('landing') }}" class="flex items-center gap-3">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
-                                {{-- <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-                                </svg> --}}
-                                <img class="h-8 w-8" src="{{ asset('images/logo2.png') }}" alt="">
-                            </div>
-                            <span class="text-lg font-semibold text-gray-900 dark:text-white">QR Generator</span>
-                        </a>
-                    </div>
+                <!-- Scrollable Content -->
+                <nav class="flex-1 overflow-y-auto px-4 py-6 scroll-smooth space-y-6">
 
-                    <nav class="flex-1 space-y-1 px-3 py-4">
-                        <!-- Dashboard -->
-                        <a href="{{ route('landing') }}"
-                            class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.home') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                            </svg>
-                            Dashboard
-                        </a>
-
-                        <!-- Analytics -->
-                        <a href="{{ route('dashboard.analytics') }}"
-                            class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.analytics') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
-                            {{ __('dashboard.analytics') }}
-                        </a>
-
-                        <!-- QR Codes -->
-                        <a href="{{ route('dashboard.qrcodes') }}"
-                            class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.qrcodes*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm0 6h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm6 6h2a1 1 0 001-1v-2a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zm6-12h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1z" />
-                            </svg>
-                            {{ __('dashboard.qr_codes') }}
-                        </a>
-
-
-                        <!-- My Subscription -->
-                        <a href="{{ route('dashboard.subscription') }}"
-                            class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.subscription') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <!-- Account Management -->
+                    <div class="space-y-1">
+                        <div class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Account
+                        </div>
+                        <a href="{{ route('dashboard.subscription') }}" @click="mobileMenuOpen = false"
+                            class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.subscription') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                            <svg class="h-6 w-6 {{ request()->routeIs('dashboard.subscription') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                             </svg>
                             {{ __('dashboard.subscription') }}
                         </a>
-
-                        <!-- Billing -->
-                        <a href="{{ route('dashboard.billing') }}"
-                            class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.billing') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('dashboard.billing') }}" @click="mobileMenuOpen = false"
+                            class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.billing') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                            <svg class="h-6 w-6 {{ request()->routeIs('dashboard.billing') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                             </svg>
                             {{ __('dashboard.billing') }}
                         </a>
+                    </div>
 
-                        @if (auth()->user()->isAdmin() || auth()->user()->isSuperAdmin())
-                            <!-- Admin Section Divider -->
-                            <div class="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
-                                <span
-                                    class="px-3 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                                    {{ __('dashboard.admin') }}
-                                </span>
-                            </div>
+                    @if (auth()->user()->isAdmin() || auth()->user()->isSuperAdmin())
+                        <!-- Admin Management List -->
+                        <div class="space-y-1 pt-2">
+                            <div class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Admin &
+                                Management</div>
 
-                            <!-- Users Management -->
-                            <a href="{{ route('dashboard.admin.users') }}"
-                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.admin.users*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Users -->
+                            <a href="{{ route('dashboard.admin.users') }}" @click="mobileMenuOpen = false"
+                                class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.admin.users*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                                <svg class="h-6 w-6 {{ request()->routeIs('dashboard.admin.users*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                                 </svg>
                                 {{ __('dashboard.users') }}
                             </a>
 
-                            <!-- Plans Management -->
-                            <a href="{{ route('dashboard.admin.plans') }}"
-                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.admin.plans*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Plans -->
+                            <a href="{{ route('dashboard.admin.plans') }}" @click="mobileMenuOpen = false"
+                                class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.admin.plans*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                                <svg class="h-6 w-6 {{ request()->routeIs('dashboard.admin.plans*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                                 {{ __('dashboard.plans') }}
                             </a>
 
-                            <!-- Subscriptions Management -->
-                            <a href="{{ route('dashboard.admin.subscriptions') }}"
-                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.admin.subscriptions*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Subscriptions -->
+                            <a href="{{ route('dashboard.admin.subscriptions') }}" @click="mobileMenuOpen = false"
+                                class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.admin.subscriptions*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                                <svg class="h-6 w-6 {{ request()->routeIs('dashboard.admin.subscriptions*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                 </svg>
                                 {{ __('dashboard.subscriptions') }}
                             </a>
 
-                            <!-- Payments Management -->
-                            <a href="{{ route('dashboard.admin.payments') }}"
-                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.admin.payments*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Payments -->
+                            <a href="{{ route('dashboard.admin.payments') }}" @click="mobileMenuOpen = false"
+                                class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.admin.payments*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                                <svg class="h-6 w-6 {{ request()->routeIs('dashboard.admin.payments*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                                 {{ __('dashboard.payments') }}
                             </a>
 
-                            <!-- Partners Management -->
-                            <a href="{{ route('dashboard.admin.partners') }}"
-                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.admin.partners*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Partners -->
+                            <a href="{{ route('dashboard.admin.partners') }}" @click="mobileMenuOpen = false"
+                                class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.admin.partners*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                                <svg class="h-6 w-6 {{ request()->routeIs('dashboard.admin.partners*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                                 {{ __('dashboard.partners') }}
                             </a>
 
-                            <!-- Messages Management -->
-                            <a href="{{ route('dashboard.admin.messages') }}"
-                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.admin.messages*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- Messages -->
+                            <a href="{{ route('dashboard.admin.messages') }}" @click="mobileMenuOpen = false"
+                                class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.admin.messages*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                                <svg class="h-6 w-6 {{ request()->routeIs('dashboard.admin.messages*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                                 {{ __('dashboard.messages') }}
                             </a>
 
-                            <!-- FAQs Management -->
-                            <a href="{{ route('dashboard.admin.faqs') }}"
-                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('dashboard.admin.faqs*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <!-- FAQs -->
+                            <a href="{{ route('dashboard.admin.faqs') }}" @click="mobileMenuOpen = false"
+                                class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.admin.faqs*') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
+                                <svg class="h-6 w-6 {{ request()->routeIs('dashboard.admin.faqs*') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 {{ __('dashboard.faqs') }}
                             </a>
-                        @endif
-                    </nav>
+                        </div>
+                    @endif
+                </nav>
 
-                    <!-- User Menu -->
-                    <div class="border-t border-gray-200 px-3 py-4 dark:border-gray-700">
-                        <a href="{{ route('dashboard.profile') }}"
-                            class="flex items-center gap-3 rounded-lg px-3 py-2">
+                <!-- Sidebar Footer - User Menu -->
+                <div class="shrink-0 border-t border-gray-100 p-4 dark:border-gray-800" x-data="{ open: false }">
+                    <div class="relative">
+                        <button @click="open = !open"
+                            class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-start hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-700">
                             <div
-                                class="h-9 w-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium">
+                                class="h-10 w-10 shrink-0 rounded-full bg-blue-600 flex items-center justify-center text-white font-medium shadow-sm">
                                 @if (auth()->user()->avatar_url)
-                                    <img class="h-9 w-9 rounded-full" src="{{ auth()->user()->getAvatarUrl() }}">
+                                    <img class="h-10 w-10 rounded-full" src="{{ auth()->user()->getAvatarUrl() }}">
                                 @else
                                     {{ substr(auth()->user()->name, 0, 1) }}
                                 @endif
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                <p class="text-sm font-bold text-gray-900 truncate dark:text-white">
                                     {{ auth()->user()->name }}</p>
                                 <p class="text-xs text-gray-500 truncate dark:text-gray-400">
-                                    {{ auth()->user()->email }}</p>
+                                    {{ auth()->user()->email }}
+                                </p>
                             </div>
-                        </a>
-                        <div class="mt-2 space-y-1">
+                            <svg class="h-5 w-5 text-gray-400 transition-transform duration-200"
+                                :class="{ 'rotate-180': open }" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropup Menu -->
+                        <div x-show="open" @click.away="open = false"
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="absolute bottom-full start-0 mb-2 w-full origin-bottom rounded-xl border border-gray-100 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-800 p-2"
+                            style="display: none;">
+
+                            <a href="{{ route('dashboard.profile') }}"
+                                class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                                {{ __('dashboard.profile') }}
+                            </a>
+
                             <button type="button"
-                                class="theme-toggle flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                <svg class="theme-toggle-light-icon h-5 w-5 hidden" fill="none"
+                                class="theme-toggle flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50">
+                                <svg class="theme-toggle-light-icon h-5 w-5 hidden text-gray-400" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
-                                <svg class="theme-toggle-dark-icon h-5 w-5 hidden" fill="none"
+                                <svg class="theme-toggle-dark-icon h-5 w-5 hidden text-gray-400" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -352,20 +351,22 @@
                                 <span class="theme-toggle-text">{{ __('dashboard.toggle_theme') }}</span>
                             </button>
 
-                            <!-- Language Switcher -->
-                            <div class="px-3 py-2">
+                            <div class="px-1 py-1">
                                 <livewire:language-switcher />
                             </div>
+
+                            <!-- Divider -->
+                            <div class="my-1 border-t border-gray-100 dark:border-gray-700"></div>
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20">
                                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                     </svg>
-                                    {{ __('dashboard.logout') }}
+                                    <span>{{ __('dashboard.logout') }}</span>
                                 </button>
                             </form>
                         </div>
@@ -373,6 +374,46 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <div
+        class="fixed bottom-0 left-0 z-40 w-full h-16 bg-white/90 backdrop-blur-lg border-t border-gray-200 dark:bg-gray-900/90 dark:border-gray-800 lg:hidden shadow-[0_-1px_3px_0_rgba(0,0,0,0.1)]">
+        <div class="grid h-full max-w-lg grid-cols-3 mx-auto font-medium">
+            <a href="{{ route('dashboard.home') }}"
+                class="inline-flex flex-col items-center justify-center px-1 hover:bg-gray-50 dark:hover:bg-gray-800 group {{ request()->routeIs('dashboard.home') ? 'text-blue-600 dark:text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
+                <svg class="w-6 h-6 mb-1 {{ request()->routeIs('dashboard.home') ? 'text-blue-600 dark:text-blue-500' : 'text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' }}"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span class="text-[10px] leading-tight text-center">{{ __('dashboard.dashboard') }}</span>
+            </a>
+
+            <a href="{{ route('dashboard.analytics') }}"
+                class="inline-flex flex-col items-center justify-center px-1 hover:bg-gray-50 dark:hover:bg-gray-800 group {{ request()->routeIs('dashboard.analytics') ? 'text-blue-600 dark:text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
+                <svg class="w-6 h-6 mb-1 {{ request()->routeIs('dashboard.analytics') ? 'text-blue-600 dark:text-blue-500' : 'text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' }}"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                <span class="text-[10px] leading-tight text-center">{{ __('dashboard.analytics') }}</span>
+            </a>
+
+            <a href="{{ route('dashboard.qrcodes') }}"
+                class="inline-flex flex-col items-center justify-center px-1 hover:bg-gray-50 dark:hover:bg-gray-800 group {{ request()->routeIs('dashboard.qrcodes*') ? 'text-blue-600 dark:text-blue-500' : 'text-gray-500 dark:text-gray-400' }}">
+                <div class="relative">
+
+                    <svg class="relative w-6 h-6 mb-1 {{ request()->routeIs('dashboard.qrcodes*') ? 'text-blue-600 dark:text-blue-500' : 'text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' }}"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm0 6h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm6 6h2a1 1 0 001-1v-2a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zm6-12h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                    </svg>
+                </div>
+                <span class="text-[10px] leading-tight text-center"> {{ __('dashboard.qr_codes') }}</span>
+            </a>
+        </div>
+    </div>
     </div>
 
     <div class="min-h-screen">
@@ -399,7 +440,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
-                    Dashboard
+                    {{ __('dashboard.dashboard') }}
                 </a>
 
                 <!-- Analytics -->
@@ -622,11 +663,12 @@
                         d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
-            <span class="text-lg font-semibold text-gray-900 dark:text-white">{{ $title ?? 'Dashboard' }}</span>
+            <span
+                class="text-lg font-semibold text-gray-900 dark:text-white">{{ $title ?? __('dashboard.dashboard') }}</span>
         </div>
 
         <!-- Main Content -->
-        <main class="lg:ps-64">
+        <main class="lg:ps-64 pb-20 lg:pb-8">
             <div class="px-4 py-8 sm:px-6 lg:px-8">
                 <!-- Page Header -->
                 @if (isset($header))

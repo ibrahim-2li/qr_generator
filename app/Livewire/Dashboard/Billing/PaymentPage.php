@@ -18,6 +18,6 @@ class PaymentPage extends Component
     public function render()
     {
         return view('livewire.dashboard.billing.payment-page')
-            ->layout('layouts.dashboard');
+            ->layout('layouts.dashboard', ['title' => __('dashboard.complete_payment')]);
     }
 }

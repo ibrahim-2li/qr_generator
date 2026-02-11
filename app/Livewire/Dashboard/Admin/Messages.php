@@ -129,6 +129,6 @@ class Messages extends Component
         return view('livewire.dashboard.admin.messages', [
             'messages' => $messages,
             'unreadCount' => $unreadCount,
-        ])->layout('layouts.dashboard', ['title' => 'Messages']);
+        ])->layout('layouts.dashboard', ['title' => __('dashboard.messages')]);
     }
 }

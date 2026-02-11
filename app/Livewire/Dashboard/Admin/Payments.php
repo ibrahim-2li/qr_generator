@@ -62,6 +62,6 @@ class Payments extends Component
         return view('livewire.dashboard.admin.payments', [
             'payments' => $payments,
             'statuses' => $statuses,
-        ])->layout('layouts.dashboard', ['title' => 'Payment History']);
+        ])->layout('layouts.dashboard', ['title' => __('dashboard.payment_history')]);
     }
 }

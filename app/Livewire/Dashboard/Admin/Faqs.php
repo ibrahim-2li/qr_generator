@@ -183,6 +183,6 @@ class Faqs extends Component
 
         return view('livewire.dashboard.admin.faqs', [
             'faqs' => $faqs,
-        ])->layout('layouts.dashboard', ['title' => 'Manage FAQs']);
+        ])->layout('layouts.dashboard', ['title' => __('dashboard.manage_faqs')]);
     }
 }

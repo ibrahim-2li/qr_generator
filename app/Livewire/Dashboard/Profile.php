@@ -91,6 +91,6 @@ class Profile extends Component
     public function render()
     {
         return view('livewire.dashboard.profile')
-            ->layout('layouts.dashboard', ['title' => 'My Profile']);
+            ->layout('layouts.dashboard', ['title' => __('dashboard.my_profile')]);
     }
 }

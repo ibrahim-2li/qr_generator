@@ -72,6 +72,6 @@ class Subscriptions extends Component
         return view('livewire.dashboard.admin.subscriptions', [
             'subscriptions' => $subscriptions,
             'statuses' => Subscription::STATUS,
-        ])->layout('layouts.dashboard', ['title' => 'Manage Subscriptions']);
+        ])->layout('layouts.dashboard', ['title' => __('dashboard.manage_subscriptions')]);
     }
 }

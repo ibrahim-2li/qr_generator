@@ -224,6 +224,6 @@ class Users extends Component
         return view('livewire.dashboard.admin.users', [
             'users' => $users,
             'roles' => User::ROLES,
-        ])->layout('layouts.dashboard', ['title' => 'Manage Users']);
+        ])->layout('layouts.dashboard', ['title' => __('dashboard.manage_users')]);
     }
 }

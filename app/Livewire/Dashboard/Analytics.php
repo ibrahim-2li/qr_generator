@@ -136,6 +136,6 @@ class Analytics extends Component
     public function render()
     {
         return view('livewire.dashboard.analytics')
-            ->layout('layouts.dashboard', ['title' => 'Analytics']);
+            ->layout('layouts.dashboard', ['title' => __('dashboard.analytics')]);
     }
 }

@@ -63,6 +63,6 @@ class SubscribePage extends Component
     public function render()
     {
         return view('livewire.dashboard.billing.subscribe-page')
-            ->layout('layouts.dashboard');
+            ->layout('layouts.dashboard', ['title' => __('dashboard.billing')]);
     }
 }

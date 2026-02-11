@@ -135,6 +135,6 @@ class Plans extends Component
 
         return view('livewire.dashboard.admin.plans', [
             'plans' => $plans,
-        ])->layout('layouts.dashboard', ['title' => 'Manage Plans']);
+        ])->layout('layouts.dashboard', ['title' => __('dashboard.manage_plans')]);
     }
 }

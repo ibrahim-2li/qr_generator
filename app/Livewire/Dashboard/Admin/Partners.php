@@ -167,6 +167,6 @@ class Partners extends Component
 
         return view('livewire.dashboard.admin.partners', [
             'partners' => $partners,
-        ])->layout('layouts.dashboard', ['title' => 'Manage Partners']);
+        ])->layout('layouts.dashboard', ['title' => __('dashboard.manage_partners')]);
     }
 }

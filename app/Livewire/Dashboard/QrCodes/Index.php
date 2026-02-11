@@ -107,6 +107,6 @@ class Index extends Component
         return view('livewire.dashboard.qr-codes.index', [
             'qrCodes' => $qrCodes,
             'types' => QrCode::distinct('type')->pluck('type')->toArray(),
-        ])->layout('layouts.dashboard', ['title' => 'My QR Codes']);
+        ])->layout('layouts.dashboard', ['title' => __('dashboard.my_qr_codes')]);
     }
 }

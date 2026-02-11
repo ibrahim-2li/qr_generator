@@ -40,6 +40,6 @@ class Home extends Component
     public function render()
     {
         return view('livewire.dashboard.home')
-            ->layout('layouts.dashboard', ['title' => 'Dashboard']);
+            ->layout('layouts.dashboard', ['title' => __('dashboard.dashboard')]);
     }
 }
