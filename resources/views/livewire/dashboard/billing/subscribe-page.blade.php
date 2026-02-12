@@ -118,8 +118,8 @@
                                 <span class="text-4xl font-bold text-gray-900 dark:text-white">
                                     {{ number_format($plan->price / 100, 2) }}
                                 </span>
-                                <span class="text-gray-600 dark:text-gray-400 ms-1">SAR</span>
-                                <span class="text-gray-500 text-sm">/ {{ $plan->interval }}</span>
+                                <span class="text-gray-600 dark:text-gray-400 ms-1">{{ __('dashboard.SAR') }}</span>
+                                <span class="text-gray-500 text-sm">/ {{ $plan->interval /30 }} {{ __('dashboard.months') }}</span>
                             </div>
 
                             {{-- Features --}}

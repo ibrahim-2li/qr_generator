@@ -279,6 +279,8 @@ return [
     'next_billing' => 'الفاتورة القادمة',
     'days_remaining_label' => 'الأيام المتبقية',
     'days' => 'أيام',
+    'months' => 'شهور',
+    'SAR' => 'ريال ',
     'no_active_subscription' => 'لا يوجد اشتراك نشط',
     'no_subscription_message' => 'ليس لديك أي اشتراك نشط. اختر خطة تناسب احتياجاتك وابدأ بإنشاء رموز QR مذهلة.',
     'simple_pricing' => 'تسعير بسيط وشفاف',

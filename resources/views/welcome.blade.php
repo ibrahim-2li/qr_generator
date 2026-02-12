@@ -458,7 +458,7 @@
                                 <span
                                     class="text-4xl font-bold text-gray-900">{{ number_format($plan->price / 100, 2) }}</span>
                                 <span class="text-gray-600 ml-1">SAR</span>
-                                <span class="text-gray-500 text-sm">/ {{ $plan->interval }}</span>
+                                <span class="text-gray-500 text-sm">/ {{ $plan->interval /30 }} Month</span>
                             </div>
 
                             <ul class="space-y-3 mb-8">

@@ -71,13 +71,10 @@
 
                         <div>
                             <label
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('dashboard.interval') }}
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('dashboard.interval') }} ({{ __('dashboard.days') }})
                                 *</label>
-                            <select wire:model="interval"
+                            <input type="number" wire:model="interval" min="1"
                                 class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                <option value="MONTHLY">{{ __('dashboard.monthly') }}</option>
-                                <option value="YEARLY">{{ __('dashboard.yearly') }}</option>
-                            </select>
                             @error('interval')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -165,14 +162,13 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="text-lg font-semibold text-gray-900 dark:text-white">
-                                        ${{ number_format($plan->price, 2) }}
+                                        {{ number_format($plan->price / 100, 2 ) }} {{ __('dashboard.SAR') }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                        {{ $plan->interval === 'MONTHLY' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' }}">
-                                        {{ $plan->interval === 'MONTHLY' ? __('dashboard.monthly') : __('dashboard.yearly') }}
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                        {{ $plan->interval/30 }} {{ __('dashboard.months') }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">

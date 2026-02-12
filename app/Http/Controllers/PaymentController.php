@@ -120,7 +120,7 @@ class PaymentController extends Controller
             $subscription->update([
                 'status' => 'active',
                 'starts_at' => now(),
-                'ends_at' => now()->addYear(),
+                'ends_at' => now()->addDays($subscription->plan->interval),
             ]);
         }
 
@@ -178,7 +178,7 @@ class PaymentController extends Controller
             $subscription->update([
                 'status' => 'active',
                 'starts_at' => now(),
-                'ends_at' => now()->addYear(),
+                'ends_at' => now()->addDays($subscription->plan->interval),
             ]);
 
             return redirect()->route('dashboard.subscription')
@@ -231,7 +231,7 @@ class PaymentController extends Controller
                 $subscription->update([
                     'status' => 'active',
                     'starts_at' => now(),
-                    'ends_at' => now()->addYear(),
+                    'ends_at' => now()->addDays($subscription->plan->interval),
                 ]);
 
                 return redirect()->route('dashboard.subscription')

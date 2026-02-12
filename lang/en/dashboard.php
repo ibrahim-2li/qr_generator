@@ -279,6 +279,8 @@ return [
     'next_billing' => 'Next Billing',
     'days_remaining_label' => 'Days Remaining',
     'days' => 'days',
+    'SAR' => 'SAR',
+    'months' => 'months',
     'no_active_subscription' => 'No Active Subscription',
     'no_subscription_message' => "You don't have any active subscription. Choose a plan that fits your needs and start creating amazing QR codes.",
     'simple_pricing' => 'Simple, Transparent Pricing',

@@ -24,7 +24,7 @@ class Plans extends Component
 
     public string $price = '';
 
-    public string $interval = 'MONTHLY';
+    public $interval = 30;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -56,7 +56,7 @@ class Plans extends Component
         $this->name = $plan->name;
         $this->description = $plan->description ?? '';
         $this->price = (string) $plan->price;
-        $this->interval = $plan->interval;
+        $this->interval = (int) $plan->interval;
         $this->showForm = true;
     }
 
@@ -66,7 +66,7 @@ class Plans extends Component
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'interval' => 'required|in:MONTHLY,YEARLY',
+            'interval' => 'required|integer|min:1',
         ]);
 
         if ($this->editingPlanId) {
@@ -119,7 +119,7 @@ class Plans extends Component
         $this->name = '';
         $this->description = '';
         $this->price = '';
-        $this->interval = 'MONTHLY';
+        $this->interval = 30;
         $this->resetErrorBag();
     }
 
