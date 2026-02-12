@@ -21,10 +21,10 @@
 
                 <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 mb-8">
                     <div class="text-3xl font-bold text-gray-900 dark:text-white">
-                        {{ number_format($plan->price / 100, 2) }} SAR
+                        {{ number_format($plan->price / 100, 2) }} {{ __('dashboard.SAR') }}
                     </div>
                     <div class="text-sm text-gray-500 dark:text-gray-400">
-                        per {{ $plan->interval }}
+                        per {{ $plan->interval /30  }} {{ __('dashboard.months') }}
                     </div>
                 </div>
             @else

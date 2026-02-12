@@ -20,7 +20,7 @@ class PlanFactory extends Factory
             'name' => fake()->randomElement(['Basic', 'Pro', 'Enterprise']),
             'description' => fake()->sentence(),
             'price' => fake()->randomNumber(4) * 100, // Price in halalas
-            'interval' => fake()->randomElement(['monthly', 'yearly']),
+            'interval' => fake()->randomElement([30, 90, 365]),
         ];
     }
 
@@ -30,7 +30,7 @@ class PlanFactory extends Factory
     public function monthly(): static
     {
         return $this->state(fn (array $attributes) => [
-            'interval' => 'monthly',
+            'interval' => 30,
         ]);
     }
 
@@ -40,7 +40,7 @@ class PlanFactory extends Factory
     public function yearly(): static
     {
         return $this->state(fn (array $attributes) => [
-            'interval' => 'yearly',
+            'interval' => 365,
         ]);
     }
 }

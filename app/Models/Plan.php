@@ -11,6 +11,11 @@ class Plan extends Model
 
     protected $fillable = ['name', 'description', 'price', 'interval'];
 
+    protected $casts = [
+        'interval' => 'integer',
+        'price' => 'decimal:2',
+    ];
+
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class);
