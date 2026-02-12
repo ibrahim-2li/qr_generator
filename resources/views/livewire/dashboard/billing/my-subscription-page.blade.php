@@ -68,14 +68,14 @@
                         <div class="flex items-center justify-between">
                             <span class="text-gray-600 dark:text-gray-400">{{ __('dashboard.price') }}</span>
                             <span class="font-medium text-gray-900 dark:text-white">
-                                ${{ number_format($subscription->plan?->price ?? 0, 2) }} /
-                                {{ strtolower($subscription->plan?->interval ?? 'month') }}
+                                ${{ number_format($subscription->plan?->price / 100 ?? 0, 2) }} /
+                                {{ strtolower($subscription->plan?->interval / 30) }}-{{ __('dashboard.monthly')}}
                             </span>
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-gray-600 dark:text-gray-400">{{ __('dashboard.billing_cycle') }}</span>
                             <span class="font-medium text-gray-900 dark:text-white capitalize">
-                                {{ $subscription->plan?->interval ?? __('dashboard.monthly') }}
+                                {{ $subscription->plan?->interval / 30 }} {{ __('dashboard.monthly')}}
                             </span>
                         </div>
                         <div class="flex items-center justify-between">
@@ -148,7 +148,7 @@
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                                            ${{ number_format($payment->amount, 2) }}
+                                            ${{ number_format($payment->amount / 100, 2) }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span

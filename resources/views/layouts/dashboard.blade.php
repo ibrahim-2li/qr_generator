@@ -179,8 +179,7 @@
 
                     <!-- Account Management -->
                     <div class="space-y-1">
-                        <div class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Account
-                        </div>
+                        <div class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">{{__('dashboard.account_management')}}</div>
                         <a href="{{ route('dashboard.subscription') }}" @click="mobileMenuOpen = false"
                             class="flex items-center gap-4 px-4 py-3.5 rounded-xl text-base font-medium transition-all active:scale-95 {{ request()->routeIs('dashboard.subscription') ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800' }}">
                             <svg class="h-6 w-6 {{ request()->routeIs('dashboard.subscription') ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 group-hover:text-gray-600' }}"
@@ -204,8 +203,7 @@
                     @if (auth()->user()->isAdmin() || auth()->user()->isSuperAdmin())
                         <!-- Admin Management List -->
                         <div class="space-y-1 pt-2">
-                            <div class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Admin &
-                                Management</div>
+                            <div class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">{{__('dashboard.admin_management')}}</div>
 
                             <!-- Users -->
                             <a href="{{ route('dashboard.admin.users') }}" @click="mobileMenuOpen = false"

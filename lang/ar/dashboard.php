@@ -251,6 +251,8 @@ return [
     'welcome_back' => 'مرحباً بعودتك، :name!',
     'dashboard_subtitle' => 'إليك ما يحدث مع رموز QR الخاصة بك اليوم.',
     'overview' => 'نظرة عامة',
+    'account_management' => 'إدارة الحساب',
+    'admin_management' => 'أدوات إدارية',
     'recent_activity' => 'النشاط الأخير',
     'recent_qr_codes' => 'رموز QR الأخيرة',
     'quick_action' => 'إجراء سريع',

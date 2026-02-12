@@ -251,6 +251,8 @@ return [
     'welcome_back' => 'Welcome back, :name!',
     'dashboard_subtitle' => "Here's what's happening with your QR codes today.",
     'overview' => 'Overview',
+    'account_management' => 'Account Management',
+    'admin_management' => 'Admin Management',
     'recent_activity' => 'Recent Activity',
     'recent_qr_codes' => 'Recent QR Codes',
     'quick_action' => 'Quick Action',

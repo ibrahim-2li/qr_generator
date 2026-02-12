@@ -254,7 +254,7 @@ class Edit extends Component
         }
 
         session()->flash('success', 'QR Code updated successfully!');
-        $this->redirect(route('dashboard.qrcodes.view', $this->qrCode->id));
+        $this->redirect(route('dashboard.qrcodes.view', $this->qrCode->slug));
     }
 
     public function render()

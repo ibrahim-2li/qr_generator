@@ -101,7 +101,7 @@
                                     <div class="text-sm font-medium text-gray-900 dark:text-white">
                                         {{ $subscription->plan?->name ?? __('dashboard.unknown') }}</div>
                                     <div class="text-sm text-gray-500 dark:text-gray-400">
-                                        ${{ number_format($subscription->plan?->price ?? 0, 2) }}/{{ strtolower($subscription->plan?->interval ?? 'month') }}
+                                        ${{ number_format($subscription->plan?->price/ 100, 2) }}/{{ strtolower($subscription->plan?->interval ?? 'month') }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
