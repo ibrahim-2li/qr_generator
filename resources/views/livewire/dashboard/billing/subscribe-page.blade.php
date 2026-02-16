@@ -35,7 +35,11 @@
                         </div>
                     </div>
                 </div>
-            @elseif($trialStatus['expired'] && !$currentSubscription)
+            @elseif(
+                $trialStatus['expired'] &&
+                    !$currentSubscription &&
+                    auth()->user()->role != 'ADMIN' &&
+                    auth()->user()->role != 'SUPER_ADMIN')
                 <div class="bg-red-50 dark:bg-red-950/50 rounded-xl p-4">
                     <div class="flex items-center gap-3">
                         <svg class="h-5 w-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor"
@@ -83,7 +87,7 @@
 
             {{-- Plans Grid --}}
             <div
-                class="grid gap-6 mt-8 {{ count($plans) >= 3 ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2' }}">
+                class="grid gap-6 mt-10 {{ count($plans) >= 3 ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2' }}">
                 @foreach ($plans as $index => $plan)
                     <div
                         class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-sm border-2 transition-all hover:shadow-lg 
@@ -119,7 +123,8 @@
                                     {{ number_format($plan->price / 100, 2) }}
                                 </span>
                                 <span class="text-gray-600 dark:text-gray-400 ms-1">{{ __('dashboard.SAR') }}</span>
-                                <span class="text-gray-500 text-sm">/ {{ $plan->interval /30 }} {{ __('dashboard.months') }}</span>
+                                <span class="text-gray-500 text-sm">/ {{ $plan->interval / 30 }}
+                                    {{ __('dashboard.months') }}</span>
                             </div>
 
                             {{-- Features --}}
@@ -207,8 +212,10 @@
                     <div
                         class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                            <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
                             {{ __('dashboard.order_summary') }}
                         </h3>

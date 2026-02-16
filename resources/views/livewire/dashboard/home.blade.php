@@ -37,7 +37,11 @@
                     </div>
                 </div>
             </div>
-        @elseif($trialStatus['expired'] && !$activeSubscription)
+        @elseif(
+            $trialStatus['expired'] &&
+                !$activeSubscription &&
+                auth()->user()->role != 'ADMIN' &&
+                auth()->user()->role != 'SUPER_ADMIN')
             <div class="bg-red-50 dark:bg-red-950/50 rounded-xl p-4 border border-red-200 dark:border-red-800">
                 <div class="flex items-center gap-3">
                     <div class="flex-shrink-0">
