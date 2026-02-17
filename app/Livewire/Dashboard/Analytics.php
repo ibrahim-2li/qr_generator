@@ -30,6 +30,8 @@ class Analytics extends Component
 
     public array $scansByOs = [];
 
+    public array $scansByQrCode = [];
+
     public array $scanTrendsByDay = [];
 
     public function mount(): void
@@ -121,6 +123,21 @@ class Analytics extends Component
             ->groupBy('os')
             ->orderByDesc('count')
             ->pluck('count', 'os')
+            ->toArray();
+
+        // Scans by QR code name
+        $this->scansByQrCode = (clone $scansQuery)
+            ->select('qr_code_id', DB::raw('count(*) as count'))
+            ->groupBy('qr_code_id')
+            ->orderByDesc('count')
+            ->limit(10)
+            ->get()
+            ->mapWithKeys(function ($item) {
+                $qrCode = QrCode::with('content', 'pdf', 'url')->find($item->qr_code_id);
+                $name = $qrCode?->content?->name ?? $qrCode?->pdf?->name ?? $qrCode?->url?->name ?? 'Unknown';
+
+                return [$name => $item->count];
+            })
             ->toArray();
 
         // Scan trends by day (last 30 days)

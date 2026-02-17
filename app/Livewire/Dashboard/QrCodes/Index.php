@@ -3,6 +3,8 @@
 namespace App\Livewire\Dashboard\QrCodes;
 
 use App\Models\QrCode;
+use chillerlan\QRCode\QRCode as QRCodeGenerator;
+use chillerlan\QRCode\QROptions;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,6 +17,8 @@ class Index extends Component
 
     public string $typeFilter = '';
 
+    public string $statusFilter = '';
+
     public string $sortField = 'created_at';
 
     public string $sortDirection = 'desc';
@@ -22,6 +26,7 @@ class Index extends Component
     protected $queryString = [
         'search' => ['except' => ''],
         'typeFilter' => ['except' => ''],
+        'statusFilter' => ['except' => ''],
     ];
 
     public function updatingSearch(): void
@@ -30,6 +35,11 @@ class Index extends Component
     }
 
     public function updatingTypeFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusFilter(): void
     {
         $this->resetPage();
     }
@@ -66,6 +76,57 @@ class Index extends Component
         session()->flash('success', 'QR Code deleted successfully.');
     }
 
+    /**
+     * Generate a QR code image for a given QR code.
+     */
+    public function generateQrCodeImage(QrCode $qrCode): ?string
+    {
+        if (! $qrCode->slug) {
+            return null;
+        }
+
+        $options = new QROptions([
+            'outputType' => QRCodeGenerator::OUTPUT_IMAGE_PNG,
+            'eccLevel' => QRCodeGenerator::ECC_L,
+            'scale' => 5,
+            'imageBase64' => true,
+        ]);
+
+        $generator = new QRCodeGenerator($options);
+        $url = url('/q/'.$qrCode->slug);
+
+        return $generator->render($url);
+    }
+
+    /**
+     * Determine the status of a QR code based on user subscription/trial.
+     */
+    public function getQrCodeStatus(QrCode $qrCode): string
+    {
+        $user = $qrCode->user;
+
+        if (! $user) {
+            return 'inactive';
+        }
+
+        // Admin users are always active
+        if ($user->role === \App\Models\User::ROLE_ADMIN || $user->role === \App\Models\User::ROLE_SUPER_ADMIN) {
+            return 'active';
+        }
+
+        // Check active subscription
+        if ($user->subscriptions()->where('status', 'active')->where('ends_at', '>', now())->exists()) {
+            return 'active';
+        }
+
+        // Check trial
+        if ($user->trial_ends_at && $user->trial_ends_at > now()) {
+            return 'active';
+        }
+
+        return 'inactive';
+    }
+
     public function render()
     {
         $user = Auth::user();
@@ -97,6 +158,26 @@ class Index extends Component
         // Type filter
         if ($this->typeFilter) {
             $query->where('type', $this->typeFilter);
+        }
+
+        // Status filter
+        if ($this->statusFilter === 'active') {
+            $query->active();
+        } elseif ($this->statusFilter === 'inactive') {
+            $query->whereDoesntHave('user', function ($q) {
+                $q->where(function ($subQuery) {
+                    $subQuery->where('role', \App\Models\User::ROLE_ADMIN)
+                        ->orWhere('role', \App\Models\User::ROLE_SUPER_ADMIN)
+                        ->orWhereHas('subscriptions', function ($subscriptionQuery) {
+                            $subscriptionQuery->where('status', 'active')
+                                ->where('ends_at', '>', now());
+                        })
+                        ->orWhere(function ($trialQuery) {
+                            $trialQuery->whereNotNull('trial_ends_at')
+                                ->where('trial_ends_at', '>', now());
+                        });
+                });
+            });
         }
 
         // Sorting

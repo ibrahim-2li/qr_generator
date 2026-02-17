@@ -196,6 +196,10 @@ return [
     'no_qr_codes_yet' => 'No QR codes yet',
     'get_started_by_creating' => 'Get started by creating your first QR code.',
     'unnamed' => 'Unnamed',
+    'search_by_name_or_url' => 'Search by name or URL',
+    'qr_code_status' => 'QR Code status',
+    'sort_by' => 'Sort by',
+    'free_trial' => 'Free Trial',
 
     // Theme
     'light_mode' => 'Light Mode',
@@ -235,6 +239,8 @@ return [
     'scans_by_city' => 'Scans by City',
     'scans_by_device' => 'Scans by Device',
     'scans_by_os' => 'Scans by OS',
+    'scans_by_operating_system' => 'Scans by operating system',
+    'scans_by_qr_code' => 'Scans by QR code name',
     'scan_trends' => 'Scan Trends',
     'scan_trends_bar' => 'Scan Trends (Bar Chart)',
     'scan_trends_line' => 'Scan Trends (Line Chart)',

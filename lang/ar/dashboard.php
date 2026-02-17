@@ -196,6 +196,10 @@ return [
     'no_qr_codes_yet' => 'لا توجد رموز QR بعد',
     'get_started_by_creating' => 'ابدأ بإنشاء أول رمز QR.',
     'unnamed' => 'بدون اسم',
+    'search_by_name_or_url' => 'البحث بالاسم أو الرابط',
+    'qr_code_status' => 'حالة رمز QR',
+    'sort_by' => 'ترتيب حسب',
+    'free_trial' => 'فترة تجريبية مجانية',
 
     // Theme
     'light_mode' => 'الوضع الفاتح',
@@ -235,6 +239,8 @@ return [
     'scans_by_city' => 'المسح حسب المدينة',
     'scans_by_device' => 'المسح حسب الجهاز',
     'scans_by_os' => 'المسح حسب نظام التشغيل',
+    'scans_by_operating_system' => 'المسح حسب نظام التشغيل',
+    'scans_by_qr_code' => 'المسح حسب اسم رمز QR',
     'scan_trends' => 'اتجاهات المسح',
     'scan_trends_bar' => 'اتجاهات المسح (مخطط شريطي)',
     'scan_trends_line' => 'اتجاهات المسح (مخطط خطي)',

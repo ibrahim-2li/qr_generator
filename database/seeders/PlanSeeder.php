@@ -16,19 +16,19 @@ class PlanSeeder extends Seeder
             'name' => 'Gold Plan',
             'description' => 'Gold Plan',
             'price' => '100000',
-            'interval' => 'year',
+            'interval' => 180,
         ]);
         Plan::create([
             'name' => 'Silver Plan',
             'description' => 'Silver Plan',
             'price' => '50000',
-            'interval' => 'year',
+            'interval' => 90,
         ]);
         Plan::create([
             'name' => 'Diamond Plan',
             'description' => 'Diamond Plan',
             'price' => '200000',
-            'interval' => 'year',
+            'interval' => 360,
         ]);
     }
 }

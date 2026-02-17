@@ -30,8 +30,8 @@
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <div class="flex items-center gap-4">
                     <div class="flex-shrink-0 p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                        <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
+                        <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor"
+                            stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5zM6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z" />
                         </svg>
@@ -92,71 +92,176 @@
             </div>
         </div>
 
-        <!-- Charts Grid -->
+        <!-- Donut Charts Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Scans by Country -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    {{ __('dashboard.scans_by_country') }}
-                </h3>
-                <div class="h-48">
-                    <canvas id="countryChart"></canvas>
-                </div>
-            </div>
 
-            <!-- Scans by Region -->
-            {{-- <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    {{ __('dashboard.scans_by_region') }}
-                </h3>
-                <div class="h-48">
-                    <canvas id="regionChart"></canvas>
+
+            <!-- Scans by QR Code Name -->
+            {{-- <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+                x-data="{ showPercentage: true }">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                        {{ __('dashboard.scans_by_qr_code') }}
+                    </h3>
+                    <div class="flex items-center gap-1">
+                        <button @click="showPercentage = true"
+                            :class="showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">%</button>
+                        <button @click="showPercentage = false"
+                            :class="!showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">##</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative shrink-0" style="width: 140px; height: 140px;">
+                        <canvas id="qrCodeChart"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <span class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalScans }}</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-2 min-w-0" id="qrCodeLegend"></div>
                 </div>
             </div> --}}
 
+            <!-- Scans by Country -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+                x-data="{ showPercentage: true }">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                        {{ __('dashboard.scans_by_country') }}
+                    </h3>
+                    <div class="flex items-center gap-1">
+                        <button @click="showPercentage = true"
+                            :class="showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">%</button>
+                        <button @click="showPercentage = false"
+                            :class="!showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">##</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative shrink-0" style="width: 140px; height: 140px;">
+                        <canvas id="countryChart"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <span class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalScans }}</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-2 min-w-0" id="countryLegend"></div>
+                </div>
+            </div>
+
             <!-- Scans by City -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    {{ __('dashboard.scans_by_city') }}
-                </h3>
-                <div class="h-48">
-                    <canvas id="cityChart"></canvas>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+                x-data="{ showPercentage: true }">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                        {{ __('dashboard.scans_by_city') }}
+                    </h3>
+                    <div class="flex items-center gap-1">
+                        <button @click="showPercentage = true"
+                            :class="showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">%</button>
+                        <button @click="showPercentage = false"
+                            :class="!showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">##</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative shrink-0" style="width: 140px; height: 140px;">
+                        <canvas id="cityChart"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <span class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalScans }}</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-2 min-w-0" id="cityLegend"></div>
+                </div>
+            </div>
+
+            <!-- Scans by Operating System -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+                x-data="{ showPercentage: true }">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                        {{ __('dashboard.scans_by_operating_system') }}
+                    </h3>
+                    <div class="flex items-center gap-1">
+                        <button @click="showPercentage = true"
+                            :class="showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">%</button>
+                        <button @click="showPercentage = false"
+                            :class="!showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">##</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative shrink-0" style="width: 140px; height: 140px;">
+                        <canvas id="osChart"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <span class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalScans }}</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-2 min-w-0" id="osLegend"></div>
                 </div>
             </div>
 
             <!-- Scans by Device -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    {{ __('dashboard.scans_by_device') }}
-                </h3>
-                <div class="h-48">
-                    <canvas id="deviceChart"></canvas>
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+                x-data="{ showPercentage: true }">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                        {{ __('dashboard.scans_by_device') }}
+                    </h3>
+                    <div class="flex items-center gap-1">
+                        <button @click="showPercentage = true"
+                            :class="showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">%</button>
+                        <button @click="showPercentage = false"
+                            :class="!showPercentage ? 'bg-blue-500 text-white' :
+                                'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'"
+                            class="px-2.5 py-1 rounded-md text-xs font-semibold transition-colors">##</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="relative shrink-0" style="width: 140px; height: 140px;">
+                        <canvas id="deviceChart"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <span class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalScans }}</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-2 min-w-0" id="deviceLegend"></div>
                 </div>
             </div>
 
-            <!-- Scans by OS -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    {{ __('dashboard.scans_by_os') }}
-                </h3>
-                <div class="h-48">
-                    <canvas id="osChart"></canvas>
-                </div>
-            </div>
+        </div>
+
+        <!-- Trend Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
 
             <!-- Scan Trends (Bar) -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-4">
                     {{ __('dashboard.scan_trends_bar') }}
                 </h3>
-                <div class="h-64">
+                <div class="h-48">
                     <canvas id="trendChart"></canvas>
                 </div>
             </div>
 
             <!-- Scan Trends (Line) -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 ">
+                <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-4">
                     {{ __('dashboard.scan_trends_line') }}
                 </h3>
                 <div class="h-64">
@@ -176,11 +281,33 @@
         let charts = {};
 
         const colors = [
-            '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6',
+            '#4F7BF7', '#F5A623', '#10B981', '#EF4444', '#8B5CF6',
             '#EC4899', '#6366F1', '#14B8A6', '#F97316', '#64748B'
         ];
 
-        function createPieChart(id, label, data) {
+        function buildCustomLegend(containerId, labels, values, chartColors) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const total = values.reduce((a, b) => a + b, 0);
+            container.innerHTML = '';
+
+            labels.forEach((label, i) => {
+                const pct = total > 0 ? ((values[i] / total) * 100).toFixed(1) : 0;
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between gap-3';
+                row.innerHTML = `
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span class="inline-block w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${chartColors[i % chartColors.length]}"></span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300 truncate">${label || 'Unknown'}</span>
+                    </div>
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white shrink-0 legend-value" data-pct="${pct}%" data-count="${values[i]}">${pct}%</span>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function createDonutChart(id, legendId, data) {
             const ctx = document.getElementById(id);
             if (!ctx) return;
 
@@ -193,34 +320,86 @@
 
             // Handle empty data
             if (labels.length === 0) {
-                // Optional: Draw 'No Data' placeholder or handle appropriately
+                const legendContainer = document.getElementById(legendId);
+                if (legendContainer) {
+                    legendContainer.innerHTML =
+                        '<p class="text-sm text-gray-400 dark:text-gray-500">{{ __('dashboard.no_data') }}</p>';
+                }
+                // Draw empty ring
+                charts[id] = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['No data'],
+                        datasets: [{
+                            data: [1],
+                            backgroundColor: ['#E5E7EB'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        }
+                    }
+                });
                 return;
             }
 
+            const chartColors = colors.slice(0, values.length);
+
             charts[id] = new Chart(ctx, {
-                type: 'pie', // Changed to pie as requested
+                type: 'doughnut',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: label,
                         data: values,
-                        backgroundColor: colors.slice(0, values.length),
-                        borderWidth: 1
+                        backgroundColor: chartColors,
+                        borderWidth: 2,
+                        borderColor: document.documentElement.classList.contains('dark') ? '#1F2937' :
+                            '#FFFFFF',
+                        hoverOffset: 6
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
+                    maintainAspectRatio: true,
+                    cutout: '70%',
                     plugins: {
                         legend: {
-                            position: 'right',
-                            labels: {
-                                color: document.documentElement.classList.contains('dark') ? '#9CA3AF' : '#374151'
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#FFFFFF',
+                            titleColor: '#374151',
+                            bodyColor: '#374151',
+                            borderColor: '#E5E7EB',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            padding: 10,
+                            boxPadding: 5,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(ctx) {
+                                    const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                    const pct = total > 0 ? ((ctx.raw / total) * 100).toFixed(1) : 0;
+                                    return `${ctx.label}: ${ctx.raw} scans (${pct}%)`;
+                                }
                             }
                         }
                     }
                 }
             });
+
+            // Build the custom legend
+            buildCustomLegend(legendId, labels, values, chartColors);
         }
 
         function createBarChart(id, label, data) {
@@ -241,7 +420,7 @@
                     datasets: [{
                         label: label,
                         data: values,
-                        backgroundColor: '#F97316',
+                        backgroundColor: '#4F7BF7',
                         borderRadius: 4
                     }]
                 },
@@ -260,7 +439,8 @@
                                 color: document.documentElement.classList.contains('dark') ? '#374151' : '#E5E7EB'
                             },
                             ticks: {
-                                color: document.documentElement.classList.contains('dark') ? '#9CA3AF' : '#374151'
+                                color: document.documentElement.classList.contains('dark') ? '#9CA3AF' : '#374151',
+                                precision: 0
                             }
                         },
                         x: {
@@ -274,16 +454,6 @@
                     }
                 }
             });
-        }
-
-        function initCharts() {
-            createPieChart('countryChart', '{{ __('dashboard.scans_by_country') }}', $wire.scansByCountry);
-            createPieChart('regionChart', '{{ __('dashboard.scans_by_region') }}', $wire.scansByRegion);
-            createPieChart('cityChart', '{{ __('dashboard.scans_by_city') }}', $wire.scansByCity);
-            createPieChart('deviceChart', '{{ __('dashboard.scans_by_device') }}', $wire.scansByDevice);
-            createPieChart('osChart', '{{ __('dashboard.scans_by_os') }}', $wire.scansByOs);
-            createBarChart('trendChart', '{{ __('dashboard.scan_trends') }}', $wire.scanTrendsByDay);
-            createLineChart('trendLineChart', '{{ __('dashboard.scan_trends') }}', $wire.scanTrendsByDay);
         }
 
         function createLineChart(id, label, data) {
@@ -304,8 +474,8 @@
                     datasets: [{
                         label: label,
                         data: values,
-                        borderColor: '#3B82F6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: '#4F7BF7',
+                        backgroundColor: 'rgba(79, 123, 247, 0.1)',
                         borderWidth: 2,
                         fill: true,
                         tension: 0.4,
@@ -353,6 +523,40 @@
                 }
             });
         }
+
+        function initCharts() {
+            createDonutChart('osChart', 'osLegend', $wire.scansByOs);
+            createDonutChart('qrCodeChart', 'qrCodeLegend', $wire.scansByQrCode);
+            createDonutChart('countryChart', 'countryLegend', $wire.scansByCountry);
+            createDonutChart('cityChart', 'cityLegend', $wire.scansByCity);
+            createDonutChart('deviceChart', 'deviceLegend', $wire.scansByDevice);
+            createBarChart('trendChart', '{{ __('dashboard.scan_trends') }}', $wire.scanTrendsByDay);
+            createLineChart('trendLineChart', '{{ __('dashboard.scan_trends') }}', $wire.scanTrendsByDay);
+        }
+
+        // Toggle between percentage and count display
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('[x-data] button');
+            if (!btn) return;
+
+            const card = btn.closest('[x-data]');
+            if (!card) return;
+
+            // Wait for Alpine state update
+            setTimeout(() => {
+                const showPct = btn.textContent.trim() === '%';
+                const legendContainer = card.querySelector('[id$="Legend"]');
+                if (!legendContainer) return;
+
+                legendContainer.querySelectorAll('.legend-value').forEach(el => {
+                    if (showPct) {
+                        el.textContent = el.dataset.pct;
+                    } else {
+                        el.textContent = el.dataset.count;
+                    }
+                });
+            }, 50);
+        });
 
         // Initialize charts on load
         initCharts();

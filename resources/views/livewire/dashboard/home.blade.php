@@ -145,7 +145,239 @@
             @if (count($recentQrCodes) > 0)
                 <div class="divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach ($recentQrCodes as $qrCode)
+                        @php
+                            $qrName =
+                                $qrCode->content?->name ??
+                                ($qrCode->pdf?->name ?? ($qrCode->url?->name ?? __('dashboard.unnamed')));
+                            $qrStatus = $this->getQrCodeStatus($qrCode);
+                            $shortUrl = config('app.url') . '/q/' . $qrCode->slug;
+                        @endphp
                         <div
+                            class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-4 sm:px-6 hover:shadow-md transition-shadow duration-200">
+                            <div class="flex items-center gap-4 sm:gap-6">
+                                <!-- QR Code Thumbnail -->
+                                <div class="shrink-0 hidden sm:block">
+                                    @php
+                                        $qrImage = $this->generateQrCodeImage($qrCode);
+                                    @endphp
+                                    @if ($qrImage)
+                                        <img src="{{ $qrImage }}" alt="QR Code"
+                                            class="w-16 h-16 rounded-lg border border-gray-100 dark:border-gray-600">
+                                    @else
+                                        <div
+                                            class="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01" />
+                                            </svg>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Info Section -->
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                                            {{ $qrName }}
+                                        </h3>
+                                        <a href="{{ route('dashboard.qrcodes.edit', $qrCode->slug) }}"
+                                            class="text-gray-400 hover:text-blue-500 transition-colors shrink-0"
+                                            title="{{ __('dashboard.edit') }}">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 mt-1">
+                                        <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                                        </svg>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400 truncate"
+                                            dir="ltr">{{ parse_url($shortUrl, PHP_URL_HOST) . '/' . $qrCode->slug }}</span>
+                                        @if ($qrCode->slug)
+                                            <button onclick="navigator.clipboard.writeText('{{ $shortUrl }}')"
+                                                class="text-gray-400 hover:text-blue-500 transition-colors shrink-0"
+                                                title="{{ __('dashboard.copy_url') }}">
+                                                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                </svg>
+                                            </button>
+                                        @endif
+                                    </div>
+                                    <div class="mt-1">
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                                            {{ __('dashboard.type') }}
+                                            <span
+                                                class="font-medium text-gray-700 dark:text-gray-300
+                                         {{ $qrCode->type === 'vcard' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 rounded-lg px-2 py-1' : '' }}
+                                        {{ $qrCode->type === 'resume' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 rounded-lg px-2 py-1' : '' }}
+                                        {{ $qrCode->type === 'pdf' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400 rounded-lg px-2 py-1' : '' }}
+                                        {{ $qrCode->type === 'url' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 rounded-lg px-2 py-1' : '' }}
+                                    
+                                        ">{{ ucfirst($qrCode->type) }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Scans Count -->
+                                <div class="hidden md:flex flex-col items-center px-4 sm:px-6 shrink-0">
+                                    <span
+                                        class="text-xl font-bold text-gray-900 dark:text-white">{{ number_format($qrCode->scan_count ?? 0) }}</span>
+                                    <span
+                                        class="text-xs text-gray-500 dark:text-gray-400">{{ __('dashboard.scans') }}</span>
+                                </div>
+
+                                <!-- Dates -->
+                                <div class="hidden lg:block shrink-0 text-xs text-gray-500 dark:text-gray-400">
+                                    <div>{{ __('dashboard.created_at') }}: {{ $qrCode->created_at->format('M d, Y') }}
+                                    </div>
+                                    <div class="mt-0.5">{{ __('dashboard.last_updated') }}:
+                                        {{ $qrCode->updated_at->format('M d, Y') }}</div>
+                                </div>
+
+                                <!-- Status Badge -->
+                                <div class="hidden sm:flex shrink-0 px-4">
+                                    @if ($qrStatus === 'active')
+                                        <span
+                                            class="inline-flex items-center gap-1 text-sm font-medium text-green-600 dark:text-green-400">
+                                            <svg class="w-2 h-2 fill-current" viewBox="0 0 8 8">
+                                                <circle cx="4" cy="4" r="4" />
+                                            </svg>
+                                            {{ __('dashboard.active') }}
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center gap-1 text-sm font-medium text-red-500 dark:text-red-400">
+                                            <svg class="w-2 h-2 fill-current" viewBox="0 0 8 8">
+                                                <circle cx="4" cy="4" r="4" />
+                                            </svg>
+                                            {{ __('dashboard.inactive') }}
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="flex items-center gap-1.5 shrink-0">
+                                    <!-- Share / Copy Link -->
+                                    <button
+                                        onclick="navigator.clipboard.writeText('{{ url('/q/' . $qrCode->slug) }}')"
+                                        class="p-2 text-gray-400 hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                        title="{{ __('dashboard.copy_url') }}">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Download -->
+                                    <a href="{{ route('dashboard.qrcodes.view', $qrCode->slug) }}"
+                                        class="p-2 text-gray-400 hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                        title="{{ __('dashboard.download_qr_code') }}">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </a>
+
+                                    <!-- More Actions Dropdown -->
+                                    <div x-data="{ open: false }" class="relative">
+                                        <button @click="open = !open" @click.away="open = false"
+                                            class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                                            title="{{ __('dashboard.actions') }}">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                <circle cx="12" cy="5" r="2" />
+                                                <circle cx="12" cy="12" r="2" />
+                                                <circle cx="12" cy="19" r="2" />
+                                            </svg>
+                                        </button>
+
+                                        <!-- Dropdown Menu -->
+                                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                                            x-transition:enter-start="opacity-0 scale-95"
+                                            x-transition:enter-end="opacity-100 scale-100"
+                                            x-transition:leave="transition ease-in duration-75"
+                                            x-transition:leave-start="opacity-100 scale-100"
+                                            x-transition:leave-end="opacity-0 scale-95"
+                                            class="absolute end-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50"
+                                            style="display: none;">
+                                            <a href="{{ route('dashboard.qrcodes.view', $qrCode->slug) }}"
+                                                class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                                {{ __('dashboard.view') }}
+                                            </a>
+                                            <a href="{{ route('dashboard.qrcodes.edit', $qrCode->slug) }}"
+                                                class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
+                                                {{ __('dashboard.edit') }}
+                                            </a>
+                                            <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                                            <button wire:click="deleteQrCode({{ $qrCode->id }})"
+                                                wire:confirm="{{ __('dashboard.confirm_delete_qr') }}"
+                                                class="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                                {{ __('dashboard.delete') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mobile-only info row -->
+                            <div class="flex items-center justify-between mt-3 sm:hidden">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-white">
+                                        {{ number_format($qrCode->scan_count ?? 0) }}
+                                        <span
+                                            class="text-xs font-normal text-gray-500 dark:text-gray-400">{{ __('dashboard.scans') }}</span>
+                                    </span>
+                                </div>
+                                @if ($qrStatus === 'active')
+                                    <span
+                                        class="inline-flex items-center gap-1 text-xs font-medium text-green-600 dark:text-green-400">
+                                        <svg class="w-1.5 h-1.5 fill-current" viewBox="0 0 8 8">
+                                            <circle cx="4" cy="4" r="4" />
+                                        </svg>
+                                        {{ __('dashboard.active') }}
+                                    </span>
+                                @else
+                                    <span
+                                        class="inline-flex items-center gap-1 text-xs font-medium text-red-500 dark:text-red-400">
+                                        <svg class="w-1.5 h-1.5 fill-current" viewBox="0 0 8 8">
+                                            <circle cx="4" cy="4" r="4" />
+                                        </svg>
+                                        {{ __('dashboard.inactive') }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        {{-- <div
                             class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                             <div class="flex items-center gap-4">
                                 <div class="flex-shrink-0 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
@@ -169,7 +401,7 @@
                                 class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
                                 {{ __('dashboard.view') }}
                             </a>
-                        </div>
+                        </div> --}}
                     @endforeach
                 </div>
             @else
