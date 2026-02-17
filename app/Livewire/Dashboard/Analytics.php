@@ -53,7 +53,7 @@ class Analytics extends Component
         }
 
         $this->qrCodeOptions = $query->get()->mapWithKeys(function ($qrCode) {
-            $name = $qrCode->content?->name ?? $qrCode->pdf?->name ?? 'Unknown';
+            $name = $qrCode->content?->name ?? $qrCode->pdf?->name ?? $qrCode->url?->name ?? 'Unknown';
 
             return [$qrCode->id => ucfirst($qrCode->type).' - '.$name];
         })->toArray();
