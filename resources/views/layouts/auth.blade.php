@@ -8,7 +8,6 @@
 
     <title>{{ $title ?? 'Authentication' }} - {{ config('app.name', 'QR Generator') }}</title>
 
-    <!-- Fonts -->
     @if (app()->getLocale() === 'ar')
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,96 +20,66 @@
         </style>
     @else
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=manrope:400,500,600,700,800&display=swap" rel="stylesheet" />
         <style>
             * {
-                font-family: 'Inter', sans-serif !important;
+                font-family: 'Manrope', sans-serif !important;
             }
         </style>
     @endif
-
-    <!-- Tailwind CSS via CDN for form styles -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
-    </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
     <style>
-        /* Custom input styles */
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            display: block;
-            width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            color: #1f2937;
-            background-color: #fff;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="password"]:focus {
-            border-color: #3b82f6;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-        }
-
-        .dark input[type="text"],
-        .dark input[type="email"],
-        .dark input[type="password"] {
-            color: #fff;
-            background-color: #374151;
-            border-color: #4b5563;
-        }
-
-        .dark input[type="text"]:focus,
-        .dark input[type="email"]:focus,
-        .dark input[type="password"]:focus {
-            border-color: #3b82f6;
-        }
-
-        input[type="checkbox"] {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 0.25rem;
-            border: 1px solid #d1d5db;
-            accent-color: #3b82f6;
+        .hero-glow::before {
+            content: '';
+            position: absolute;
+            inset: -180px -80px auto;
+            height: 420px;
+            background: radial-gradient(ellipse at top, rgba(25, 115, 255, .16), rgba(255, 255, 255, 0));
+            pointer-events: none;
         }
     </style>
 </head>
 
-<body
-    class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 antialiased">
-    <div class="flex min-h-screen flex-col items-center justify-center p-4">
-        <!-- Logo -->
-        <a href="/" class="mb-2 flex items-center gap-2 text-2xl font-bold text-gray-900 dark:text-white">
-            <!-- <svg class="h-10 w-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-            </svg> -->
-                                <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="h-10 w-10 text-blue-600">
+<body class="min-h-screen bg-white antialiased text-slate-700">
+    <div class="relative hero-glow min-h-screen">
+        <div class="relative max-w-7xl mx-auto px-6 py-8">
+            <a href="{{ route('landing') }}" class="inline-flex items-center gap-3 text-slate-950">
+                <span class="size-10 rounded-xl bg-slate-950 grid place-items-center shadow-lg shadow-slate-900/20">
+                    <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="size-6">
+                </span>
+                <span class="text-xl font-extrabold">{{ config('app.name', 'QR Generator') }}</span>
+            </a>
 
-            <span>{{ config('app.name', 'QR Generator') }}</span>
-        </a>
+            <div class="mt-8 grid lg:grid-cols-2 gap-8 items-stretch">
+                <section class="hidden lg:flex rounded-2xl border border-slate-200 bg-slate-50 p-10 flex-col justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.2em] font-extrabold text-blue-700">Secure Access</p>
+                        <h1 class="mt-4 text-4xl font-extrabold text-slate-950 leading-tight">Welcome back to your QR workspace.</h1>
+                        <p class="mt-4 text-slate-600 text-lg">Manage dynamic QR campaigns, analytics, and subscriptions from one place.</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="rounded-xl border border-slate-200 bg-white p-4">
+                            <p class="text-xs uppercase tracking-wide font-bold text-slate-500">Dynamic Links</p>
+                            <p class="mt-1 text-lg font-extrabold text-slate-950">Always editable</p>
+                        </div>
+                        <div class="rounded-xl border border-slate-200 bg-white p-4">
+                            <p class="text-xs uppercase tracking-wide font-bold text-slate-500">Analytics</p>
+                            <p class="mt-1 text-lg font-extrabold text-slate-950">Real-time</p>
+                        </div>
+                    </div>
+                </section>
 
-        <!-- Main Content -->
-        <div class="w-full max-w-md">
-            {{ $slot }}
-        </div>
+                <section class="w-full max-w-xl lg:max-w-none mx-auto">
+                    {{ $slot }}
+                </section>
+            </div>
 
-        <!-- Language Switcher -->
-        <div class="mt-8">
-            @livewire('language-switcher')
+            <div class="mt-8 flex justify-center">
+                @livewire('language-switcher')
+            </div>
         </div>
     </div>
 
