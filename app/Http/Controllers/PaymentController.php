@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Moyasar\Providers\PaymentService;
 
 class PaymentController extends Controller
@@ -42,11 +43,11 @@ class PaymentController extends Controller
 
         // Create invoice payload
         $invoiceData = [
-            'amount' => $plan->price, // in halalas
+            'amount' => (int) $plan->price, // must be integer in halalas
             'currency' => 'SAR',
             'description' => "Subscription to {$plan->name}",
             'callback_url' => route('payment.callback'),
-            'success_url' => route('payment.success'), // ✅ correct for invoices
+            'success_url' => route('payment.success'),
             'metadata' => [
                 'subscription_id' => $subscription->id,
                 'user_id' => $user->id,
@@ -68,11 +69,23 @@ class PaymentController extends Controller
                 return redirect($invoice['url']);
             }
 
+            $errorBody = $response->json();
+            Log::error('Moyasar invoice creation failed', [
+                'status' => $response->status(),
+                'body' => $errorBody,
+                'plan' => $plan->name,
+                'amount' => $plan->price,
+            ]);
+
+            $errorMessage = $errorBody['message'] ?? ($errorBody['error'] ?? 'Failed to create payment process.');
+
             return redirect()->route('dashboard.billing')
-                ->with('error', 'Failed to create payment process.');
+                ->with('error', $errorMessage);
         } catch (Exception $e) {
+            Log::error('Moyasar connection error', ['message' => $e->getMessage()]);
+
             return redirect()->route('dashboard.billing')
-                ->with('error', 'Error connecting to payment service.');
+                ->with('error', 'Error connecting to payment service: '.$e->getMessage());
         }
     }
 
