@@ -54,11 +54,14 @@
             </a>
 
             <div class="mt-8 grid lg:grid-cols-2 gap-8 items-stretch">
-                <section class="hidden lg:flex rounded-2xl border border-slate-200 bg-slate-50 p-10 flex-col justify-between">
+                <section
+                    class="hidden lg:flex rounded-2xl border border-slate-200 bg-slate-50 p-10 flex-col justify-between">
                     <div>
                         <p class="text-xs uppercase tracking-[0.2em] font-extrabold text-blue-700">Secure Access</p>
-                        <h1 class="mt-4 text-4xl font-extrabold text-slate-950 leading-tight">Welcome back to your QR workspace.</h1>
-                        <p class="mt-4 text-slate-600 text-lg">Manage dynamic QR campaigns, analytics, and subscriptions from one place.</p>
+                        <h1 class="mt-4 text-4xl font-extrabold text-slate-950 leading-tight">Welcome back to your QR
+                            workspace.</h1>
+                        <p class="mt-4 text-slate-600 text-lg">Manage dynamic QR campaigns, analytics, and subscriptions
+                            from one place.</p>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div class="rounded-xl border border-slate-200 bg-white p-4">

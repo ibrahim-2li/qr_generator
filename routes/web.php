@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QrCodeController;
+use App\Http\Middleware\SetLocale;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Dashboard\Billing\MySubscriptionPage;
@@ -13,6 +14,16 @@ use App\Models\Faq;
 use App\Models\Partner;
 use App\Models\Plan;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/locale/{locale}', function (string $locale) {
+    if (! array_key_exists($locale, SetLocale::SUPPORTED_LOCALES)) {
+        abort(404);
+    }
+
+    session(['locale' => $locale]);
+
+    return redirect()->back();
+})->name('locale.switch');
 
 Route::get('/', function () {
     $faqs = Faq::all();

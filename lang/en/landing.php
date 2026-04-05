@@ -1,0 +1,78 @@
+<?php
+
+return [
+    'meta_title' => 'QR Generator - Smart QR Infrastructure',
+    'meta_description' => 'Create, manage, and optimize QR code experiences with dynamic content, analytics, and enterprise-ready reliability.',
+
+    'nav_features' => 'Features',
+    'nav_pricing' => 'Pricing',
+    'nav_contact' => 'Contact',
+    'nav_faq' => 'FAQ',
+    'nav_login' => 'Log in',
+    'nav_get_started' => 'Get Started',
+    'nav_dashboard' => 'Dashboard',
+
+    'language_en' => 'English',
+    'language_ar' => 'العربية',
+
+    'hero_badge' => 'Put QR Power in Your Hands',
+    'hero_title_line1' => 'Seamless QR Infrastructure',
+    'hero_title_line2' => 'Trusted by modern teams',
+    'hero_description' => 'Build dynamic QR journeys, collect insights, and control every scan experience from one dashboard.',
+    'hero_cta_start' => 'Start Free',
+    'hero_cta_explore' => 'Explore Features',
+    'hero_dynamic_qr' => 'Dynamic QR',
+    'hero_live_analytics' => 'Live Analytics',
+    'hero_realtime' => 'Realtime',
+
+    'partners_title' => 'Trusted by Partners',
+
+    'features_badge' => 'Your Complete QR Toolkit',
+    'features_title' => 'Everything to launch, manage, and optimize QR experiences.',
+    'feature_1_title' => 'Accept Every Scan, Anywhere',
+    'feature_1_desc' => 'Share QR experiences for vCards, files, and links across print, campaigns, and in-store touchpoints.',
+    'feature_1_item_1' => 'Dynamic content updates',
+    'feature_1_item_2' => 'Mobile-first landing pages',
+    'feature_1_item_3' => 'Custom branding and colors',
+    'feature_2_title' => 'Manage and Automate',
+    'feature_2_desc' => 'Control code lifecycle, rotate destinations, and keep campaigns current without reprinting assets.',
+    'feature_2_item_1' => 'One dashboard for all QR codes',
+    'feature_2_item_2' => 'Edit targets after publishing',
+    'feature_2_item_3' => 'Team-ready workflow',
+    'feature_3_title' => 'Payment-Grade Reliability',
+    'feature_3_desc' => 'Designed for scale with secure links, fast redirects, and consistent scan performance.',
+    'feature_3_item_1' => 'Resilient redirect pipeline',
+    'feature_3_item_2' => 'Secure QR hosting',
+    'feature_3_item_3' => 'Built for high traffic volumes',
+    'feature_4_title' => 'Optimization and Insights',
+    'feature_4_desc' => 'Use analytics to learn where and when users scan, then optimize campaigns for conversion.',
+    'feature_4_item_1' => 'Scan trends and growth reports',
+    'feature_4_item_2' => 'Country and device insights',
+    'feature_4_item_3' => 'Performance-driven decisions',
+
+    'dashboard_block_badge' => 'Control That Works for You',
+    'dashboard_block_title' => 'See Everything. Miss Nothing.',
+    'dashboard_block_desc' => 'An integrated dashboard to monitor QR performance, content health, and campaign outcomes in one place.',
+    'dashboard_block_cta' => 'Explore Dashboard',
+
+    'pricing_badge' => 'Pricing',
+    'pricing_title' => 'Simple plans for growing QR operations.',
+    'pricing_most_popular' => 'Most Popular',
+    'pricing_currency' => 'SAR',
+    'pricing_interval' => 'Every :months month(s)',
+
+    'contact_badge' => 'Contact',
+    'contact_title' => 'Talk to Our Team',
+    'contact_desc' => 'Have a use case in mind? Send your request and we will get back to you.',
+    'contact_name' => 'Name',
+    'contact_email' => 'Email',
+    'contact_subject' => 'Subject',
+    'contact_message' => 'How can we help?',
+    'contact_send' => 'Send Message',
+
+    'faq_badge' => 'FAQ',
+    'faq_title' => 'Got questions?',
+
+    'footer_rights' => 'All rights reserved.',
+    'toast_success_title' => 'Success',
+];

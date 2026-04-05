@@ -1,4 +1,4 @@
-<div class="relative" x-data="{ open: false }">
+{{-- <div class="relative" x-data="{ open: false }">
     <button @click="open = !open" @click.away="open = false"
         class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors">
         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,4 +34,11 @@
             @endforeach
         </div>
     </div>
+</div> --}}
+<div
+    class="flex items-center rounded-lg bg-white p-1 bg-white-100 dark:text-gray-300 dark:bg-gray-800 transition-colors">
+    <a href="{{ route('locale.switch', ['locale' => 'en']) }}"
+        class="px-2 py-1 rounded-md text-xs font-bold transition {{ app()->getLocale() === 'en' ? 'bg-slate-900 text-white' : 'text-white-900' }}">{{ __('landing.language_en') }}</a>
+    <a href="{{ route('locale.switch', ['locale' => 'ar']) }}"
+        class="px-2 py-1 rounded-md text-xs font-bold transition {{ app()->getLocale() === 'ar' ? 'bg-slate-900 text-white' : 'text-white-900' }}">{{ __('landing.language_ar') }}</a>
 </div>

@@ -1,0 +1,78 @@
+<?php
+
+return [
+    'meta_title' => 'مولد QR - بنية تحتية ذكية لرموز QR',
+    'meta_description' => 'أنشئ وادِر وحسّن تجارب رموز QR بالمحتوى الديناميكي والتحليلات والاعتمادية الجاهزة للمؤسسات.',
+
+    'nav_features' => 'المميزات',
+    'nav_pricing' => 'الأسعار',
+    'nav_contact' => 'تواصل معنا',
+    'nav_faq' => 'الأسئلة الشائعة',
+    'nav_login' => 'تسجيل الدخول',
+    'nav_get_started' => 'ابدأ الآن',
+    'nav_dashboard' => 'لوحة التحكم',
+
+    'language_en' => 'English',
+    'language_ar' => 'العربية',
+
+    'hero_badge' => 'قوة QR بين يديك',
+    'hero_title_line1' => 'بنية QR سلسة',
+    'hero_title_line2' => 'موثوقة لدى الفرق الحديثة',
+    'hero_description' => 'أنشئ رحلات QR ديناميكية، واجمع التحليلات، وتحكم بكل تجربة مسح من لوحة واحدة.',
+    'hero_cta_start' => 'ابدأ مجاناً',
+    'hero_cta_explore' => 'استكشف المميزات',
+    'hero_dynamic_qr' => 'QR ديناميكي',
+    'hero_live_analytics' => 'تحليلات مباشرة',
+    'hero_realtime' => 'لحظي',
+
+    'partners_title' => 'موثوق من شركائنا',
+
+    'features_badge' => 'مجموعة QR المتكاملة',
+    'features_title' => 'كل ما تحتاجه لإطلاق وإدارة وتحسين تجارب QR.',
+    'feature_1_title' => 'اقبل كل عملية مسح في أي مكان',
+    'feature_1_desc' => 'شارك تجارب QR لبطاقات vCard والملفات والروابط عبر المطبوعات والحملات ونقاط البيع.',
+    'feature_1_item_1' => 'تحديث المحتوى ديناميكياً',
+    'feature_1_item_2' => 'صفحات هبوط مهيأة للجوال',
+    'feature_1_item_3' => 'هوية بصرية وألوان مخصصة',
+    'feature_2_title' => 'إدارة وأتمتة',
+    'feature_2_desc' => 'تحكم بدورة حياة الكود وبدّل الوجهات وحافظ على حداثة الحملات دون إعادة الطباعة.',
+    'feature_2_item_1' => 'لوحة واحدة لكل أكواد QR',
+    'feature_2_item_2' => 'تعديل الوجهات بعد النشر',
+    'feature_2_item_3' => 'سير عمل مناسب للفرق',
+    'feature_3_title' => 'اعتمادية بمستوى المدفوعات',
+    'feature_3_desc' => 'مصمم للتوسع مع روابط آمنة وتحويلات سريعة وأداء مسح ثابت.',
+    'feature_3_item_1' => 'مسار تحويل مرن',
+    'feature_3_item_2' => 'استضافة QR آمنة',
+    'feature_3_item_3' => 'جاهز لحجم زيارات مرتفع',
+    'feature_4_title' => 'تحسين ورؤى',
+    'feature_4_desc' => 'استخدم التحليلات لفهم مكان ووقت المسح ثم حسّن الحملات لرفع التحويل.',
+    'feature_4_item_1' => 'اتجاهات المسح وتقارير النمو',
+    'feature_4_item_2' => 'رؤى الدولة والجهاز',
+    'feature_4_item_3' => 'قرارات مبنية على الأداء',
+
+    'dashboard_block_badge' => 'تحكم يناسبك',
+    'dashboard_block_title' => 'شاهد كل شيء ولا تفوّت شيئاً',
+    'dashboard_block_desc' => 'لوحة متكاملة لمراقبة أداء QR وصحة المحتوى ونتائج الحملات في مكان واحد.',
+    'dashboard_block_cta' => 'استكشف لوحة التحكم',
+
+    'pricing_badge' => 'الأسعار',
+    'pricing_title' => 'خطط بسيطة لنمو عمليات QR.',
+    'pricing_most_popular' => 'الأكثر شيوعاً',
+    'pricing_currency' => 'ر.س',
+    'pricing_interval' => 'كل :months شهر',
+
+    'contact_badge' => 'تواصل معنا',
+    'contact_title' => 'تحدث مع فريقنا',
+    'contact_desc' => 'هل لديك حالة استخدام؟ أرسل طلبك وسنعود إليك قريباً.',
+    'contact_name' => 'الاسم',
+    'contact_email' => 'البريد الإلكتروني',
+    'contact_subject' => 'الموضوع',
+    'contact_message' => 'كيف يمكننا المساعدة؟',
+    'contact_send' => 'إرسال الرسالة',
+
+    'faq_badge' => 'الأسئلة الشائعة',
+    'faq_title' => 'لديك أسئلة؟',
+
+    'footer_rights' => 'جميع الحقوق محفوظة.',
+    'toast_success_title' => 'تم بنجاح',
+];
