@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subscription;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Moyasar\Providers\PaymentService;
-use Exception;
 
 class PaymentController extends Controller
 {
@@ -26,8 +27,8 @@ class PaymentController extends Controller
         $planId = $request->input('plan_id') ?? session('selected_plan_id');
         $user = Auth::user();
 
-        if (!$planId || !$user) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')
+        if (! $planId || ! $user) {
+            return redirect()->route('dashboard.billing')
                 ->with('error', 'Error in request data.');
         }
 
@@ -42,11 +43,11 @@ class PaymentController extends Controller
 
         // Create invoice payload
         $invoiceData = [
-            'amount' => $plan->price, // in halalas
+            'amount' => (int) $plan->price, // must be integer in halalas
             'currency' => 'SAR',
             'description' => "Subscription to {$plan->name}",
             'callback_url' => route('payment.callback'),
-            'success_url' => route('payment.success'), // ✅ correct for invoices
+            'success_url' => route('payment.success'),
             'metadata' => [
                 'subscription_id' => $subscription->id,
                 'user_id' => $user->id,
@@ -68,11 +69,23 @@ class PaymentController extends Controller
                 return redirect($invoice['url']);
             }
 
-            return redirect()->route('filament.dashboard.pages.subscribe-page')
-                ->with('error', 'Failed to create payment process.');
+            $errorBody = $response->json();
+            Log::error('Moyasar invoice creation failed', [
+                'status' => $response->status(),
+                'body' => $errorBody,
+                'plan' => $plan->name,
+                'amount' => $plan->price,
+            ]);
+
+            $errorMessage = $errorBody['message'] ?? ($errorBody['error'] ?? 'Failed to create payment process.');
+
+            return redirect()->route('dashboard.billing')
+                ->with('error', $errorMessage);
         } catch (Exception $e) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')
-                ->with('error', 'Error connecting to payment service.');
+            Log::error('Moyasar connection error', ['message' => $e->getMessage()]);
+
+            return redirect()->route('dashboard.billing')
+                ->with('error', 'Error connecting to payment service: '.$e->getMessage());
         }
     }
 
@@ -120,7 +133,7 @@ class PaymentController extends Controller
             $subscription->update([
                 'status' => 'active',
                 'starts_at' => now(),
-                'ends_at' => now()->addYear(),
+                'ends_at' => now()->addDays($subscription->plan->interval),
             ]);
         }
 
@@ -132,94 +145,41 @@ class PaymentController extends Controller
      * Browser redirect after payment (for the user).
      */
     public function redirect(Request $request)
-{
-    $invoiceId = $request->query('id');
+    {
+        $invoiceId = $request->query('id');
 
-    if (! $invoiceId) {
-        return redirect()->route('filament.dashboard.pages.subscribe-page')
-            ->with('error', 'Missing invoice ID.');
-    }
+        if (! $invoiceId) {
+            return redirect()->route('dashboard.billing')
+                ->with('error', 'Missing invoice ID.');
+        }
 
-    // Fetch invoice info from Moyasar
-    $response = Http::withBasicAuth(config('services.moyasar.secret'), '')
-        ->get("https://api.moyasar.com/v1/invoices/{$invoiceId}");
-
-    if (! $response->successful()) {
-        return redirect()->route('filament.dashboard.pages.subscribe-page')
-            ->with('error', 'Unable to verify payment.');
-    }
-
-    $invoice = $response->json();
-
-    // Ensure metadata exists
-    $subscriptionId = $invoice['metadata']['subscription_id'] ?? null;
-
-    if (! $subscriptionId) {
-        return redirect()->route('filament.dashboard.pages.subscribe-page')
-            ->with('error', 'Subscription not found in payment data.');
-    }
-
-    $subscription = \App\Models\Subscription::find($subscriptionId);
-
-    if (! $subscription) {
-        return redirect()->route('filament.dashboard.pages.subscribe-page')
-            ->with('error', 'Subscription record missing.');
-    }
-
-    // Record payment
-    $subscription->payments()->create([
-        'payment_id' => $invoice['id'],
-        'amount' => $invoice['amount'],
-        'status' => $invoice['status'],
-        'payload' => $invoice,
-    ]);
-
-    if ($invoice['status'] === 'paid') {
-        $subscription->update([
-            'status' => 'active',
-            'starts_at' => now(),
-            'ends_at' => now()->addYear(),
-        ]);
-
-        return redirect()->route('filament.dashboard.pages.my-subscription-page')
-            ->with('success', '✅ Payment successful and subscription activated.');
-    }
-
-    return redirect()->route('filament.dashboard.pages.subscribe-page')
-        ->with('error', '❌ Payment failed or cancelled.');
-}
-
-public function success(Request $request)
-{
-    $invoiceId = $request->query('invoice_id');
-
-    if (! $invoiceId) {
-        return response()->json(['error' => 'Missing invoice_id in redirect.'], 400);
-    }
-
-    try {
+        // Fetch invoice info from Moyasar
         $response = Http::withBasicAuth(config('services.moyasar.secret'), '')
             ->get("https://api.moyasar.com/v1/invoices/{$invoiceId}");
 
         if (! $response->successful()) {
-            return response()->json(['error' => 'Failed to fetch invoice.'], 400);
+            return redirect()->route('dashboard.billing')
+                ->with('error', 'Unable to verify payment.');
         }
 
         $invoice = $response->json();
 
+        // Ensure metadata exists
         $subscriptionId = $invoice['metadata']['subscription_id'] ?? null;
+
         if (! $subscriptionId) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')
-                ->with('error', 'Subscription ID not found in metadata.');
+            return redirect()->route('dashboard.billing')
+                ->with('error', 'Subscription not found in payment data.');
         }
 
         $subscription = \App\Models\Subscription::find($subscriptionId);
+
         if (! $subscription) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')
-                ->with('error', 'Subscription not found.');
+            return redirect()->route('dashboard.billing')
+                ->with('error', 'Subscription record missing.');
         }
 
-        // Save payment details
+        // Record payment
         $subscription->payments()->create([
             'payment_id' => $invoice['id'],
             'amount' => $invoice['amount'],
@@ -231,20 +191,71 @@ public function success(Request $request)
             $subscription->update([
                 'status' => 'active',
                 'starts_at' => now(),
-                'ends_at' => now()->addYear(),
+                'ends_at' => now()->addDays($subscription->plan->interval),
             ]);
 
-            return redirect()->route('filament.dashboard.pages.my-subscription-page')
+            return redirect()->route('dashboard.subscription')
                 ->with('success', '✅ Payment successful and subscription activated.');
         }
 
-        return redirect()->route('filament.dashboard.pages.subscribe-page')
-            ->with('error', '❌ Payment failed or was not completed.');
-
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
+        return redirect()->route('dashboard.billing')
+            ->with('error', '❌ Payment failed or cancelled.');
     }
-}
 
+    public function success(Request $request)
+    {
+        $invoiceId = $request->query('invoice_id');
 
+        if (! $invoiceId) {
+            return response()->json(['error' => 'Missing invoice_id in redirect.'], 400);
+        }
+
+        try {
+            $response = Http::withBasicAuth(config('services.moyasar.secret'), '')
+                ->get("https://api.moyasar.com/v1/invoices/{$invoiceId}");
+
+            if (! $response->successful()) {
+                return response()->json(['error' => 'Failed to fetch invoice.'], 400);
+            }
+
+            $invoice = $response->json();
+
+            $subscriptionId = $invoice['metadata']['subscription_id'] ?? null;
+            if (! $subscriptionId) {
+                return redirect()->route('dashboard.billing')
+                    ->with('error', 'Subscription ID not found in metadata.');
+            }
+
+            $subscription = \App\Models\Subscription::find($subscriptionId);
+            if (! $subscription) {
+                return redirect()->route('dashboard.billing')
+                    ->with('error', 'Subscription not found.');
+            }
+
+            // Save payment details
+            $subscription->payments()->create([
+                'payment_id' => $invoice['id'],
+                'amount' => $invoice['amount'],
+                'status' => $invoice['status'],
+                'payload' => $invoice,
+            ]);
+
+            if ($invoice['status'] === 'paid') {
+                $subscription->update([
+                    'status' => 'active',
+                    'starts_at' => now(),
+                    'ends_at' => now()->addDays($subscription->plan->interval),
+                ]);
+
+                return redirect()->route('dashboard.subscription')
+                    ->with('success', '✅ Payment successful and subscription activated.');
+            }
+
+            return redirect()->route('dashboard.billing')
+                ->with('error', '❌ Payment failed or was not completed.');
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

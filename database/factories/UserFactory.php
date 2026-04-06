@@ -41,4 +41,46 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Indicate that the user is an admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => \App\Models\User::ROLE_ADMIN,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a super admin.
+     */
+    public function superAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => \App\Models\User::ROLE_SUPER_ADMIN,
+        ]);
+    }
+
+    /**
+     * Give the user an active trial.
+     */
+    public function withActiveTrial(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'trial_ends_at' => now()->addDays(7),
+            'trial_used' => true,
+        ]);
+    }
+
+    /**
+     * Give the user an expired trial.
+     */
+    public function withExpiredTrial(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'trial_ends_at' => now()->subDays(1),
+            'trial_used' => true,
+        ]);
+    }
 }

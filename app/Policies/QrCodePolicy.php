@@ -12,7 +12,7 @@ class QrCodePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin()|| $user->isSuperAdmin() || $user->isUser();
+        return $user->isAdmin() || $user->isSuperAdmin() || $user->isUser();
     }
 
     /**

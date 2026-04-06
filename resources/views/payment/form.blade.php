@@ -111,7 +111,7 @@
             <div id="moyasar-form"></div>
         </div>
 
-        <a href="{{ route('filament.dashboard.pages.subscribe-page') }}" class="back-btn">العودة</a>
+        <a href="{{ route('dashboard.billing') }}" class="back-btn">العودة</a>
     </div>
 
     <script>
@@ -133,7 +133,7 @@
                         console.log('Payment completed:', payment);
                         alert('تم الدفع بنجاح! سيتم توجيهك إلى صفحة التأكيد.');
                         window.location.href =
-                            '{{ route('filament.dashboard.pages.my-subscription-page') }}';
+                            '{{ route('dashboard.subscription') }}';
                     },
                     on_failed: function(error) {
                         console.error('Payment failed:', error);

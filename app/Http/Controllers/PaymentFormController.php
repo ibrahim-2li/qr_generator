@@ -9,7 +9,7 @@ class PaymentFormController extends Controller
         $paymentData = session('payment_data');
 
         if (! $paymentData) {
-            return redirect()->route('filament.dashboard.pages.subscribe-page')
+            return redirect()->route('dashboard.billing')
                 ->with('error', 'لم يتم العثور على بيانات الدفع.');
         }
 

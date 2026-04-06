@@ -2,21 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
+    use HasFactory;
 
     const STATUS_ACTIVE = 'active';
+
     const STATUS_CANCELED = 'canceled';
-    const STATUS_PENDING  = 'pending';
+
+    const STATUS_PENDING = 'pending';
 
     const STATUS = [
-        self::STATUS_ACTIVE =>'active',
-        self::STATUS_CANCELED=>'canceled',
-        self::STATUS_PENDING  =>'pending',
+        self::STATUS_ACTIVE => 'active',
+        self::STATUS_CANCELED => 'canceled',
+        self::STATUS_PENDING => 'pending',
     ];
-
 
     protected $fillable = ['user_id', 'plan_id', 'status', 'starts_at', 'ends_at'];
 
