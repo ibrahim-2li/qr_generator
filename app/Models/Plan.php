@@ -13,7 +13,7 @@ class Plan extends Model
 
     protected $casts = [
         'interval' => 'integer',
-        'price' => 'decimal:2',
+        'price' => 'integer',
     ];
 
     public function subscriptions()

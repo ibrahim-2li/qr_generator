@@ -96,14 +96,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Get avatar URL - backward compatibility alias.
-     */
-    public function getFilamentAvatarUrl(): ?string
-    {
-        return $this->getAvatarUrl();
-    }
-
-    /**
      * Check if user has an active subscription
      */
     public function hasActiveSubscription(): bool
