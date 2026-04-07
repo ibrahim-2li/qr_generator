@@ -16,11 +16,15 @@ class Plans extends Component
     // Form fields
     public bool $showForm = false;
 
+    // public array $featureOptions = [];
+
     public ?int $editingPlanId = null;
 
     public string $name = '';
 
     public string $description = '';
+
+    public array $features = [];
 
     public string $price = '';
 
@@ -55,6 +59,7 @@ class Plans extends Component
         $this->editingPlanId = $plan->id;
         $this->name = $plan->name;
         $this->description = $plan->description ?? '';
+        $this->features = $plan->features ?? [];
         $this->price = (string) $plan->price;
         $this->interval = (int) $plan->interval;
         $this->showForm = true;
@@ -76,6 +81,7 @@ class Plans extends Component
                 'description' => $this->description,
                 'price' => $this->price,
                 'interval' => $this->interval,
+                'features' => $this->features,
             ]);
             session()->flash('success', 'Plan updated successfully.');
         } else {
@@ -84,6 +90,7 @@ class Plans extends Component
                 'description' => $this->description,
                 'price' => $this->price,
                 'interval' => $this->interval,
+                'features' => $this->features,
             ]);
             session()->flash('success', 'Plan created successfully.');
         }
@@ -120,6 +127,7 @@ class Plans extends Component
         $this->description = '';
         $this->price = '';
         $this->interval = 30;
+        $this->features = [];
         $this->resetErrorBag();
     }
 

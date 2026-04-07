@@ -9,11 +9,14 @@ class Plan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'price', 'interval'];
+    protected $fillable = ['name', 'description', 'price', 'interval', 'is_active', 'features'];
 
     protected $casts = [
         'interval' => 'integer',
         'price' => 'integer',
+        'is_active' => 'boolean',
+        'features' => 'array',
+
     ];
 
     public function subscriptions()

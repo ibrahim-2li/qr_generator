@@ -442,15 +442,15 @@
                 class="grid md:grid-cols-2 lg:grid-cols-{{ count($plans) > 2 ? '3' : count($plans) }} gap-8 max-w-5xl mx-auto">
                 @foreach ($plans as $index => $plan)
                     <div
-                        class="relative bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 {{ $index === 0 ? 'ring-2 ring-blue-600' : '' }}">
-                        @if ($index === 0)
+                        class="relative bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 {{ $index === 1 ? 'ring-2 ring-blue-600' : '' }}">
+                        @if ($index === 1)
                             <div
                                 class="absolute top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-2 text-sm font-semibold">
                                 Most Popular
                             </div>
                         @endif
 
-                        <div class="p-8 {{ $index === 0 ? 'pt-14' : '' }}">
+                        <div class="p-8 {{ $index === 1 ? 'pt-14' : '' }}">
                             <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $plan->name }}</h3>
                             <p class="text-gray-600 mb-6">{{ $plan->description }}</p>
 
@@ -461,39 +461,24 @@
                                 <span class="text-gray-500 text-sm">/ {{ $plan->interval /30 }} Month</span>
                             </div>
 
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-center text-gray-600">
-                                    <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Unlimited QR Codes
-                                </li>
-                                <li class="flex items-center text-gray-600">
-                                    <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Advanced Analytics
-                                </li>
-                                <li class="flex items-center text-gray-600">
-                                    <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Custom Branding
-                                </li>
-                                <li class="flex items-center text-gray-600">
-                                    <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    Priority Support
-                                </li>
+                            <ul class="text-gray-600 mb-6 space-y-2">
+                                @foreach ($plan->features as $feature)
+                                    <li class="flex items-center">
+                                        @if($feature['check'] === true)
+                                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        @else
+                                            <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        @endif
+                                        {{ $feature['text'] }}
+                                    </li>
+                                @endforeach
                             </ul>
 
                             {{-- @auth
@@ -503,7 +488,7 @@
                                 </a>
                             @else --}}
                             <a href="/app/subscription"
-                                class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 0 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
+                                class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 1 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
                                 Get Started
                             </a>
                             {{-- @endauth --}}

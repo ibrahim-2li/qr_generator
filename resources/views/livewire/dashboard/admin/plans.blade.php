@@ -79,6 +79,23 @@
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('features') }}</label>
+                            @foreach ($features as $option)
+                                <div class="flex items-center mb-1">
+                                    <input type="checkbox" wire:model="features" value="{{ $option['text'] }}"
+                                        class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                    <span class="ml-2 text-sm text-gray-900 dark:text-white">{{ $option['text'] }}</span>
+                                </div>
+
+                            @endforeach
+                                {{-- <input type="checkbox" wire:model="features"
+                                class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="{{ __('dashboard.features_placeholder') }}"> --}}
+                            @error('features')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
                         <div class="md:col-span-2">
                             <label
@@ -141,6 +158,10 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                {{ __('features') }}
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 {{ __('dashboard.subscriptions') }}
                             </th>
                             <th scope="col"
@@ -171,6 +192,19 @@
                                         {{ $plan->interval/30 }} {{ __('dashboard.months') }}
                                     </span>
                                 </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <ul class="space-y-1">
+                                        @foreach ($plan->features as $feature)
+                                            <li class="flex items-center">
+                                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                </svg>
+                                                <span class="ml-2 text-sm text-gray-900 dark:text-white">{{ $feature['text'] }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                                     {{ number_format($plan->subscriptions_count) }}
                                 </td>
