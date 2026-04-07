@@ -17,6 +17,8 @@ class ScanFactory extends Factory
      */
     public function definition(): array
     {
+        // recycle QrCode::factory();
+
         return [
             'qr_code_id' => QrCode::factory(),
             'ip' => fake()->ipv4(),
@@ -25,8 +27,8 @@ class ScanFactory extends Factory
             'city' => fake()->city(),
             'device' => fake()->randomElement(['mobile', 'desktop']),
             'os' => fake()->randomElement(['Windows', 'Mac OS', 'Linux', 'iOS', 'Android']),
-            'created_at' => fake()->dateTime(),
-            'updated_at' => fake()->dateTime(),
+            'created_at' => fake()->dateTimeBetween('first day of last month', 'last day of last month')->format('Y-m-d H:i:s'),
+            'updated_at' => fake()->dateTimeBetween('first day of last month', 'last day of last month')->format('Y-m-d H:i:s'),
         ];
     }
 }

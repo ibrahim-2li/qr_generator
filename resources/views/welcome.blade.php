@@ -1,721 +1,444 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>QR Generator - Create & Track QR Codes</title>
-    <meta name="description"
-        content="Generate professional QR codes with advanced analytics and tracking. Perfect for businesses, events, and personal use.">
+    <meta name="description" content="Generate branded QR codes, manage campaigns, and track scans with a polished analytics dashboard.">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
-
-    <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
-        <style>
-            /*! tailwindcss v4.0.7 | MIT License | https://tailwindcss.com */
-            @import "tailwindcss";
-        </style>
+        <style>@import "tailwindcss";</style>
     @endif
+
+    <style>
+        @font-face {
+            font-family: 'Geomanist';
+            src: url('{{ asset('fonts/Geomanist.woff') }}') format('woff');
+            font-style: normal;
+            font-weight: normal;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('{{ asset('fonts/Inter-Variable.ttf') }}') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Fira Code';
+            src: url('{{ asset('fonts/FiraCode-Variable.ttf') }}') format('truetype');
+            font-weight: 200 700;
+            font-style: normal;
+        }
+
+        :root {
+            --landing-bg: #f6f6f4;
+            --landing-panel: rgba(255, 255, 255, 0.74);
+            --landing-border: rgba(15, 23, 42, 0.08);
+            --landing-text: #171c2e;
+            --landing-accent: #2563eb;
+            --landing-accent-dark: #1d4ed8;
+            --landing-shadow: 0 30px 80px rgba(15, 23, 42, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body,
+        .font-sans {
+            font-family: 'Inter', sans-serif !important;
+            background:
+                radial-gradient(circle at 20% 0%, rgba(37, 99, 235, 0.12), transparent 28%),
+                radial-gradient(circle at 80% 15%, rgba(23, 28, 46, 0.06), transparent 24%),
+                linear-gradient(180deg, #fafaf9 0%, var(--landing-bg) 100%);
+            color: var(--landing-text);
+        }
+
+        .landing-headline,
+        .font-headline {
+            font-family: 'Geomanist', sans-serif !important;
+            font-weight: 500 !important;
+            letter-spacing: -0.03em;
+        }
+
+        .text-xs {
+            font-size: 0.70rem !important;
+        }
+
+        .text-sm {
+            font-size: 0.85rem !important;
+        }
+
+        p {
+            font-size: 0.95rem !important;
+        }
+
+        code,
+        pre {
+            font-family: 'Fira Code', monospace !important;
+        }
+
+        .glass-panel {
+            background: var(--landing-panel);
+            border: 1px solid var(--landing-border);
+            box-shadow: var(--landing-shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .landing-highlight {
+            background: rgba(37, 99, 235, 0.12);
+        }
+
+        .landing-button-primary {
+            background: var(--landing-accent);
+            border: 1px solid var(--landing-accent-dark);
+            color: white;
+        }
+
+        .landing-button-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .landing-button-secondary {
+            background: white;
+            border: 1px solid rgba(39, 39, 42, 0.14);
+            color: #52525b;
+        }
+
+        .landing-button-secondary:hover {
+            border-color: rgba(39, 39, 42, 0.24);
+            background: #fafafa;
+        }
+
+        .faq-answer[hidden] {
+            display: none;
+        }
+
+        .hero-grid {
+            background-image:
+                linear-gradient(rgba(23, 28, 46, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(23, 28, 46, 0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 28%, transparent 78%);
+            opacity: .75;
+        }
+    </style>
 </head>
+<body class="min-h-screen antialiased">
+    @php($orderedPlans = $plans->sortBy('price')->values())
 
-<body class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 min-h-screen">
-    <!-- Navigation -->
-    <nav class="relative z-10 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <div
-                    class="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                    <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="w-5 h-5">
+    <header id="landing-header" class="fixed inset-x-0 top-0 z-50 bg-[rgba(246,246,244,0.84)] transition-all duration-300">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
+            <a href="{{ route('landing') }}" class="flex items-center gap-4">
+                <img src="{{ asset('images/expo/logo.svg') }}" alt="QR Generator" class="h-10 w-auto">
+                <div class="flex flex-col">
+                    <span class="landing-headline text-2xl text-[var(--landing-text)]">QR Generator</span>
+                    <span class="text-xs text-gray-500">smart codes by your team</span>
                 </div>
-                <span class="hidden sm:inline md:inline lg:inline xl:inline text-xl font-bold text-gray-900">QR
-                    Generator</span>
-            </div>
+            </a>
 
-            <!-- Navigation Links -->
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#features" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Features</a>
-                <a href="#pricing" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Pricing</a>
-                <a href="#contact" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Contact</a>
-            </div>
+            <nav class="hidden items-center gap-8 text-sm text-gray-500 md:flex">
+                <a href="#features" class="transition hover:text-gray-900">Features</a>
+                <a href="#partners" class="transition hover:text-gray-900">Partners</a>
+                <a href="#pricing" class="transition hover:text-gray-900">Pricing</a>
+                <a href="#faq" class="transition hover:text-gray-900">FAQ</a>
+                <a href="#contact" class="transition hover:text-gray-900">Contact</a>
+            </nav>
 
-            <div class="flex items-center space-x-4">
+            <div class="hidden items-center gap-4 md:flex">
                 @auth
-                    <a href="{{ route('dashboard.home') }}"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                        Dashboard
-                    </a>
+                    <a href="{{ route('dashboard.home') }}" class="landing-button-primary inline-flex h-10 items-center rounded-lg px-4 text-sm font-medium transition">Dashboard</a>
                 @else
-                    <a href="/login" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                        Log in
-                    </a>
-                    <a href="/register"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                        Register
-                    </a>
+                    <a href="{{ route('login') }}" class="text-sm text-gray-500 transition hover:text-gray-900">Sign in</a>
+                    <a href="{{ route('register') }}" class="landing-button-secondary inline-flex h-10 items-center rounded-lg px-4 text-sm font-medium transition">Sign up</a>
+                @endauth
+            </div>
+
+            <button id="menu-toggle" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/5 bg-white/80 md:hidden">
+                <span class="sr-only">Toggle menu</span>
+                <svg class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7h16M4 12h16M4 17h16" />
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden border-t border-black/5 bg-[rgba(246,246,244,0.96)] px-6 py-6 md:hidden">
+            <div class="flex flex-col gap-4 text-sm text-gray-600">
+                <a href="#features">Features</a>
+                <a href="#partners">Partners</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+                @auth
+                    <a href="{{ route('dashboard.home') }}" class="landing-button-primary mt-2 rounded-lg px-4 py-3 text-center font-medium">Dashboard</a>
+                @else
+                    <div class="mt-2 flex gap-3">
+                        <a href="{{ route('register') }}" class="landing-button-primary flex-1 rounded-lg px-4 py-3 text-center font-medium">Sign up</a>
+                        <a href="{{ route('login') }}" class="landing-button-secondary flex-1 rounded-lg px-4 py-3 text-center font-medium">Sign in</a>
+                    </div>
                 @endauth
             </div>
         </div>
+    </header>
 
-        </div>
-    </nav>
+    <main class="relative overflow-hidden px-6 pb-16 pt-32 lg:px-10 lg:pt-44">
+        <div class="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[38rem]"></div>
 
-    <!-- Hero Section -->
-    <div class="relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 py-16 lg:py-16">
-            <div class="text-center">
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6">
-                    Create
-                    <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                        QR Codes
-                    </span>
-                    <br>That Show Your Work
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                    Generate professional QR codes with advanced analytics, custom branding, and real-time tracking.
-                    Perfect for businesses,or personal use.
+        <section class="relative mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white px-4 py-2 text-sm text-[var(--landing-accent)] shadow-sm">Expo-inspired redesign</div>
+
+                <div class="relative mt-6">
+                    <h1 class="landing-headline absolute inset-0 text-5xl leading-tight md:text-7xl">
+                        Launch <span class="px-3 text-[var(--landing-accent)]">QR experiences</span><br>
+                        with a sharper landing page
+                    </h1>
+                    <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent px-1 text-5xl leading-tight text-transparent md:text-7xl">
+                        Launch <span class="rounded-xl px-3">QR experiences</span><br>
+                        with a sharper landing page
+                    </mark>
+                </div>
+
+                <p class="mt-8 max-w-2xl text-lg leading-8 text-black/55 md:text-xl">
+                    Create branded QR codes, share digital profiles, and track every scan from one polished dashboard.
+                    The new landing page keeps your live plans, partners, and FAQ content while shifting the visual style to the Expo design direction.
                 </p>
 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors shadow-lg hover:shadow-xl">
-                            Start Creating QR Codes
-                        </a>
-                    @endif
-                    <a href="/app"
-                        class="border-2 border-gray-300 text-gray-700 hover:border-blue-600 px-8 py-4 rounded-lg font-semibold text-lg transition-colors ">
-                        Get Started
+                <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                    <a href="{{ auth()->check() ? route('dashboard.home') : route('register') }}" class="landing-button-primary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">
+                        {{ auth()->check() ? 'Open dashboard' : 'Try for free' }}
                     </a>
+                    <a href="#pricing" class="landing-button-secondary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">See pricing</a>
                 </div>
 
-            </div>
-        </div>
-
-        <!-- QR Code Preview -->
-        <div class="absolute top-20 right-10 hidden lg:block">
-            <div class="bg-white p-4 rounded-2xl shadow-2xl">
-                <div class="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <svg viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        fill="#000000" stroke="#000000">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <path
-                                d="M896 960H128c-35.3 0-64-28.7-64-64V128c0-35.3 28.7-64 64-64h768c35.3 0 64 28.7 64 64v768c0 35.3-28.7 64-64 64z"
-                                fill="#ffffff"></path>
-                            <path
-                                d="M426.3 426.3H128V189.7c0-34 27.7-61.7 61.7-61.7h236.6v298.3z m-236.6-61.7h174.9V189.7H189.7v174.9zM395.4 896H266.9c-17.1 0-30.9-13.8-30.9-30.9 0-17.1 13.8-30.9 30.9-30.9h128.6c17.1 0 30.9 13.8 30.9 30.9-0.1 17.1-13.9 30.9-31 30.9zM158.9 779.4c-17.1 0-30.9-13.8-30.9-30.9v-120c0-17.1 13.8-30.9 30.9-30.9s30.9 13.8 30.9 30.9v120c-0.1 17.1-13.9 30.9-30.9 30.9z"
-                                fill="#43423d"></path>
-                            <path
-                                d="M896 426.3H597.7V128h236.6c34 0 61.7 27.7 61.7 61.7v236.6z m-236.6-61.7h174.9V189.7H659.4v174.9z"
-                                fill="#f9521a"></path>
-                            <path
-                                d="M834.3 896H597.7V597.7H896v236.6c0 34-27.7 61.7-61.7 61.7z m-174.9-61.7h174.9V659.4H659.4v174.9z"
-                                fill="#43423d"></path>
-                            <path
-                                d="M365.4 762.3h-72.9c-17.1 0-30.9-13.8-30.9-30.9v-72.9c0-17.1 13.8-30.9 30.9-30.9h103.7v103.7c0.1 17.2-13.7 31-30.8 31z"
-                                fill="#f9521a"></path>
-                            <path
-                                d="M512 896c-17.1 0-30.9-13.8-30.9-30.9V614.4c0-17.1 13.8-30.9 30.9-30.9 17.1 0 30.9 13.8 30.9 30.9v250.7c0 17.1-13.8 30.9-30.9 30.9z m0-465c-17.1 0-30.9-13.8-30.9-30.9V158.9c0-17.1 13.8-30.9 30.9-30.9 17.1 0 30.9 13.8 30.9 30.9v241.3c0 17-13.8 30.8-30.9 30.8z m353.1 111.9H158.9c-17.1 0-30.9-13.8-30.9-30.9 0-17.1 13.8-30.9 30.9-30.9h706.3c17.1 0 30.9 13.8 30.9 30.9-0.1 17.1-13.9 30.9-31 30.9z"
-                                fill="#3856ff"></path>
-                        </g>
-                    </svg>
+                <div class="mt-10 grid gap-4 text-sm text-gray-500 sm:grid-cols-3">
+                    <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Dynamic</p><p class="mt-1">Edit destinations without reprinting codes.</p></div>
+                    <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Analytics</p><p class="mt-1">Track scans, devices, and campaign performance.</p></div>
+                    <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Branding</p><p class="mt-1">Keep every QR destination polished and on-brand.</p></div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Showcase Section -->
-    <div id="features" class="py-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-        <div class="max-w-7xl mx-auto px-6">
-            <!-- Section Header -->
-            <div class="text-center mb-16">
-                <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold mb-4">
-                    ✨ Showcase
-                </span>
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                    See What You Can
-                    <span
-                        class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Create</span>
-                </h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    From analytics dashboards to digital business cards — discover the power of QR codes
-                </p>
-            </div>
-
-            <!-- Dashboard Card - Full Width Row -->
-            {{-- <div class="mb-8">
-                <!-- Card 1: Dashboard -->
-                <div class="group relative">
-                    <div
-                        class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500">
-                    </div>
-                    <div
-                        class="relative bg-white rounded-2xl overflow-hidden shadow-xl transform group-hover:-translate-y-2 transition-all duration-300">
-                        <!-- Image Container -->
-                        <div class="relative overflow-hidden">
-                            <img src="{{ asset('images/hero1.png') }}"
-                                class="w-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                                alt="QR Generator Dashboard">
-                            <!-- Overlay Badge -->
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full shadow-lg">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                    Dashboard
-                                </span>
+            <div class="relative">
+                <div class="glass-panel rounded-[28px] p-3">
+                    <div class="overflow-hidden rounded-[22px] border border-black/5 bg-white">
+                        <div class="flex items-center justify-between border-b border-black/5 px-5 py-4">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="h-8 w-8 rounded-lg">
+                                <div>
+                                    <p class="text-sm font-semibold text-[var(--landing-text)]">QR Generator</p>
+                                    <p class="text-xs text-gray-500">Performance overview</p>
+                                </div>
                             </div>
+                            <span class="rounded-full bg-[rgba(222,78,121,0.08)] px-3 py-1 text-xs font-medium text-[var(--landing-accent)]">Live dashboard</span>
                         </div>
-                        <!-- Content -->
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">Analytics Dashboard</h3>
-                            <p class="text-gray-600 text-sm mb-4">
-                                Track scans, monitor performance, and get detailed insights about your QR codes.
-                            </p>
-                            <div class="flex items-center text-blue-600 font-semibold text-sm">
-                                <span>Learn more</span>
-                                <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
+                        <img src="{{ asset('images/hero1.png') }}" alt="QR Generator dashboard preview" class="h-full w-full bg-[#f7f7f7] object-cover object-top">
+                    </div>
+                </div>
+                <div class="absolute -bottom-5 left-4 glass-panel rounded-2xl px-4 py-3 text-sm text-gray-600 shadow-xl md:left-8"><span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth from active campaigns</div>
+            </div>
+        </section>
+
+        <section id="features" class="mx-auto mt-24 max-w-7xl">
+            <div class="flex flex-col items-start gap-4 md:items-center md:text-center">
+                <div class="rounded-full border border-black/5 bg-white px-4 py-2 text-sm text-[var(--landing-accent)] shadow-sm">Features</div>
+                <div class="relative">
+                    <h2 class="landing-headline absolute inset-0 text-4xl md:text-6xl">Built for creators,<br><span class="text-[var(--landing-accent)]">ready for growing teams</span></h2>
+                    <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent text-4xl text-transparent md:text-6xl">Built for creators,<br><span class="rounded-xl px-3">ready for growing teams</span></mark>
+                </div>
+            </div>
+
+            <div class="mt-12 grid gap-6 lg:grid-cols-3">
+                <article class="glass-panel overflow-hidden rounded-[28px] p-3"><div class="rounded-[22px] border border-black/5 bg-white p-6"><img src="{{ asset('images/iphones.jpg') }}" alt="Dynamic QR preview" class="h-64 w-full rounded-2xl object-cover"><h3 class="mt-6 text-2xl font-semibold text-[var(--landing-text)]">Dynamic QR campaigns</h3><p class="mt-3 text-sm leading-7 text-gray-500">Swap destinations, rotate offers, and keep old prints working while your content keeps moving.</p></div></article>
+                <article class="glass-panel overflow-hidden rounded-[28px] p-3"><div class="rounded-[22px] border border-black/5 bg-white p-6"><img src="{{ asset('images/hero2.png') }}" alt="Resume QR preview" class="h-64 w-full rounded-2xl object-cover object-top"><h3 class="mt-6 text-2xl font-semibold text-[var(--landing-text)]">Portfolio and profile pages</h3><p class="mt-3 text-sm leading-7 text-gray-500">Turn a single scan into a complete profile, resume, or contact card without adding friction.</p></div></article>
+                <article class="glass-panel overflow-hidden rounded-[28px] p-3"><div class="rounded-[22px] border border-black/5 bg-white p-6"><img src="{{ asset('images/hero3.png') }}" alt="Business card QR preview" class="h-64 w-full rounded-2xl object-cover object-top"><h3 class="mt-6 text-2xl font-semibold text-[var(--landing-text)]">Instant analytics snapshots</h3><p class="mt-3 text-sm leading-7 text-gray-500">Give teams a clean view into scans, devices, and campaign lift without digging through clutter.</p></div></article>
+            </div>
+        </section>
+
+        <section id="partners" class="mx-auto mt-24 max-w-7xl">
+            <div class="glass-panel rounded-[32px] p-4">
+                <div class="rounded-[26px] border border-black/5 bg-white px-6 py-10 md:px-10">
+                    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                        <div><p class="text-sm font-medium uppercase tracking-[0.24em] text-[var(--landing-accent)]">Partners</p><h2 class="landing-headline mt-3 text-3xl md:text-5xl">Trusted by teams building visible campaigns</h2></div>
+                        <p class="max-w-xl text-sm leading-7 text-gray-500">Your partner list is still live here, now wrapped in the new landing presentation.</p>
+                    </div>
+
+                    <div class="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
+                        @forelse ($partners as $partner)
+                            <a href="{{ $partner->url }}" target="_blank" rel="noreferrer" class="flex min-h-28 items-center justify-center rounded-2xl border border-black/5 bg-[#fafaf9] p-6 transition hover:-translate-y-1 hover:shadow-lg">
+                                <img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}" class="max-h-12 w-auto grayscale transition hover:grayscale-0">
+                            </a>
+                        @empty
+                            <div class="col-span-full rounded-2xl border border-dashed border-black/10 px-6 py-10 text-center text-sm text-gray-500">Add partners from the dashboard to show them here.</div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="mx-auto mt-24 max-w-7xl">
+            <div class="flex flex-col items-start gap-4 md:items-center md:text-center">
+                <div class="rounded-full border border-black/5 bg-white px-4 py-2 text-sm text-[var(--landing-accent)] shadow-sm">Pricing</div>
+                <div class="relative">
+                    <h2 class="landing-headline absolute inset-0 text-4xl md:text-6xl">Flexible for solo makers,<br><span class="text-[var(--landing-accent)]">strong enough for teams</span></h2>
+                    <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent text-4xl text-transparent md:text-6xl">Flexible for solo makers,<br><span class="rounded-xl px-3">strong enough for teams</span></mark>
+                </div>
+            </div>
+
+            <div class="mt-12 grid gap-6 lg:grid-cols-3">
+                @foreach ($orderedPlans as $plan)
+                    @php($isFeatured = strcasecmp($plan->name, 'Pro') === 0)
+                    <article class="rounded-[28px] border border-black/5 p-3 shadow-lg {{ $isFeatured ? 'bg-[rgba(15,23,42,0.9)]' : 'bg-white/70' }}">
+                        <div class="h-full rounded-[22px] border border-black/10 p-8 {{ $isFeatured ? 'bg-gray-900 text-white' : 'bg-white text-[var(--landing-text)]' }}">
+                            <p class="text-base">{{ $plan->name }}</p>
+                            <p class="mt-3 text-sm {{ $isFeatured ? 'text-white/60' : 'text-gray-500' }}">{{ $plan->description }}</p>
+                            <div class="mt-5 flex items-baseline gap-3">
+                                @if ((int) $plan->price === 0)
+                                    <span class="landing-headline text-4xl">Free</span>
+                                @else
+                                    <span class="landing-headline text-4xl">{{ number_format($plan->price / 100, 2) }} SAR</span>
+                                    <span class="text-sm {{ $isFeatured ? 'text-white/60' : 'text-gray-500' }}">/ {{ max((int) ($plan->interval / 30), 1) }} month</span>
+                                @endif
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-            <div class="text-center mb-16 ">
-                <div class="bg-white p-4 rounded-2xl shadow-2xl">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Premium QR Codes Dashboard</h2>
-                    <img src="{{ asset('images/hero1.png') }}" class="w-50% h-50% mx-auto" alt="QR Generator">
-                </div>
-            </div>
-
-            <div class="text-center mb-16 ">
-                <div class="bg-white p-4 rounded-2xl shadow-2xl">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Dynamic QR Codes</h2>
-                    <img src="{{ asset('images/iphones.jpg') }}" class="w-50% h-50% mx-auto" alt="QR Generator">
-                </div>
-            </div>
-
-
-            <!-- Bottom CTA -->
-            <div class="text-center mt-16">
-                <a href="{{ auth()->check() ? url('/app/qrcodes') : url('/register') }}"
-                    class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-                    <span>Start Creating Now</span>
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div>
-    <!-- Partners Section -->
-    <br /><br /><br />
-    <div id="partners" class="py-20 bg-gray-50 mb-20 mt-20">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-16">
-                Partners
-            </h2>
-
-            <div class=" flex flex-wrap gap-12 justify-center items-center mt-16">
-                @foreach ($partners as $partner)
-                    <a href="{{ $partner->url }}" target="_blank">
-                        <img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}"
-                            width="100" height="100" class=" mx-auto  grayscale hover:grayscale-0 transition">
-                    </a>
-                @endforeach
-
-            </div>
-        </div>
-    </div>
-    <br /><br /><br /><br />
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16 mt-10">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Powerful Features
-            </h2>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                Everything you need to create, manage, and track QR codes effectively
-            </p>
-        </div>
-
-        <!-- Resume & vCard Showcase Cards -->
-        {{-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            <!-- Card: Resume -->
-            <div class="group relative">
-                <div
-                    class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500">
-                </div>
-                <div
-                    class="relative bg-white rounded-2xl overflow-hidden shadow-xl transform group-hover:-translate-y-2 transition-all duration-300">
-                    <!-- Image Container -->
-                    <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/hero2.png') }}"
-                            class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                            alt="Resume QR Code">
-                        <!-- Overlay Badge -->
-                        <div class="absolute top-4 left-4">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-full shadow-lg">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                Resume
-                            </span>
-                        </div>
-                    </div>
-                    <!-- Content -->
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Smart Resume QR</h3>
-                        <p class="text-gray-600 text-sm mb-4">
-                            Create scannable resume codes that link to your digital CV with download options.
-                        </p>
-                        <div class="flex items-center text-purple-600 font-semibold text-sm">
-                            <span>Learn more</span>
-                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card: vCard -->
-            <div class="group relative">
-                <div
-                    class="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-500">
-                </div>
-                <div
-                    class="relative bg-white rounded-2xl overflow-hidden shadow-xl transform group-hover:-translate-y-2 transition-all duration-300">
-                    <!-- Image Container -->
-                    <div class="relative overflow-hidden">
-                        <img src="{{ asset('images/hero3.png') }}"
-                            class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                            alt="vCard QR Code">
-                        <!-- Overlay Badge -->
-                        <div class="absolute top-4 left-4">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-full shadow-lg">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                vCard
-                            </span>
-                        </div>
-                    </div>
-                    <!-- Content -->
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Digital Business Card</h3>
-                        <p class="text-gray-600 text-sm mb-4">
-                            Share your contact info instantly with beautiful, scannable digital cards.
-                        </p>
-                        <div class="flex items-center text-emerald-600 font-semibold text-sm">
-                            <span>Learn more</span>
-                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-        {{-- <div class="text-center mb-16 ">
-            <div class="bg-white p-4 rounded-2xl shadow-2xl">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Premium QR Codes Dashboard</h2>
-                <img src="{{ asset('images/iphones.jpg') }}" class="w-50% h-50% mx-auto" alt="QR Generator">
-            </div>
-        </div> --}}
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Feature 1 -->
-            <div class="bg-gray-50 p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3">Instant Generation</h3>
-                <p class="text-gray-600">Create QR codes in seconds with our fast and reliable
-                    generator</p>
-            </div>
-
-            <!-- Feature 2 -->
-            <div class="bg-gray-50 p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3">Advanced Analytics</h3>
-                <p class="text-gray-600">Track scans, locations, devices, and get detailed
-                    insights</p>
-            </div>
-
-            <!-- Feature 3 -->
-            <div class="bg-gray-50 p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3">Custom Branding</h3>
-                <p class="text-gray-600">Add your logo, colors, and customize QR code appearance
-                </p>
-            </div>
-
-            <!-- Feature 4 -->
-            <div class="bg-gray-50 p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3">Secure & Private</h3>
-                <p class="text-gray-600">Your data is protected with enterprise-grade security
-                </p>
-            </div>
-
-            <!-- Feature 5 -->
-            <div class="bg-gray-50 p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3">Easy Management</h3>
-                <p class="text-gray-600">Organize and manage all your QR codes in one dashboard
-                </p>
-            </div>
-
-            <!-- Feature 6 -->
-            <div class="bg-gray-50 p-8 rounded-2xl">
-                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
-                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3">Real-time Tracking</h3>
-                <p class="text-gray-600">Monitor scan activity and performance in real-time</p>
-            </div>
-        </div>
-    </div>
-    </div>
-    </div>
-
-    <!-- Pricing Section -->
-    <div id="pricing" class="py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                    Simple, Transparent Pricing
-                </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Choose the plan that's right for you and start creating professional QR codes today
-                </p>
-            </div>
-
-            <div
-                class="grid md:grid-cols-2 lg:grid-cols-{{ count($plans) > 2 ? '3' : count($plans) }} gap-8 max-w-5xl mx-auto">
-                @foreach ($plans as $index => $plan)
-                    <div
-                        class="relative bg-white rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 {{ $index === 1 ? 'ring-2 ring-blue-600' : '' }}">
-                        @if ($index === 1)
-                            <div
-                                class="absolute top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-2 text-sm font-semibold">
-                                Most Popular
-                            </div>
-                        @endif
-
-                        <div class="p-8 {{ $index === 1 ? 'pt-14' : '' }}">
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $plan->name }}</h3>
-                            <p class="text-gray-600 mb-6">{{ $plan->description }}</p>
-
-                            <div class="mb-6">
-                                <span
-                                    class="text-4xl font-bold text-gray-900">{{ number_format($plan->price / 100, 2) }}</span>
-                                <span class="text-gray-600 ml-1">SAR</span>
-                                <span class="text-gray-500 text-sm">/ {{ $plan->interval /30 }} Month</span>
-                            </div>
-
-                            <ul class="text-gray-600 mb-6 space-y-2">
-                                @foreach ($plan->features as $feature)
-                                    <li class="flex items-center">
-                                        @if($feature['check'] === true)
-                                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        @else
-                                            <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        @endif
-                                        {{ $feature['text'] }}
+                            <a href="{{ auth()->check() ? url('/app/subscription') : route('register') }}" class="{{ $isFeatured ? 'landing-button-primary' : 'landing-button-secondary' }} mt-6 inline-flex h-11 w-full items-center justify-center rounded-lg px-4 text-sm font-semibold transition">{{ $isFeatured ? 'Register now' : 'Try for free' }}</a>
+                            <p class="mt-6 text-sm {{ $isFeatured ? 'text-[#ff80a6]' : 'text-[var(--landing-accent)]' }}">What's included</p>
+                            <ul class="mt-3 space-y-3 text-sm">
+                                @foreach ($plan->features ?? [] as $feature)
+                                    <li class="flex items-start gap-3 {{ $isFeatured ? 'text-white/70' : 'text-gray-500' }}">
+                                        <span class="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full {{ $feature['check'] ? 'bg-[rgba(222,78,121,0.12)] text-[var(--landing-accent)]' : 'bg-gray-100 text-gray-400' }}">
+                                            @if ($feature['check'])
+                                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                                            @else
+                                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12" /></svg>
+                                            @endif
+                                        </span>
+                                        <span>{{ $feature['text'] }}</span>
                                     </li>
                                 @endforeach
                             </ul>
-
-                            {{-- @auth
-                                <a href="{{ route('payment.pay', ['plan_id' => $plan->id]) }}"
-                                    class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 0 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
-                                    Subscribe Now
-                                </a>
-                            @else --}}
-                            <a href="/app/subscription"
-                                class="block w-full text-center py-3 px-6 rounded-lg font-semibold transition-all duration-300 {{ $index === 1 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl' : 'bg-gray-100 text-gray-900 hover:bg-gray-200' }}">
-                                Get Started
-                            </a>
-                            {{-- @endauth --}}
                         </div>
-                    </div>
+                    </article>
                 @endforeach
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Contact Section -->
-    <div id="contact" class="py-20 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                    Get in Touch
-                </h2>
-                <p class="text-xl text-gray-600">
-                    Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-                </p>
+        <section id="faq" class="mx-auto mt-24 grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <div class="glass-panel rounded-[32px] p-4">
+                <div class="rounded-[26px] border border-black/5 bg-white p-8">
+                    <p class="text-sm font-medium uppercase tracking-[0.24em] text-[var(--landing-accent)]">FAQ</p>
+                    <h2 class="landing-headline mt-4 text-4xl">Questions teams ask before they launch</h2>
+                    <p class="mt-4 text-sm leading-7 text-gray-500">These answers are still powered by your existing FAQ records, so updates from the admin side keep showing up here automatically.</p>
+                </div>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-xl p-8">
-
-
-
-                @if ($errors->any())
-                    <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
-                        <ul class="list-disc list-inside">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <form method="POST" action="{{ route('contact.store') }}" class="space-y-6">
-                    @csrf
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                                Name
-                            </label>
-                            <input type="text" id="name" name="name" value="{{ old('name') }}"
-                                required
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                                Email
-                            </label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}"
-                                required
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">
-                            Subject
-                        </label>
-                        <input type="text" id="subject" name="subject" value="{{ old('subject') }}" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">
-                            Message
-                        </label>
-                        <textarea id="message" name="message" rows="5" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">{{ old('message') }}</textarea>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors shadow-lg hover:shadow-xl">
-                            Send Message
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- CTA Section -->
-    <div class="py-20 bg-gradient-to-r from-blue-600 to-indigo-600">
-        <div class="max-w-4xl mx-auto text-center px-6">
-            <div class="max-w-3xl mx-auto p-6">
-                <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">Frequently Asked
-                    Questions</h1>
-
-                <div class="space-y-4">
-
-                    <!-- FAQ Item -->
-
-                    @foreach ($faqs as $faq)
-                        <div class="bg-white text-gray-900 rounded-lg shadow-md p-4 mb-3">
-                            <button class="faq-toggle w-full text-left font-semibold text-lg focus:outline-none">
-                                {{ $faq->question }}
+            <div class="space-y-4">
+                @forelse ($faqs as $faq)
+                    <article class="glass-panel rounded-[26px] p-3">
+                        <div class="rounded-[20px] border border-black/5 bg-white p-6">
+                            <button type="button" class="faq-toggle flex w-full items-center justify-between gap-4 text-left text-lg font-semibold text-[var(--landing-text)]" aria-expanded="false">
+                                <span>{{ $faq->question }}</span>
+                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#faf5f7] text-[var(--landing-accent)]">+</span>
                             </button>
-                            <div class="faq-answer mt-2 hidden text-gray-900">
-                                {{ $faq->answer }}
-                            </div>
+                            <div class="faq-answer mt-4 text-sm leading-7 text-gray-500" hidden>{{ $faq->answer }}</div>
                         </div>
-                    @endforeach
-
-                </div>
+                    </article>
+                @empty
+                    <div class="glass-panel rounded-[26px] p-6 text-sm text-gray-500">Add FAQs from the dashboard to populate this section.</div>
+                @endforelse
             </div>
-        </div>
-    </div>
+        </section>
 
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // FAQ Toggle functionality
-            const faqButtons = document.querySelectorAll('.faq-toggle');
-
-            faqButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const answer = button.nextElementSibling;
-                    if (answer) {
-                        answer.classList.toggle('hidden');
-                    }
-                });
-            });
-        });
-    </script>
-
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div
-                            class="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                            <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="w-5 h-5">
-                        </div>
-                        <span class="text-xl font-bold">QR Generator</span>
+        <section id="contact" class="mx-auto mt-24 max-w-5xl">
+            <div class="glass-panel rounded-[32px] p-4">
+                <div class="rounded-[26px] border border-black/5 bg-white p-8 md:p-10">
+                    <div class="max-w-2xl">
+                        <p class="text-sm font-medium uppercase tracking-[0.24em] text-[var(--landing-accent)]">Contact</p>
+                        <h2 class="landing-headline mt-4 text-4xl">Bring your next QR campaign to life</h2>
+                        <p class="mt-4 text-sm leading-7 text-gray-500">Ask about branded codes, dashboards, partner packages, or rollout support and well get back to you.</p>
                     </div>
-                    <p class="text-gray-400">Create professional QR codes with advanced analytics and tracking.</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Product</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Features</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">API</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Support</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#contact" class="hover:text-white transition-colors">Contact Us</a></li>
-                        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Company</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">About</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy</a></li>
-                    </ul>
+
+                    @if (session('success'))
+                        <div class="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{{ session('success') }}</div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="mt-6 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                            <ul class="list-disc pl-5">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('contact.store') }}" class="mt-8 grid gap-5 md:grid-cols-2">
+                        @csrf
+                        <label class="block"><span class="mb-2 block text-sm font-medium text-gray-700">Name</span><input type="text" name="name" value="{{ old('name') }}" required class="w-full rounded-2xl border border-black/10 bg-[#fafaf9] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[var(--landing-accent)] focus:ring-2 focus:ring-[rgba(222,78,121,0.16)]"></label>
+                        <label class="block"><span class="mb-2 block text-sm font-medium text-gray-700">Email</span><input type="email" name="email" value="{{ old('email') }}" required class="w-full rounded-2xl border border-black/10 bg-[#fafaf9] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[var(--landing-accent)] focus:ring-2 focus:ring-[rgba(222,78,121,0.16)]"></label>
+                        <label class="block md:col-span-2"><span class="mb-2 block text-sm font-medium text-gray-700">Subject</span><input type="text" name="subject" value="{{ old('subject') }}" required class="w-full rounded-2xl border border-black/10 bg-[#fafaf9] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[var(--landing-accent)] focus:ring-2 focus:ring-[rgba(222,78,121,0.16)]"></label>
+                        <label class="block md:col-span-2"><span class="mb-2 block text-sm font-medium text-gray-700">Message</span><textarea name="message" rows="6" required class="w-full rounded-2xl border border-black/10 bg-[#fafaf9] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[var(--landing-accent)] focus:ring-2 focus:ring-[rgba(222,78,121,0.16)]">{{ old('message') }}</textarea></label>
+                        <div class="md:col-span-2"><button type="submit" class="landing-button-primary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">Send message</button></div>
+                    </form>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; {{ date('Y') }} QR Generator. All rights reserved.</p>
+        </section>
+    </main>
+
+    <footer class="px-6 pb-10 pt-6 lg:px-10">
+        <div class="mx-auto max-w-7xl rounded-[28px] border border-black/5 bg-[#171c2e] px-8 py-8 text-white/70">
+            <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+                <div class="flex items-center gap-4">
+                    <img src="{{ asset('images/expo/logo.svg') }}" alt="QR Generator" class="h-10 w-auto brightness-0 invert">
+                    <div><p class="landing-headline text-2xl text-white">QR Generator</p><p class="text-sm text-white/50">Create, share, and measure every scan.</p></div>
+                </div>
+                <div class="flex flex-wrap gap-6 text-sm">
+                    <a href="#features" class="transition hover:text-white">Features</a>
+                    <a href="#pricing" class="transition hover:text-white">Pricing</a>
+                    <a href="#faq" class="transition hover:text-white">FAQ</a>
+                    <a href="#contact" class="transition hover:text-white">Contact</a>
+                </div>
             </div>
+            <div class="mt-8 border-t border-white/10 pt-6 text-sm text-white/40">&copy; {{ date('Y') }} QR Generator. All rights reserved.</div>
         </div>
     </footer>
 
-    {{-- Toast Notification --}}
-    @if (session('success'))
-        <style>
-            @@keyframes toastSlideIn {
-                from { opacity: 0; transform: translateX(100%) scale(0.95); }
-                to   { opacity: 1; transform: translateX(0) scale(1); }
-            }
-            @@keyframes toastSlideOut {
-                from { opacity: 1; transform: translateX(0) scale(1); }
-                to   { opacity: 0; transform: translateX(100%) scale(0.95); }
-            }
-            @@keyframes toastCountdown {
-                from { width: 100%; }
-                to   { width: 0%; }
-            }
-        </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.getElementById('landing-header');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuToggle = document.getElementById('menu-toggle');
+            const faqButtons = document.querySelectorAll('.faq-toggle');
 
-        <div id="success-toast"
-            style="position:fixed; top:24px; right:24px; z-index:9999; display:flex; align-items:flex-start; gap:16px; background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 25px 50px -12px rgba(0,0,0,.25); padding:20px; min-width:340px; max-width:420px; animation: toastSlideIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards; overflow:hidden;">
-            {{-- Left accent --}}
-            <div style="position:absolute; left:0; top:0; bottom:0; width:5px; border-radius:16px 0 0 16px; background:linear-gradient(to bottom, #34d399, #16a34a);"></div>
-            {{-- Icon --}}
-            <div style="flex-shrink:0; width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, #34d399, #16a34a); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(22,163,74,.3);">
-                <svg width="20" height="20" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                </svg>
-            </div>
-            {{-- Text --}}
-            <div style="flex:1; min-width:0;">
-                <p style="margin:0; font-size:14px; font-weight:600; color:#111827;">Success!</p>
-                <p style="margin:4px 0 0; font-size:14px; color:#6b7280;">{{ session('success') }}</p>
-            </div>
-            {{-- Close --}}
-            <button onclick="dismissToast()" style="flex-shrink:0; background:none; border:none; cursor:pointer; color:#9ca3af; padding:0;">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-            {{-- Progress bar --}}
-            <div style="position:absolute; bottom:0; left:0; right:0; height:4px; background:#f3f4f6; border-radius:0 0 16px 16px; overflow:hidden;">
-                <div style="height:100%; background:linear-gradient(to right, #34d399, #16a34a); border-radius:0 0 16px 16px; animation: toastCountdown 5s linear forwards;"></div>
-            </div>
-        </div>
-
-        <script>
-            function dismissToast() {
-                var toast = document.getElementById('success-toast');
-                if (toast) {
-                    toast.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.16,1,0.3,1) forwards';
-                    toast.addEventListener('animationend', function() { toast.remove(); }, { once: true });
+            const syncHeader = () => {
+                if (window.scrollY > 24) {
+                    header.classList.add('border-b', 'border-black/5', 'backdrop-blur-xl');
+                } else {
+                    header.classList.remove('border-b', 'border-black/5', 'backdrop-blur-xl');
                 }
-            }
-            setTimeout(dismissToast, 5000);
-        </script>
-    @endif
-</body>
+            };
 
+            menuToggle?.addEventListener('click', () => mobileMenu?.classList.toggle('hidden'));
+
+            faqButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const answer = button.parentElement.querySelector('.faq-answer');
+                    const icon = button.querySelector('span:last-child');
+                    const isOpen = button.getAttribute('aria-expanded') === 'true';
+                    button.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+                    answer.hidden = isOpen;
+                    icon.textContent = isOpen ? '+' : '-';
+                });
+            });
+
+            syncHeader();
+            window.addEventListener('scroll', syncHeader, { passive: true });
+        });
+    </script>
+</body>
 </html>
+
+
+

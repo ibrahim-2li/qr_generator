@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class QrContent extends Model
 {
+    use HasFactory;
     protected $fillable = ['qr_code_id', 'color_l', 'color_d', 'profile_photo_path', 'name', 'title', 'phone', 'email', 'company', 'linkedin', 'snap', 'x', 'facebook', 'instagram', 'youtube'];
 
     public function qrcode()
