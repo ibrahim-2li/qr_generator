@@ -134,10 +134,12 @@
     <header id="landing-header" class="fixed inset-x-0 top-0 z-50 bg-[rgba(246,246,244,0.84)] transition-all duration-300">
         <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
             <a href="{{ route('landing') }}" class="flex items-center gap-4">
-                <img src="{{ asset('images/expo/logo.svg') }}" alt="QR Generator" class="h-10 w-auto">
+                {{-- <img src="{{ asset('images/expo/logo.svg') }}" alt="QR Generator" class="h-10 w-auto"> --}}
+                                                <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="h-8 w-8 rounded-lg">
+
                 <div class="flex flex-col">
                     <span class="landing-headline text-2xl text-[var(--landing-text)]">QR Generator</span>
-                    <span class="text-xs text-gray-500">smart codes by your team</span>
+                    <span class="text-xs text-gray-500 hover:underline">By Ibrahim Ali</span>
                 </div>
             </a>
 
@@ -188,44 +190,37 @@
     <main class="relative overflow-hidden px-6 pb-16 pt-32 lg:px-10 lg:pt-44">
         <div class="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[38rem]"></div>
 
-        <section class="relative mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
+        <section class="flex justify-items-center relative mx-auto grid max-w-7xl items-center gap-16 ">
             <div class="max-w-3xl">
-                <div class="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white px-4 py-2 text-sm text-[var(--landing-accent)] shadow-sm">Expo-inspired redesign</div>
-
-                <div class="relative mt-6">
-                    <h1 class="landing-headline absolute inset-0 text-5xl leading-tight md:text-7xl">
-                        Launch <span class="px-3 text-[var(--landing-accent)]">QR experiences</span><br>
-                        with a sharper landing page
-                    </h1>
-                    <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent px-1 text-5xl leading-tight text-transparent md:text-7xl">
-                        Launch <span class="rounded-xl px-3">QR experiences</span><br>
-                        with a sharper landing page
+                <div class="relative text-center mt-6">
+                    <h2 class="landing-headline absolute inset-0 text-4xl leading-tight md:text-6xl">
+                        Share <span class="px-3 text-[var(--landing-accent)]">QR experiences</span><br>
+                         Show Your Work
+                    </h2>
+                    <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent px-1 text-4xl leading-tight text-transparent md:text-6xl">
+                        Share <span class="rounded-xl px-3">QR experiences</span><br>
+                         Show Your Work
                     </mark>
                 </div>
 
-                <p class="mt-8 max-w-2xl text-lg leading-8 text-black/55 md:text-xl">
+                <p class="mt-8 flex justify-items-center relative mx-auto grid items-center max-w-2xl text-lg leading-8 text-black/55 md:text-xl">
                     Create branded QR codes, share digital profiles, and track every scan from one polished dashboard.
-                    The new landing page keeps your live plans, partners, and FAQ content while shifting the visual style to the Expo design direction.
+                    The new landing page keeps your live plans, partners, and FAQ content.
                 </p>
 
-                <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                <div class="mt-8 flex justify-items-center relative mx-auto grid items-center">
                     <a href="{{ auth()->check() ? route('dashboard.home') : route('register') }}" class="landing-button-primary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">
                         {{ auth()->check() ? 'Open dashboard' : 'Try for free' }}
                     </a>
-                    <a href="#pricing" class="landing-button-secondary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">See pricing</a>
                 </div>
 
-                <div class="mt-10 grid gap-4 text-sm text-gray-500 sm:grid-cols-3">
-                    <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Dynamic</p><p class="mt-1">Edit destinations without reprinting codes.</p></div>
-                    <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Analytics</p><p class="mt-1">Track scans, devices, and campaign performance.</p></div>
-                    <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Branding</p><p class="mt-1">Keep every QR destination polished and on-brand.</p></div>
-                </div>
+
             </div>
 
-            <div class="relative">
+            <div class="flex justify-center" style="width:1040px; height:711px;">
                 <div class="glass-panel rounded-[28px] p-3">
                     <div class="overflow-hidden rounded-[22px] border border-black/5 bg-white">
-                        <div class="flex items-center justify-between border-b border-black/5 px-5 py-4">
+                        <div class="flex items-center border-b border-black/5 px-5 py-4">
                             <div class="flex items-center gap-3">
                                 <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="h-8 w-8 rounded-lg">
                                 <div>
@@ -235,12 +230,15 @@
                             </div>
                             <span class="rounded-full bg-[rgba(222,78,121,0.08)] px-3 py-1 text-xs font-medium text-[var(--landing-accent)]">Live dashboard</span>
                         </div>
-                        <img src="{{ asset('images/hero1.png') }}" alt="QR Generator dashboard preview" class="h-full w-full bg-[#f7f7f7] object-cover object-top">
+                        <img src="{{ asset('images/dashboard.png') }}"
+                 class="w-full h-[calc(100%-64px)] object-cover object-top">
                     </div>
                 </div>
-                <div class="absolute -bottom-5 left-4 glass-panel rounded-2xl px-4 py-3 text-sm text-gray-600 shadow-xl md:left-8"><span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth from active campaigns</div>
+                <div class="absolute -bottom-5 left-0 glass-panel rounded-2xl px-4 py-4 text-sm text-gray-600 shadow-xl md:left-8"><span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth from active campaigns</div>
+
             </div>
         </section>
+
 
         <section id="features" class="mx-auto mt-24 max-w-7xl">
             <div class="flex flex-col items-start gap-4 md:items-center md:text-center">
@@ -249,6 +247,11 @@
                     <h2 class="landing-headline absolute inset-0 text-4xl md:text-6xl">Built for creators,<br><span class="text-[var(--landing-accent)]">ready for growing teams</span></h2>
                     <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent text-4xl text-transparent md:text-6xl">Built for creators,<br><span class="rounded-xl px-3">ready for growing teams</span></mark>
                 </div>
+                <div class="mt-10 grid gap-4 text-sm text-gray-500 sm:grid-cols-3">
+                <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Dynamic</p><p class="mt-1">Edit destinations without reprinting codes.</p></div>
+                <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Analytics</p><p class="mt-1">Track scans, devices, and campaign performance.</p></div>
+                <div class="glass-panel rounded-2xl p-4"><p class="text-2xl font-semibold text-[var(--landing-text)]">Branding</p><p class="mt-1">Keep every QR destination polished and on-brand.</p></div>
+            </div>
             </div>
 
             <div class="mt-12 grid gap-6 lg:grid-cols-3">
@@ -258,7 +261,7 @@
             </div>
         </section>
 
-        <section id="partners" class="mx-auto mt-24 max-w-7xl">
+        {{-- <section id="partners" class="mx-auto mt-24 max-w-7xl">
             <div class="glass-panel rounded-[32px] p-4">
                 <div class="rounded-[26px] border border-black/5 bg-white px-6 py-10 md:px-10">
                     <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -277,7 +280,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
         <section id="pricing" class="mx-auto mt-24 max-w-7xl">
             <div class="flex flex-col items-start gap-4 md:items-center md:text-center">
@@ -303,7 +306,7 @@
                                     <span class="text-sm {{ $isFeatured ? 'text-white/60' : 'text-gray-500' }}">/ {{ max((int) ($plan->interval / 30), 1) }} month</span>
                                 @endif
                             </div>
-                            <a href="{{ auth()->check() ? url('/app/subscription') : route('register') }}" class="{{ $isFeatured ? 'landing-button-primary' : 'landing-button-secondary' }} mt-6 inline-flex h-11 w-full items-center justify-center rounded-lg px-4 text-sm font-semibold transition">{{ $isFeatured ? 'Register now' : 'Try for free' }}</a>
+                            <a href="{{ auth()->check() ? url('/app/subscription') : route('register') }}" class="{{ $isFeatured ? 'landing-button-primary' : 'landing-button-secondary' }} mt-6 inline-flex h-11 w-full items-center justify-center rounded-lg px-4 text-sm font-semibold transition">{{ $plan->price !== 0 ? 'Register now' : 'Try for free' }}</a>
                             <p class="mt-6 text-sm {{ $isFeatured ? 'text-[#ff80a6]' : 'text-[var(--landing-accent)]' }}">What's included</p>
                             <ul class="mt-3 space-y-3 text-sm">
                                 @foreach ($plan->features ?? [] as $feature)
@@ -325,7 +328,37 @@
             </div>
         </section>
 
-        <section id="faq" class="mx-auto mt-24 grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+
+         <section id="partners" class="mx-auto mt-24 mb-24 max-w-7xl">
+            <div class="flex flex-col items-start gap-4 md:items-center md:text-center">
+                <div class="rounded-full border border-black/5 bg-white px-4 py-2 text-sm text-[var(--landing-accent)] shadow-sm">Partners</div>
+                {{-- <div class="relative">
+                    <h2 class="landing-headline absolute inset-0 text-4xl md:text-6xl">Built for creators,<br><span class="text-[var(--landing-accent)]">ready for growing teams</span></h2>
+                    <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent text-4xl text-transparent md:text-6xl">Built for creators,<br><span class="rounded-xl px-3">ready for growing teams</span></mark>
+                </div> --}}
+                <div class="relative text-center mt-6">
+                    <h2 class="landing-headline absolute inset-0 text-4xl md:text-5xl">
+                        Partners<span class="px-3 text-[var(--landing-accent)]">with mejor companes</span><br>
+                    </h2>
+                    <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent px-1 text-4xl text-transparent md:text-5xl">
+                        Partners<span class="rounded-xl px-3">with mejor companes</span><br>
+                    </mark>
+                </div>
+                <div class="mt-10 grid grid-cols-2 gap-6 md:grid-cols-5">
+                        @forelse ($partners as $partner)
+                            <a href="{{ $partner->url }}" target="_blank" rel="noreferrer" class="flex min-h-28 items-center justify-center rounded-2xl p-6 transition hover:-translate-y-1 hover:shadow-lg">
+                                <img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}" class="h-16 grayscale transition hover:grayscale-0">
+                            </a>
+                        @empty
+                            <div class="col-span-full rounded-2xl border border-dashed border-black/10 px-6 py-10 text-center text-sm text-gray-500">Add partners from the dashboard to show them here.</div>
+                        @endforelse
+                    </div>
+            </div>
+            </div>
+        </section>
+
+
+        <section id="faq" class="mx-auto mt-24 grid max-w-7xl gap-8 lg:grid-cols">
             <div class="glass-panel rounded-[32px] p-4">
                 <div class="rounded-[26px] border border-black/5 bg-white p-8">
                     <p class="text-sm font-medium uppercase tracking-[0.24em] text-[var(--landing-accent)]">FAQ</p>
@@ -346,7 +379,7 @@
                         </div>
                     </article>
                 @empty
-                    <div class="glass-panel rounded-[26px] p-6 text-sm text-gray-500">Add FAQs from the dashboard to populate this section.</div>
+                    <div class="glass-panel rounded-[26px] p-6 text-sm text-gray-500">No FAQs Yet.</div>
                 @endforelse
             </div>
         </section>
