@@ -229,13 +229,15 @@
                     </mark>
                 </div>
 
-                <p class="mt-8 flex justify-items-center relative mx-auto grid items-center max-w-2xl text-lg leading-8 text-black/55 md:text-xl">
+                <p
+                    class="mt-8 flex justify-items-center relative mx-auto grid items-center max-w-2xl text-lg leading-8 text-black/55 md:text-xl">
                     Create branded QR codes, share digital profiles, and track every scan from one polished dashboard.
                     The new landing page keeps your live plans, partners, and FAQ content.
                 </p>
 
                 <div class="mt-8 flex justify-items-center relative mx-auto grid items-center">
-                    <a href="{{ auth()->check() ? route('dashboard.home') : route('register') }}" class="landing-button-primary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">
+                    <a href="{{ auth()->check() ? route('dashboard.home') : route('register') }}"
+                        class="landing-button-primary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">
                         {{ auth()->check() ? 'Open dashboard' : 'Try for free' }}
                     </a>
                 </div>
@@ -246,19 +248,25 @@
                     <div class="overflow-hidden rounded-[22px] border border-black/5 bg-white">
                         <div class="flex items-center border-b border-black/5 px-5 py-4">
                             <div class="flex items-center gap-3">
-                                <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="h-8 w-8 rounded-lg">
+                                <img src="{{ asset('images/logo2.png') }}" alt="QR Generator"
+                                    class="h-8 w-8 rounded-lg">
                                 <div>
                                     <p class="text-xs font-semibold text-[var(--landing-text)] sm:text-sm">QR Generator</p>
                                     <p class="hidden text-xs text-gray-500 sm:block">Performance overview</p>
                                 </div>
                             </div>
-                            <span class="rounded-full bg-[rgba(222,78,121,0.08)] px-3 py-1 text-xs font-medium text-[var(--landing-accent)]">Live dashboard</span>
+                            <span
+                                class="rounded-full bg-[rgba(222,78,121,0.08)] px-3 py-1 text-xs font-medium text-[var(--landing-accent)]">Live
+                                dashboard</span>
                         </div>
                         <img src="{{ asset('images/dashboard.png') }}"
-                 class="w-full h-[calc(100%-64px)] object-cover object-top">
+                            class="w-full h-[calc(100%-64px)] object-cover object-top">
                     </div>
                 </div>
-                <div class="absolute -bottom-5 left-0 glass-panel rounded-2xl px-4 py-4 text-sm text-gray-600 shadow-xl md:left-8"><span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth from active campaigns</div>
+                <div
+                    class="absolute -bottom-5 left-0 glass-panel rounded-2xl px-4 py-4 text-sm text-gray-600 shadow-xl md:left-8">
+                    <span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth from active campaigns
+                </div>
 
             </div>
         </section>
