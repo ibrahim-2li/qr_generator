@@ -229,13 +229,12 @@
                     </mark>
                 </div>
 
-                <p
-                    class="mt-8 flex justify-items-center relative mx-auto grid items-center max-w-2xl text-lg leading-8 text-black/55 md:text-xl">
+                <p class="mx-auto mt-8 max-w-2xl text-center text-lg leading-8 text-black/55 md:text-xl">
                     Create branded QR codes, share digital profiles, and track every scan from one polished dashboard.
                     The new landing page keeps your live plans, partners, and FAQ content.
                 </p>
 
-                <div class="mt-8 flex justify-items-center relative mx-auto grid items-center">
+                <div class="mt-8 flex justify-center">
                     <a href="{{ auth()->check() ? route('dashboard.home') : route('register') }}"
                         class="landing-button-primary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">
                         {{ auth()->check() ? 'Open dashboard' : 'Try for free' }}
@@ -243,34 +242,34 @@
                 </div>
             </div>
 
-            <div class="flex justify-center" style="width:1040px; height:711px;">
-                <div class="glass-panel rounded-[28px] p-3">
-                    <div class="overflow-hidden rounded-[22px] border border-black/5 bg-white">
-                        <div class="flex items-center border-b border-black/5 px-5 py-4">
-                            <div class="flex items-center gap-3">
+            <div class="relative flex w-full max-w-[1040px] justify-center">
+                <div class="glass-panel w-full rounded-[20px] p-2 sm:p-3 md:rounded-[28px]">
+                    <div class="overflow-hidden rounded-[16px] border border-black/5 bg-white md:rounded-[22px]">
+                        <div
+                            class="flex items-center justify-between border-b border-black/5 px-4 py-3 sm:px-5 sm:py-4">
+                            <div class="flex items-center gap-2 sm:gap-3">
                                 <img src="{{ asset('images/logo2.png') }}" alt="QR Generator"
-                                    class="h-8 w-8 rounded-lg">
+                                    class="h-6 w-6 rounded-md sm:h-8 sm:w-8 sm:rounded-lg">
                                 <div>
-                                    <p class="text-xs font-semibold text-[var(--landing-text)] sm:text-sm">QR Generator</p>
+                                    <p class="text-xs font-semibold text-[var(--landing-text)] sm:text-sm">QR Generator
+                                    </p>
                                     <p class="hidden text-xs text-gray-500 sm:block">Performance overview</p>
                                 </div>
                             </div>
                             <span
-                                class="rounded-full bg-[rgba(222,78,121,0.08)] px-3 py-1 text-xs font-medium text-[var(--landing-accent)]">Live
+                                class="rounded-full bg-[rgba(222,78,121,0.08)] px-2 py-1 text-[10px] font-medium text-[var(--landing-accent)] sm:px-3 sm:text-xs">Live
                                 dashboard</span>
                         </div>
-                        <img src="{{ asset('images/dashboard.png') }}"
-                            class="w-full h-[calc(100%-64px)] object-cover object-top">
+                        <img src="{{ asset('images/dashboard.png') }}" class="w-full object-cover object-top">
                     </div>
                 </div>
                 <div
-                    class="absolute -bottom-5 left-0 glass-panel rounded-2xl px-4 py-4 text-sm text-gray-600 shadow-xl md:left-8">
-                    <span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth from active campaigns
+                    class="glass-panel absolute -bottom-4 left-4 z-10 w-max rounded-xl px-3 py-2 text-xs text-gray-600 shadow-xl md:-bottom-6 md:left-8 md:rounded-2xl md:px-4 md:py-4 md:text-sm">
+                    <span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth <span
+                        class="hidden sm:inline">from active campaigns</span>
                 </div>
-
             </div>
         </section>
-
 
         <section id="features" class="mx-auto mt-24 max-w-7xl">
             <div class="flex flex-col items-start gap-4 md:items-center md:text-center">
@@ -349,55 +348,52 @@
 
             <div class="mt-12 grid gap-6 lg:grid-cols-3">
                 @foreach ($orderedPlans as $plan)
-                    @php($isFeatured = strcasecmp($plan->name, 'Pro') === 0)
-                    <article
-                        class="rounded-[28px] border border-black/5 p-3 shadow-lg {{ $isFeatured ? 'bg-[rgba(15,23,42,0.9)]' : 'bg-white/70' }}">
-                        <div
-                            class="h-full rounded-[22px] border border-black/10 p-8 {{ $isFeatured ? 'bg-gray-900 text-white' : 'bg-white text-[var(--landing-text)]' }}">
-                            <p class="text-base">{{ $plan->name }}</p>
-                            <p class="mt-3 text-sm {{ $isFeatured ? 'text-white/60' : 'text-gray-500' }}">
-                                {{ $plan->description }}</p>
-                            <div class="mt-5 flex items-baseline gap-3">
-                                @if ((int) $plan->price === 0)
-                                    <span class="landing-headline text-4xl">Free</span>
-                                @else
-                                    <span class="landing-headline text-4xl">{{ number_format($plan->price / 100, 2) }}
-                                        SAR</span>
-                                    <span class="text-sm {{ $isFeatured ? 'text-white/60' : 'text-gray-500' }}">/
-                                        {{ max((int) ($plan->interval / 30), 1) }} month</span>
-                                @endif
-                            </div>
-                            <a href="{{ auth()->check() ? url('/app/subscription') : route('register') }}"
-                                class="{{ $isFeatured ? 'landing-button-primary' : 'landing-button-secondary' }} mt-6 inline-flex h-11 w-full items-center justify-center rounded-lg px-4 text-sm font-semibold transition">{{ $plan->price !== 0 ? 'Register now' : 'Try for free' }}</a>
-                            <p
-                                class="mt-6 text-sm {{ $isFeatured ? 'text-[#ff80a6]' : 'text-[var(--landing-accent)]' }}">
-                                What's included</p>
-                            <ul class="mt-3 space-y-3 text-sm">
-                                @foreach ($plan->features ?? [] as $feature)
-                                    <li
-                                        class="flex items-start gap-3 {{ $isFeatured ? 'text-white/70' : 'text-gray-500' }}">
-                                        <span
-                                            class="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full {{ $feature['check'] ? 'bg-[rgba(222,78,121,0.12)] text-[var(--landing-accent)]' : 'bg-gray-100 text-gray-400' }}">
-                                            @if ($feature['check'])
-                                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                            @else
-                                                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="M6 18 18 6M6 6l12 12" />
-                                                </svg>
-                                            @endif
-                                        </span>
-                                        <span>{{ $feature['text'] }}</span>
-                                    </li>
-                                @endforeach
-                            </ul>
+                @php($isFeatured = strcasecmp($plan->name, 'Pro') === 0)
+                <article
+                    class="rounded-[28px] border border-black/5 p-3 shadow-lg {{ $isFeatured ? 'bg-[rgba(15,23,42,0.9)]' : 'bg-white/70' }}">
+                    <div
+                        class="h-full rounded-[22px] border border-black/10 p-8 {{ $isFeatured ? 'bg-gray-900 text-white' : 'bg-white text-[var(--landing-text)]' }}">
+                        <p class="text-base">{{ $plan->name }}</p>
+                        <p class="mt-3 text-sm {{ $isFeatured ? 'text-white/60' : 'text-gray-500' }}">
+                            {{ $plan->description }}
+                        </p>
+                        <div class="mt-5 flex items-baseline gap-3">
+                            @if ((int) $plan->price === 0)
+                                <span class="landing-headline text-4xl">Free</span>
+                            @else
+                                <span class="landing-headline text-4xl">{{ number_format($plan->price / 100, 2) }}
+                                    SAR</span>
+                                <span class="text-sm {{ $isFeatured ? 'text-white/60' : 'text-gray-500' }}">/
+                                    {{ max((int) ($plan->interval / 30), 1) }} month</span>
+                            @endif
                         </div>
-                    </article>
+                        <a href="{{ auth()->check() ? url('/app/subscription') : route('register') }}"
+                            class="{{ $isFeatured ? 'landing-button-primary' : 'landing-button-secondary' }} mt-6 inline-flex h-11 w-full items-center justify-center rounded-lg px-4 text-sm font-semibold transition">{{ $plan->price !== 0 ? 'Register now' : 'Try for free' }}</a>
+                        <p class="mt-6 text-sm {{ $isFeatured ? 'text-[#ff80a6]' : 'text-[var(--landing-accent)]' }}">
+                            What's included</p>
+                        <ul class="mt-3 space-y-3 text-sm">
+                            @foreach ($plan->features ?? [] as $feature)
+                                <li class="flex items-start gap-3 {{ $isFeatured ? 'text-white/70' : 'text-gray-500' }}">
+                                    <span
+                                        class="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full {{ $feature['check'] ? 'bg-[rgba(222,78,121,0.12)] text-[var(--landing-accent)]' : 'bg-gray-100 text-gray-400' }}">
+                                        @if ($feature['check'])
+                                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        @else
+                                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18 18 6M6 6l12 12" />
+                                            </svg>
+                                        @endif
+                                    </span>
+                                    <span>{{ $feature['text'] }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </article>
                 @endforeach
             </div>
         </section>
@@ -409,8 +405,11 @@
                     class="rounded-full border border-black/5 bg-white px-4 py-2 text-sm text-[var(--landing-accent)] shadow-sm">
                     Partners</div>
                 {{-- <div class="relative">
-                    <h2 class="landing-headline absolute inset-0 text-4xl md:text-6xl">Built for creators,<br><span class="text-[var(--landing-accent)]">ready for growing teams</span></h2>
-                    <mark class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent text-4xl text-transparent md:text-6xl">Built for creators,<br><span class="rounded-xl px-3">ready for growing teams</span></mark>
+                    <h2 class="landing-headline absolute inset-0 text-4xl md:text-6xl">Built for creators,<br><span
+                            class="text-[var(--landing-accent)]">ready for growing teams</span></h2>
+                    <mark
+                        class="landing-headline landing-highlight inline-block -rotate-1 bg-transparent text-4xl text-transparent md:text-6xl">Built
+                        for creators,<br><span class="rounded-xl px-3">ready for growing teams</span></mark>
                 </div> --}}
                 <div class="relative text-center mt-6">
                     <h2 class="landing-headline absolute inset-0 text-4xl md:text-5xl">
@@ -484,7 +483,8 @@
                     @if (session('success'))
                         <div
                             class="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-                            {{ session('success') }}</div>
+                            {{ session('success') }}
+                        </div>
                     @endif
 
                     @if ($errors->any())
@@ -497,8 +497,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('contact.store') }}"
-                        class="mt-8 grid gap-5 md:grid-cols-2">
+                    <form method="POST" action="{{ route('contact.store') }}" class="mt-8 grid gap-5 md:grid-cols-2">
                         @csrf
                         <label class="block"><span
                                 class="mb-2 block text-sm font-medium text-gray-700">Name</span><input type="text"
@@ -509,8 +508,8 @@
                                 name="email" value="{{ old('email') }}" required
                                 class="w-full rounded-2xl border border-black/10 bg-[#fafaf9] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[var(--landing-accent)] focus:ring-2 focus:ring-[rgba(222,78,121,0.16)]"></label>
                         <label class="block md:col-span-2"><span
-                                class="mb-2 block text-sm font-medium text-gray-700">Subject</span><input
-                                type="text" name="subject" value="{{ old('subject') }}" required
+                                class="mb-2 block text-sm font-medium text-gray-700">Subject</span><input type="text"
+                                name="subject" value="{{ old('subject') }}" required
                                 class="w-full rounded-2xl border border-black/10 bg-[#fafaf9] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-[var(--landing-accent)] focus:ring-2 focus:ring-[rgba(222,78,121,0.16)]"></label>
                         <label class="block md:col-span-2"><span
                                 class="mb-2 block text-sm font-medium text-gray-700">Message</span>
