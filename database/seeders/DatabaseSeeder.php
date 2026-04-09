@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\FaqSeeder;
+use Database\Seeders\PartnerSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,6 +18,8 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         $this->call([
             PlanSeeder::class,
+            PartnerSeeder::class,
+            FaqSeeder::class,
         ]);
 
         User::factory()->create([

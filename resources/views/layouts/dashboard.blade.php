@@ -160,7 +160,7 @@
                 <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
                     <a href="{{ route('landing') }}" class="flex items-center gap-3">
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 shadow-md">
-                            <img class="h-6 w-6 " src="{{ asset('images/logo2.png') }}" alt="">
+                            <img class="h-6 w-6 " src="{{ asset('images/2.png') }}" alt="">
                         </div>
                         <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">QR Generator</span>
                     </a>
@@ -446,7 +446,7 @@
             <div class="flex h-16 shrink-0 items-center gap-3 border-b border-gray-200 px-6 dark:border-gray-700">
                 <a href="{{ route('landing') }}" class="flex items-center gap-3">
                     <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
-                        <img class="h-8 w-8" src="{{ asset('images/logo2.png') }}" alt="">
+                        <img class="h-8 w-8" src="{{ asset('images/2.png') }}" alt="">
                     </div>
                     <span class="text-lg font-semibold text-gray-900 dark:text-white">QR Generator</span>
                 </a>
