@@ -190,9 +190,9 @@
     <main class="relative overflow-hidden px-6 pb-16 pt-32 lg:px-10 lg:pt-44">
         <div class="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[38rem]"></div>
 
-        <section class="flex justify-items-center relative mx-auto grid max-w-7xl items-center gap-16 ">
-            <div class="max-w-3xl">
-                <div class="relative text-center mt-6">
+        <section class="relative mx-auto flex max-w-7xl flex-col items-center gap-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl text-center">
+                <div class="relative mt-6">
                     <h2 class="landing-headline absolute inset-0 text-4xl leading-tight md:text-6xl">
                         Share <span class="px-3 text-[var(--landing-accent)]">QR experiences</span><br>
                          Show Your Work
@@ -203,39 +203,38 @@
                     </mark>
                 </div>
 
-                <p class="mt-8 flex justify-items-center relative mx-auto grid items-center max-w-2xl text-lg leading-8 text-black/55 md:text-xl">
+                <p class="mx-auto mt-8 max-w-2xl text-center text-lg leading-8 text-black/55 md:text-xl">
                     Create branded QR codes, share digital profiles, and track every scan from one polished dashboard.
                     The new landing page keeps your live plans, partners, and FAQ content.
                 </p>
 
-                <div class="mt-8 flex justify-items-center relative mx-auto grid items-center">
+                <div class="mt-8 flex justify-center">
                     <a href="{{ auth()->check() ? route('dashboard.home') : route('register') }}" class="landing-button-primary inline-flex h-12 items-center justify-center rounded-lg px-6 text-sm font-semibold transition">
                         {{ auth()->check() ? 'Open dashboard' : 'Try for free' }}
                     </a>
                 </div>
-
-
             </div>
 
-            <div class="flex justify-center" style="width:1040px; height:711px;">
-                <div class="glass-panel rounded-[28px] p-3">
-                    <div class="overflow-hidden rounded-[22px] border border-black/5 bg-white">
-                        <div class="flex items-center border-b border-black/5 px-5 py-4">
-                            <div class="flex items-center gap-3">
-                                <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="h-8 w-8 rounded-lg">
+            <div class="relative flex w-full max-w-[1040px] justify-center">
+                <div class="glass-panel w-full rounded-[20px] p-2 sm:p-3 md:rounded-[28px]">
+                    <div class="overflow-hidden rounded-[16px] border border-black/5 bg-white md:rounded-[22px]">
+                        <div class="flex items-center justify-between border-b border-black/5 px-4 py-3 sm:px-5 sm:py-4">
+                            <div class="flex items-center gap-2 sm:gap-3">
+                                <img src="{{ asset('images/logo2.png') }}" alt="QR Generator" class="h-6 w-6 rounded-md sm:h-8 sm:w-8 sm:rounded-lg">
                                 <div>
-                                    <p class="text-sm font-semibold text-[var(--landing-text)]">QR Generator</p>
-                                    <p class="text-xs text-gray-500">Performance overview</p>
+                                    <p class="text-xs font-semibold text-[var(--landing-text)] sm:text-sm">QR Generator</p>
+                                    <p class="hidden text-xs text-gray-500 sm:block">Performance overview</p>
                                 </div>
                             </div>
-                            <span class="rounded-full bg-[rgba(222,78,121,0.08)] px-3 py-1 text-xs font-medium text-[var(--landing-accent)]">Live dashboard</span>
+                            <span class="rounded-full bg-[rgba(222,78,121,0.08)] px-2 py-1 text-[10px] font-medium text-[var(--landing-accent)] sm:px-3 sm:text-xs">Live dashboard</span>
                         </div>
                         <img src="{{ asset('images/dashboard.png') }}"
-                 class="w-full h-[calc(100%-64px)] object-cover object-top">
+                 class="w-full object-cover object-top">
                     </div>
                 </div>
-                <div class="absolute -bottom-5 left-0 glass-panel rounded-2xl px-4 py-4 text-sm text-gray-600 shadow-xl md:left-8"><span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth from active campaigns</div>
-
+                <div class="glass-panel absolute -bottom-4 left-4 rounded-xl px-3 py-2 text-xs text-gray-600 shadow-xl md:-bottom-5 md:left-8 md:rounded-2xl md:px-4 md:py-4 md:text-sm">
+                    <span class="font-semibold text-[var(--landing-text)]">+48%</span> scan growth <span class="hidden sm:inline">from active campaigns</span>
+                </div>
             </div>
         </section>
 
