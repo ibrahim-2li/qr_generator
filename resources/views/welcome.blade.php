@@ -420,17 +420,17 @@
                         Partners<span class="rounded-xl px-3">with mejor companes</span><br>
                     </mark>
                 </div>
-                <div class="mt-10 flex justify-center">
+                <div class="mt-10 flex w-full flex-wrap justify-center gap-x-2 gap-y-8 px-2 sm:gap-10">
                     @forelse ($partners as $partner)
                         <a href="{{ $partner->url }}" target="_blank" rel="noreferrer"
-                            class="flex min-h-28 items-center justify-center rounded-full p-6 transition hover:-translate-y-1 hover:shadow-lg">
+                            class="flex w-[30%] max-w-[130px] sm:w-auto items-center justify-center transition hover:-translate-y-1 hover:scale-105">
                             <img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}"
-                                class="h-16 grayscale transition hover:grayscale-0">
+                                class="h-16 w-full object-contain grayscale transition hover:grayscale-0 sm:h-20">
                         </a>
                     @empty
                         <div
-                            class="col-span-full rounded-2xl border border-dashed border-black/10 px-6 py-10 text-center text-sm text-gray-500">
-                            Add partners from the dashboard to show them here.</div>
+                            class="w-full rounded-2xl border border-dashed border-black/10 px-6 py-10 text-center text-sm text-gray-500">
+                            No partners Yet.</div>
                     @endforelse
                 </div>
             </div>
