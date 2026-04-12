@@ -156,8 +156,7 @@
                 <div class="flex flex-col ml-4">
                     <a href="{{ route('landing') }}" class="font-headline text-2xl text-steel-900">QR Generator</a>
                     <a href="https://github.com/ibrahim-2li" target="_blank"
-                        class="text-xs text-steel-700 hover:underline">by
-                        ibrahim-2li Code</a>
+                        class="text-xs px-4 text-steel-700 hover:underline">Code by</a>
                 </div>
             </div>
             <nav class="hidden items-center gap-8 text-sm text-gray-500 md:flex">
@@ -420,7 +419,7 @@
                         Partners<span class="rounded-xl px-3">with mejor companes</span><br>
                     </mark>
                 </div>
-                <div class="mt-10 flex w-full flex-wrap justify-center gap-x-2 gap-y-8 px-2 sm:gap-10">
+                <div class="mt-10 flex w-full flex-wrap justify-center gap-x-2 gap-y-8 px-2 sm:gap-6 lg:gap-x-12 lg:gap-y-10">
                     @forelse ($partners as $partner)
                         <a href="{{ $partner->url }}" target="_blank" rel="noreferrer"
                             class="flex w-[30%] max-w-[130px] sm:w-auto items-center justify-center transition hover:-translate-y-1 hover:scale-105">
