@@ -301,8 +301,8 @@
             <div class="mt-12 grid gap-6 lg:grid-cols-3">
                 <article class="glass-panel overflow-hidden rounded-[28px] p-3">
                     <div class="rounded-[22px] border border-black/5 bg-white p-6"><img
-                            src="{{ asset('images/iphones.jpg') }}" alt="Dynamic QR preview"
-                            class="h-64 w-full rounded-2xl object-cover">
+                            src="{{ asset('images/url.png') }}" alt="Dynamic QR preview"
+                            class="h-65 w-full rounded-2xl object-cover">
                         <h3 class="mt-6 text-2xl font-semibold text-[var(--landing-text)]">Dynamic QR campaigns</h3>
                         <p class="mt-3 text-sm leading-7 text-gray-500">Swap destinations, rotate offers, and keep old
                             prints working while your content keeps moving.</p>
@@ -310,8 +310,8 @@
                 </article>
                 <article class="glass-panel overflow-hidden rounded-[28px] p-3">
                     <div class="rounded-[22px] border border-black/5 bg-white p-6"><img
-                            src="{{ asset('images/hero2.png') }}" alt="Resume QR preview"
-                            class="h-64 w-full rounded-2xl object-cover object-top">
+                            src="{{ asset('images/pdf.png') }}" alt="Resume QR preview"
+                            class="h-65 w-full rounded-2xl object-cover object-top">
                         <h3 class="mt-6 text-2xl font-semibold text-[var(--landing-text)]">Portfolio and profile pages
                         </h3>
                         <p class="mt-3 text-sm leading-7 text-gray-500">Turn a single scan into a complete profile,
@@ -320,8 +320,8 @@
                 </article>
                 <article class="glass-panel overflow-hidden rounded-[28px] p-3">
                     <div class="rounded-[22px] border border-black/5 bg-white p-6"><img
-                            src="{{ asset('images/hero3.png') }}" alt="Business card QR preview"
-                            class="h-64 w-full rounded-2xl object-cover object-top">
+                            src="{{ asset('images/vcard.png') }}" alt="Business card QR preview"
+                            class="h-65 w-full rounded-2xl object-cover object-top">
                         <h3 class="mt-6 text-2xl font-semibold text-[var(--landing-text)]">Instant analytics snapshots
                         </h3>
                         <p class="mt-3 text-sm leading-7 text-gray-500">Give teams a clean view into scans, devices,
@@ -419,7 +419,8 @@
                         Partners<span class="rounded-xl px-3">with mejor companes</span><br>
                     </mark>
                 </div>
-                <div class="mt-10 flex w-full flex-wrap justify-center gap-x-2 gap-y-8 px-2 sm:gap-6 lg:gap-x-12 lg:gap-y-10">
+                <div
+                    class="mt-10 flex w-full flex-wrap justify-center gap-x-2 gap-y-8 px-2 sm:gap-6 lg:gap-x-12 lg:gap-y-10">
                     @forelse ($partners as $partner)
                         <a href="{{ $partner->url }}" target="_blank" rel="noreferrer"
                             class="flex w-[30%] max-w-[130px] sm:w-auto items-center justify-center transition hover:-translate-y-1 hover:scale-105">
